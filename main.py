@@ -1,11 +1,17 @@
-from base_objects.base_player import BasePlayer
-from utils.constants import Directions
-from utils.types import SpeedTypes
+import pygame
+
+from utils.general_utils import load_bots
 
 def main():
-    print("Starting the bubble trouble game!")
-    p = BasePlayer("Davidalk", Directions.LEFT, SpeedTypes.NORMAL)
-    print (p.direction)
+    """
+    Main game function.
+    """
+
+    bots = load_bots()
+    
+    # Make the bots talk
+    for bot in bots:
+        bot.talk()
 
 if (__name__ == "__main__"):
     main()

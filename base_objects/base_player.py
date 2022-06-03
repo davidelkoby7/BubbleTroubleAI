@@ -7,7 +7,7 @@ class BasePlayer:
     """
     Base class to create an AI playing the game.
     """
-    def __init__(self, name: str, direction: Directions, speed: SpeedTypes) -> None:
+    def __init__(self, name: str, direction: Directions) -> None:
         """
         Constructs a base player AI.
 
@@ -15,10 +15,16 @@ class BasePlayer:
         """
         self.name = name
         self.direction = direction
-        self.speed = speed
+        self.speed = SpeedTypes.NORMAL
     
-    def move() -> None:
+    def move(self) -> None:
         """
         Moves the player in the current direction he's facing.
         """
         pass
+
+    def talk(self) -> None:
+        """
+        Player will talk.
+        """
+        print (self.name)

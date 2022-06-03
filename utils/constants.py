@@ -3,8 +3,8 @@ class Directions:
     """
     All available directions for the player to move in.
     """
-    LEFT = "LEFT"
-    RIGHT = "RIGHT"
+    LEFT = -1
+    RIGHT = 1
 
 class Settings:
     """
