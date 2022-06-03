@@ -1,17 +1,17 @@
 import pygame
 
-from utils.general_utils import load_bots
+from utils.general_utils import load_ais
 
 def main():
     """
     Main game function.
     """
 
-    bots = load_bots()
+    ais = load_ais()
     
     # Make the bots talk
-    for bot in bots:
-        bot.talk()
+    for ai in ais:
+        ai.talk()
 
 if (__name__ == "__main__"):
     main()

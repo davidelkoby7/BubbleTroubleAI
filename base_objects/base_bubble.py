@@ -6,18 +6,15 @@ class BaseBubble:
     """
     Base class to create a bubble.
     """
-    def __init__(self, name: str, direction: Directions, speed: SpeedTypes) -> None:
+    def __init__(self, id: int) -> None:
         """
-        Constructs a base bubble.
-        
-        :param name: str: abc
+        Args:
+            id (int): The id of the bubble.
         """
-        self.name = name
-        self.direction = direction
-        self.speed = speed
+        self.id = id
     
     def move(self) -> None:
         """
-        Moves the bubble in the current direction he's facing.
+        Moves the bubble in the current direction it's facing.
         """
         pass

@@ -9,9 +9,9 @@ class BasePlayer:
     """
     def __init__(self, name: str, direction: Directions) -> None:
         """
-        Constructs a base player AI.
-
-        :param name: str: abc
+        Args:
+            name (str): The name of the player.
+            direction (Directions): The direction the player is facing.
         """
         self.name = name
         self.direction = direction

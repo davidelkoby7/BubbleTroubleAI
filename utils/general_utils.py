@@ -1,18 +1,20 @@
 import os
 import importlib
 
-def load_bots():
+from utils.constants import Settings
+
+def load_ais():
     """
-    Loads all bots from the bots folder.
+    Loads all ais from the bots folder.
     """
-    bots_classes = []
-    for file in os.listdir("bots"):
+    ais_classes = []
+    for file in os.listdir(Settings.AIS_DIR_PATH):
         if (file.endswith(".py") and file != "__init__.py"):
-            bot_name = file[:-3]
-            imported_module = importlib.import_module("bots." + bot_name)
-            bots_classes.append(getattr(imported_module, bot_name + "Bot"))
+            ai_name = file[:-3]
+            imported_module = importlib.import_module("ais." + ai_name)
+            ais_classes.append(getattr(imported_module, ai_name + "AI"))
 
     # Create bots from classes
-    bots = [class_ref() for class_ref in bots_classes]
+    ais = [class_ref() for class_ref in ais_classes]
 
-    return bots
+    return ais

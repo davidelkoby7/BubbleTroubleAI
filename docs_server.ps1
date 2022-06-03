@@ -1,0 +1,1 @@
+pdoc --http localhost:8080 .\base_objects\ .\utils\ .\game_core\
