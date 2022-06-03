@@ -4,7 +4,7 @@ from utils.general_utils import load_ais
 
 def main():
     """
-    Main game function.
+    Game starting point.
     """
 
     ais = load_ais()
