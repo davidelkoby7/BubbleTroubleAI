@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>utils package &mdash; Bubble Trouble AI Competition v1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="game_core package" href="game_core.html" />
+    <link rel="prev" title="utils" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Bubble Trouble AI Competition
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">utils</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">utils package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.constants">utils.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.exceptions">utils.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.general_utils">utils.general_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.types">utils.types module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="game_core.html">game_core package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="base_objects.html">base_objects package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Bubble Trouble AI Competition</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">utils</a> &raquo;</li>
+      <li>utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="utils-package">
+<h1>utils package<a class="headerlink" href="#utils-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-utils.constants">
+<span id="utils-constants-module"></span><h2>utils.constants module<a class="headerlink" href="#module-utils.constants" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.constants.Directions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.constants.</span></span><span class="sig-name descname"><span class="pre">Directions</span></span><a class="headerlink" href="#utils.constants.Directions" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>All available directions for the player to move in.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.constants.Directions.LEFT">
+<span class="sig-name descname"><span class="pre">LEFT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#utils.constants.Directions.LEFT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.constants.Directions.RIGHT">
+<span class="sig-name descname"><span class="pre">RIGHT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#utils.constants.Directions.RIGHT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.constants.Settings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.constants.</span></span><span class="sig-name descname"><span class="pre">Settings</span></span><a class="headerlink" href="#utils.constants.Settings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>All settings for the game (FPS / Title ratios etc).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.constants.Settings.AIS_DIR_PATH">
+<span class="sig-name descname"><span class="pre">AIS_DIR_PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ais'</span></em><a class="headerlink" href="#utils.constants.Settings.AIS_DIR_PATH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.constants.Settings.FPS">
+<span class="sig-name descname"><span class="pre">FPS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">30</span></em><a class="headerlink" href="#utils.constants.Settings.FPS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.constants.Settings.TITLE">
+<span class="sig-name descname"><span class="pre">TITLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Bubble</span> <span class="pre">Trouble</span> <span class="pre">AI</span> <span class="pre">Competition'</span></em><a class="headerlink" href="#utils.constants.Settings.TITLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-utils.exceptions">
+<span id="utils-exceptions-module"></span><h2>utils.exceptions module<a class="headerlink" href="#module-utils.exceptions" title="Permalink to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="utils.exceptions.CantLoadBotException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">CantLoadBotException</span></span><a class="headerlink" href="#utils.exceptions.CantLoadBotException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-utils.general_utils">
+<span id="utils-general-utils-module"></span><h2>utils.general_utils module<a class="headerlink" href="#module-utils.general_utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="utils.general_utils.load_ais">
+<span class="sig-prename descclassname"><span class="pre">utils.general_utils.</span></span><span class="sig-name descname"><span class="pre">load_ais</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#utils.general_utils.load_ais" title="Permalink to this definition"></a></dt>
+<dd><p>Loads all ais from the bots folder.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>list[BasePlayer]: A list of all loaded ais.</p>
+</dd>
+<dt>Raises:</dt><dd><p>CantLoadBotException: If a bot can’t be loaded.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-utils.types">
+<span id="utils-types-module"></span><h2>utils.types module<a class="headerlink" href="#module-utils.types" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.types.BallTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.types.</span></span><span class="sig-name descname"><span class="pre">BallTypes</span></span><a class="headerlink" href="#utils.types.BallTypes" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines all the ball types in the game.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.types.BallTypes.EXTRA_BOUNCY">
+<span class="sig-name descname"><span class="pre">EXTRA_BOUNCY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EXTRA_BOUNCY'</span></em><a class="headerlink" href="#utils.types.BallTypes.EXTRA_BOUNCY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.types.BallTypes.NORMAL">
+<span class="sig-name descname"><span class="pre">NORMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NORMAL'</span></em><a class="headerlink" href="#utils.types.BallTypes.NORMAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.types.PowerupTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.types.</span></span><span class="sig-name descname"><span class="pre">PowerupTypes</span></span><a class="headerlink" href="#utils.types.PowerupTypes" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines all the powerup types in the game.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.types.PowerupTypes.BIGGER_RIVAL">
+<span class="sig-name descname"><span class="pre">BIGGER_RIVAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIGGER_RIVAL'</span></em><a class="headerlink" href="#utils.types.PowerupTypes.BIGGER_RIVAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.types.PowerupTypes.SPEED_BOOST">
+<span class="sig-name descname"><span class="pre">SPEED_BOOST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SPEED_BOOST'</span></em><a class="headerlink" href="#utils.types.PowerupTypes.SPEED_BOOST" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="utils.types.SpeedTypes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.types.</span></span><span class="sig-name descname"><span class="pre">SpeedTypes</span></span><a class="headerlink" href="#utils.types.SpeedTypes" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines all the speed types in the game.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.types.SpeedTypes.FAST">
+<span class="sig-name descname"><span class="pre">FAST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FAST'</span></em><a class="headerlink" href="#utils.types.SpeedTypes.FAST" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.types.SpeedTypes.NORMAL">
+<span class="sig-name descname"><span class="pre">NORMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NORMAL'</span></em><a class="headerlink" href="#utils.types.SpeedTypes.NORMAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="utils.types.SpeedTypes.SLOW">
+<span class="sig-name descname"><span class="pre">SLOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SLOW'</span></em><a class="headerlink" href="#utils.types.SpeedTypes.SLOW" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-utils" title="Permalink to this heading"></a></h2>
+<p>Module for the basic utils (constants, types, general utils, etc).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="game_core.html" class="btn btn-neutral float-right" title="game_core package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Davidalk &amp; Tehila.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
