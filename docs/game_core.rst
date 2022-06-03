@@ -1,10 +1,7 @@
-game\_core package
+game\_core
 ==================
 
-Submodules
-----------
-
-game\_core.graphics module
+Graphics
 --------------------------
 
 .. automodule:: game_core.graphics
@@ -12,7 +9,7 @@ game\_core.graphics module
    :undoc-members:
    :show-inheritance:
 
-game\_core.manager module
+GameManager
 -------------------------
 
 .. automodule:: game_core.manager
