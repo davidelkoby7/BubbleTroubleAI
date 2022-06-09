@@ -12,4 +12,7 @@ class Settings:
     """
     FPS = 30
     TITLE = "Bubble Trouble AI Competition"
-
+    PLAYER_DIMENSIONS = (30, 100)
+    PLAYER_WIDTH = PLAYER_DIMENSIONS[0]
+    PLAYER_HEIGHT = PLAYER_DIMENSIONS[1]
+    

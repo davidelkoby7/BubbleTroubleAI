@@ -1,6 +1,9 @@
 import os
+import random
+import pygame
 import importlib
 
+from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.utils.constants import Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
@@ -9,7 +12,7 @@ class GameManager:
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str = None, fps: int = Settings.FPS):
+    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS):
         """
         Initializes the game manager.
 
@@ -17,12 +20,15 @@ class GameManager:
             fps (int): The frames per second to run the game at.
             ais_dir_path (str): The path to the directory containing the ais.
         """
+        self.game_over = False
         self.fps = fps
+
         self.ai_objects = []
         self.ai_classes = []
 
-        if (ais_dir_path != None):
-            self.load_ais(ais_dir_path)
+        self.load_ais(ais_dir_path)
+        
+        self.graphics = Graphics()
 
 
     def load_ais(self, ais_dir_path: str):
@@ -59,4 +65,27 @@ class GameManager:
         for ai in self.ais:
             ai.talk()
 
+
+    def run_game(self):
+        """
+        Run the main game loop.
+        """
+
+        # Main game loop.
+        while (self.game_over != True):
+            # Shuffling the AI's order to make sure no one has an advantage in the long run by knowing what others are doing.
+            random.shuffle(self.ais)
+
+            # Making sure the game isn't over.
+            for event in pygame.event.get():  
+                if event.type == pygame.QUIT:  
+                    self.game_over = True  
+                    break
+            
+            # Run the main logic for each AI.
+            for ai in self.ais:
+                ai.pick_direction()
+
+            # Draw the screen
+            self.graphics.draw(self.ais)
 

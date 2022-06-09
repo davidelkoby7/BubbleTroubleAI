@@ -1,5 +1,5 @@
 
-from bubble_trouble_ai_competition.utils.constants import Directions
+from bubble_trouble_ai_competition.utils.constants import Directions, Settings
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
 
@@ -7,7 +7,7 @@ class BasePlayer:
     """
     Base class to create an AI playing the game.
     """
-    def __init__(self, name: str, direction: Directions) -> None:
+    def __init__(self, name: str, direction: Directions, position: tuple = (20, 0), dimensions: tuple = Settings.PLAYER_DIMENSIONS) -> None:
         """
         Args:
             name (str): The name of the player.
@@ -15,14 +15,31 @@ class BasePlayer:
         """
         self.name = name
         self.direction = direction
+        self.position = position
+        self.x = position[0]
+        self.y = position[1]
+        self.dimensions = dimensions
+        self.width = dimensions[0]
+        self.height = dimensions[1]
+        self.color = (255, 0, 0)
         self.speed = SpeedTypes.NORMAL
-    
-    def move(self) -> None:
-        """
-        Moves the player in the current direction he's facing.
-        """
-        pass
 
+
+    def update(self) -> None:
+        """
+        Updates the player's attributes.
+        """
+
+        self.direction = self.pick_direction()
+
+    
+    def pick_direction(self) -> Directions:
+        """
+        Function to be implemented by the inheriting class of each ai.
+        """
+        return Directions.RIGHT
+
+    
     def talk(self) -> None:
         """
         Player will talk.
