@@ -1,7 +1,10 @@
-base\_objects
+base\_objects package
 =====================
 
-BaseBubble
+Submodules
+----------
+
+base\_objects.base\_bubble module
 ---------------------------------
 
 .. automodule:: base_objects.base_bubble
@@ -9,7 +12,7 @@ BaseBubble
    :undoc-members:
    :show-inheritance:
 
-BasePlayer
+base\_objects.base\_player module
 ---------------------------------
 
 .. automodule:: base_objects.base_player

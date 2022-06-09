@@ -1,7 +1,10 @@
-utils
+utils package
 =============
 
-Constants
+Submodules
+----------
+
+utils.constants module
 ----------------------
 
 .. automodule:: utils.constants
@@ -9,7 +12,7 @@ Constants
    :undoc-members:
    :show-inheritance:
 
-Exceptions
+utils.exceptions module
 -----------------------
 
 .. automodule:: utils.exceptions
@@ -17,7 +20,15 @@ Exceptions
    :undoc-members:
    :show-inheritance:
 
-Types
+utils.general\_utils module
+---------------------------
+
+.. automodule:: utils.general_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+utils.types module
 ------------------
 
 .. automodule:: utils.types
