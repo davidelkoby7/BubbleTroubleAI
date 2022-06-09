@@ -1,7 +1,7 @@
+import random
 
 from bubble_trouble_ai_competition.utils.constants import Directions, Settings
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
-
 
 class BasePlayer:
     """
@@ -37,7 +37,7 @@ class BasePlayer:
         """
         Function to be implemented by the inheriting class of each ai.
         """
-        return Directions.RIGHT
+        return random.choice([Directions.LEFT, Directions.RIGHT])
 
     
     def talk(self) -> None:

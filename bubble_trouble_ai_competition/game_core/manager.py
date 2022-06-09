@@ -84,7 +84,17 @@ class GameManager:
             
             # Run the main logic for each AI.
             for ai in self.ais:
-                ai.pick_direction()
+                ai.update()
+            
+            # Moving all the ais
+            for ai in self.ais:
+                ai.x += ai.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
+
+                # Making sure the AI is not going out of bounds.
+                if (ai.x < 0):
+                    ai.x = 0
+                if (ai.x > Settings.SCREEN_WIDTH - ai.width):
+                    ai.x = Settings.SCREEN_WIDTH - ai.width
 
             # Draw the screen
             self.graphics.draw(self.ais)

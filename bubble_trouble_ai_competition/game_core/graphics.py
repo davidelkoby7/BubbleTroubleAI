@@ -8,7 +8,7 @@ class Graphics:
     Will handle the graphics.
     """
     
-    def __init__(self, screen_size: tuple = (800, 600)):
+    def __init__(self, screen_size: tuple = (800, 600), background_color: tuple = Settings.BG_COLOR):
         """
         Initialize the graphics.
         """
@@ -17,6 +17,7 @@ class Graphics:
         self.screen_size = screen_size
         self.screen_width = screen_size[0]
         self.screen_height = screen_size[1]
+        self.background_color = background_color
 
         # Initialize the pygame module.
         pygame.init()
@@ -27,6 +28,8 @@ class Graphics:
         """
         Draw the game objects.
         """
+        # Clear the screen.
+        self.screen.fill(self.background_color)
 
         # Draw the ais.
         for ai in ais:
@@ -40,5 +43,4 @@ class Graphics:
         """
         Draws an ai.
         """
-        print ("Drawing ai")
         pygame.draw.rect(self.screen, ai.color, pygame.Rect(ai.x, self.screen_height - ai.y - ai.height, ai.width, ai.height))
