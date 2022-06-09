@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../bubble_trouble_ai_competition'))
+sys.path.insert(0, os.path.abspath('../'))
 
 
 # -- Project information -----------------------------------------------------
@@ -24,6 +24,13 @@ author = 'Davidalk & Tehila'
 # The full version, including alpha/beta/rc tags
 release = '1.0.0'
 
+autodoc_default_options = {
+    'members': True,
+    'member-order': 'bysource',
+    'special-members': '__init__',
+    'undoc-members': True,
+    'exclude-members': '__weakref__'
+}
 
 # -- General configuration ---------------------------------------------------
 

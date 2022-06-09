@@ -1,22 +1,28 @@
 import os
 import importlib
 
-from utils.exceptions import CantLoadBotException
+from bubble_trouble_ai_competition.utils.constants import Settings
+from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 class GameManager:
     """
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self):
+    def __init__(self, ais_dir_path: str = None, fps: int = Settings.FPS):
         """
-        Initialize the game manager.
+        Initializes the game manager.
 
         Args:
-            game_ais (list[BasePlayer]): The list of game ais.
+            fps (int): The frames per second to run the game at.
+            ais_dir_path (str): The path to the directory containing the ais.
         """
+        self.fps = fps
         self.ai_objects = []
         self.ai_classes = []
+
+        if (ais_dir_path != None):
+            self.load_ais(ais_dir_path)
 
 
     def load_ais(self, ais_dir_path: str):
@@ -43,3 +49,14 @@ class GameManager:
 
         # Create the ai objects.
         self.ais = [class_ref() for class_ref in self.ai_classes]
+
+
+    def print_ais(self):
+        """
+        Calls the AI's talk method.
+        Just for testing to see if the ais are loaded correctly.
+        """
+        for ai in self.ais:
+            ai.talk()
+
+

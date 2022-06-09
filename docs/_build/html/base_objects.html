@@ -41,10 +41,9 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">bubble_trouble_ai_competition</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">base_objects package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-base_objects.base_bubble">base_objects.base_bubble module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-base_objects.base_player">base_objects.base_player module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-base_objects">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#base-objects-base-bubble-module">base_objects.base_bubble module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-bubble_trouble_ai_competition.base_objects.base_player">base_objects.base_player module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-bubble_trouble_ai_competition.base_objects">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="game_core.html">game_core package</a></li>
@@ -80,49 +79,43 @@
              
   <section id="base-objects-package">
 <h1>base_objects package<a class="headerlink" href="#base-objects-package" title="Permalink to this headline"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<section id="base-objects-base-bubble-module">
+<h2>base_objects.base_bubble module<a class="headerlink" href="#base-objects-base-bubble-module" title="Permalink to this headline"></a></h2>
 </section>
-<section id="module-base_objects.base_bubble">
-<span id="base-objects-base-bubble-module"></span><h2>base_objects.base_bubble module<a class="headerlink" href="#module-base_objects.base_bubble" title="Permalink to this headline"></a></h2>
+<section id="module-bubble_trouble_ai_competition.base_objects.base_player">
+<span id="base-objects-base-player-module"></span><h2>base_objects.base_player module<a class="headerlink" href="#module-bubble_trouble_ai_competition.base_objects.base_player" title="Permalink to this headline"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="base_objects.base_bubble.BaseBubble">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">base_objects.base_bubble.</span></span><span class="sig-name descname"><span class="pre">BaseBubble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base_objects.base_bubble.BaseBubble" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Base class to create a bubble.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="base_objects.base_bubble.BaseBubble.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#base_objects.base_bubble.BaseBubble.move" title="Permalink to this definition"></a></dt>
-<dd><p>Moves the bubble in the current direction it’s facing.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-base_objects.base_player">
-<span id="base-objects-base-player-module"></span><h2>base_objects.base_player module<a class="headerlink" href="#module-base_objects.base_player" title="Permalink to this headline"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="base_objects.base_player.BasePlayer">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">base_objects.base_player.</span></span><span class="sig-name descname"><span class="pre">BasePlayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="utils.html#utils.constants.Directions" title="utils.constants.Directions"><span class="pre">utils.constants.Directions</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#base_objects.base_player.BasePlayer" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bubble_trouble_ai_competition.base_objects.base_player.</span></span><span class="sig-name descname"><span class="pre">BasePlayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="utils.html#bubble_trouble_ai_competition.utils.constants.Directions" title="bubble_trouble_ai_competition.utils.constants.Directions"><span class="pre">bubble_trouble_ai_competition.utils.constants.Directions</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base class to create an AI playing the game.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="base_objects.base_player.BasePlayer.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#base_objects.base_player.BasePlayer.move" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="utils.html#bubble_trouble_ai_competition.utils.constants.Directions" title="bubble_trouble_ai_competition.utils.constants.Directions"><span class="pre">bubble_trouble_ai_competition.utils.constants.Directions</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Args:</dt><dd><p>name (str): The name of the player.
+direction (Directions): The direction the player is facing.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer.move" title="Permalink to this definition"></a></dt>
 <dd><p>Moves the player in the current direction he’s facing.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="base_objects.base_player.BasePlayer.talk">
-<span class="sig-name descname"><span class="pre">talk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#base_objects.base_player.BasePlayer.talk" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer.talk">
+<span class="sig-name descname"><span class="pre">talk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer.talk" title="Permalink to this definition"></a></dt>
 <dd><p>Player will talk.</p>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-base_objects">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-base_objects" title="Permalink to this headline"></a></h2>
+<section id="module-bubble_trouble_ai_competition.base_objects">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-bubble_trouble_ai_competition.base_objects" title="Permalink to this headline"></a></h2>
 <p>Module for all the core base objects.</p>
 </section>
 </section>

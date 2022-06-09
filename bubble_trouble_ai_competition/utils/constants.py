@@ -12,5 +12,4 @@ class Settings:
     """
     FPS = 30
     TITLE = "Bubble Trouble AI Competition"
-    AIS_DIR_PATH = "ais"
 

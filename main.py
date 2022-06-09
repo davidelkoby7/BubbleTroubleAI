@@ -5,8 +5,7 @@ def main():
     Game starting point.
     """
 
-    gm = GameManager()
-    gm.load_ais("./ais")
+    gm = GameManager(ais_dir_path="./ais")
     gm.print_ais()
 
 if (__name__ == "__main__"):

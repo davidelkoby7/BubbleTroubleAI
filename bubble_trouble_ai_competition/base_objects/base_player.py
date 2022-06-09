@@ -1,6 +1,6 @@
 
-from utils.constants import Directions
-from utils.types import SpeedTypes
+from bubble_trouble_ai_competition.utils.constants import Directions
+from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
 
 class BasePlayer:

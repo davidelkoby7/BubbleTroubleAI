@@ -1,13 +1,10 @@
 game\_core package
 ==================
 
-Submodules
-----------
-
 game\_core.graphics module
 --------------------------
 
-.. automodule:: game_core.graphics
+.. automodule:: bubble_trouble_ai_competition.game_core.graphics
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +12,7 @@ game\_core.graphics module
 game\_core.manager module
 -------------------------
 
-.. automodule:: game_core.manager
+.. automodule:: bubble_trouble_ai_competition.game_core.manager
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +20,7 @@ game\_core.manager module
 Module contents
 ---------------
 
-.. automodule:: game_core
+.. automodule:: bubble_trouble_ai_competition.game_core
    :members:
    :undoc-members:
    :show-inheritance:

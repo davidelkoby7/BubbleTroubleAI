@@ -1,5 +1,5 @@
-from utils.constants import Directions
-from base_objects.base_player import BasePlayer
+from bubble_trouble_ai_competition.utils.constants import Directions
+from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 
 class tehilaAI(BasePlayer):
     def __init__(self) -> None:

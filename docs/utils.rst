@@ -1,13 +1,10 @@
 utils package
 =============
 
-Submodules
-----------
-
 utils.constants module
 ----------------------
 
-.. automodule:: utils.constants
+.. automodule:: bubble_trouble_ai_competition.utils.constants
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +12,7 @@ utils.constants module
 utils.exceptions module
 -----------------------
 
-.. automodule:: utils.exceptions
+.. automodule:: bubble_trouble_ai_competition.utils.exceptions
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +20,7 @@ utils.exceptions module
 utils.general\_utils module
 ---------------------------
 
-.. automodule:: utils.general_utils
+.. automodule:: bubble_trouble_ai_competition.utils.general_utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +28,7 @@ utils.general\_utils module
 utils.types module
 ------------------
 
-.. automodule:: utils.types
+.. automodule:: bubble_trouble_ai_competition.utils.types
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +36,7 @@ utils.types module
 Module contents
 ---------------
 
-.. automodule:: utils
+.. automodule:: bubble_trouble_ai_competition.utils
    :members:
    :undoc-members:
    :show-inheritance:
