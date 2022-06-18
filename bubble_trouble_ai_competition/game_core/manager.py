@@ -2,9 +2,10 @@ import os
 import random
 import pygame
 import importlib
+from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
-from bubble_trouble_ai_competition.utils.constants import Settings
+from bubble_trouble_ai_competition.utils.constants import Events, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 class GameManager:
@@ -12,7 +13,7 @@ class GameManager:
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS):
+    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS) -> None:
         """
         Initializes the game manager.
 
@@ -26,12 +27,14 @@ class GameManager:
         self.ai_objects = []
         self.ai_classes = []
 
+        self.event_observable = EventsObservable()
+
         self.load_ais(ais_dir_path)
         
         self.graphics = Graphics()
 
 
-    def load_ais(self, ais_dir_path: str):
+    def load_ais(self, ais_dir_path: str) -> None:
         """
         Load the ais from the given directory.
 
@@ -54,10 +57,10 @@ class GameManager:
                     raise CantLoadBotException("Could not load ai class: " + ai_name)
 
         # Create the ai objects.
-        self.ais = [class_ref() for class_ref in self.ai_classes]
+        self.ais = [class_ref(events_observable = self.event_observable) for class_ref in self.ai_classes]
 
 
-    def print_ais(self):
+    def print_ais(self) -> None:
         """
         Calls the AI's talk method.
         Just for testing to see if the ais are loaded correctly.
@@ -66,7 +69,7 @@ class GameManager:
             ai.talk()
 
 
-    def run_game(self):
+    def run_game(self) -> None:
         """
         Run the main game loop.
         """
@@ -81,6 +84,9 @@ class GameManager:
                 if event.type == pygame.QUIT:  
                     self.game_over = True  
                     break
+            
+            # Notifying the ais of the event.
+            self.event_observable.notify_observers(Events.BALL_POPPED, 1, ball_name = "davidalk")
             
             # Run the main logic for each AI.
             for ai in self.ais:
