@@ -11,7 +11,11 @@ class manualAI(BasePlayer):
         """
         super().__init__("manual", Directions.RIGHT, events_observable)
 
-        self.events_observable.add_observer(Events.BALL_POPPED ,self)
+        self.events_observable.add_observer(Events.BALL_POPPED,
+            lambda ball_id, ball_name:
+                print (f"On Ball Popped! {ball_id=}, {ball_name=}")
+        )
+
     
     def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()
@@ -24,7 +28,7 @@ class manualAI(BasePlayer):
         
         return self.direction
 
-
+    
     def on_ball_popped(self, ball_id: int, ball_name: str = "None") -> None:
-        print ("On Ball Popped!")
+        print (f"On Ball Popped! {ball_id=}, {ball_name=}")
 

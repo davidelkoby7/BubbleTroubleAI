@@ -23,6 +23,8 @@ class Settings:
     PLAYER_HEIGHT = PLAYER_DIMENSIONS[1]
     PLAYER_SPEED = 4
     BG_COLOR = (0, 0, 0)
+
+    DEFAULT_GRAVITY = 5
     
 
 class Events:

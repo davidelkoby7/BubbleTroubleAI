@@ -2,6 +2,7 @@ import os
 import random
 import pygame
 import importlib
+from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
@@ -32,6 +33,12 @@ class GameManager:
         self.load_ais(ais_dir_path)
         
         self.graphics = Graphics()
+
+        self.balls = [
+            Ball(300, 100, 10, 10, 20, (255, 0, 0)),
+            Ball(700, 200, 10, 20, 20, (0, 255, 0)),
+            Ball(1000, 100, 20, 20, 20, (0, 0, 255)),
+            ]
 
 
     def load_ais(self, ais_dir_path: str) -> None:
@@ -92,6 +99,9 @@ class GameManager:
             for ai in self.ais:
                 ai.update()
             
+            for ball in self.balls:
+                ball.update()
+            
             # Moving all the ais
             for ai in self.ais:
                 ai.x += ai.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
@@ -103,5 +113,5 @@ class GameManager:
                     ai.x = Settings.SCREEN_WIDTH - ai.width
 
             # Draw the screen
-            self.graphics.draw(self.ais)
+            self.graphics.draw(self.ais, self.balls)
 

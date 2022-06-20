@@ -52,5 +52,4 @@ class EventsObservable:
         """
         for event in self.observable_events:
             for observer in self.observable_events[event]:
-                event_func = getattr(observer, "on_" + event)
-                event_func(*args, **kwargs)
+                observer(*args, **kwargs)
