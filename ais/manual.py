@@ -11,7 +11,6 @@ class manualAI(BasePlayer):
         """
         super().__init__("manual", Directions.RIGHT, events_observable)
 
-        self.events_observable.add_observer(Events.BALL_POPPED ,self)
     
     def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()

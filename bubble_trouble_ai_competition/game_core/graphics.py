@@ -1,4 +1,5 @@
 import pygame
+from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.utils.constants import Settings
@@ -24,7 +25,7 @@ class Graphics:
         self.screen = pygame.display.set_mode(screen_size)
     
     
-    def draw(self, ais: list[BasePlayer]):
+    def draw(self, ais: list[BasePlayer], balls: list[Ball]):
         """
         Draw the game objects.
         """
@@ -35,6 +36,10 @@ class Graphics:
         for ai in ais:
             self.draw_ai(ai)
 
+        # Draw the balls.
+        for ball in balls:
+            self.draw_ball(ball)
+
         # Updating the screen.
         pygame.display.flip()
 
@@ -44,3 +49,10 @@ class Graphics:
         Draws an ai.
         """
         pygame.draw.rect(self.screen, ai.color, pygame.Rect(ai.x, self.screen_height - ai.y - ai.height, ai.width, ai.height))
+
+
+    def draw_ball(self, ball: Ball):
+        """
+        Draws a ball.
+        """
+        pygame.draw.circle(self.screen, ball.color, (int(ball.x), int(ball.y)), ball.radius)
