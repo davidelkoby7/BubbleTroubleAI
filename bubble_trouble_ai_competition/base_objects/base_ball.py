@@ -4,6 +4,18 @@ from bubble_trouble_ai_competition.utils.constants import Settings
 
 class Ball:
     def __init__(self, x: int, y: int, speed_x: float, speed_y: float, radius: int, color: tuple, gravity: float = Settings.DEFAULT_GRAVITY) -> None:
+        """
+        Initializes a ball object
+
+        Args:
+            x (int): The x coordinate of the ball.
+            y (int): The y coordinate of the ball.
+            speed_x (float): The horizontal speed of the ball.
+            speed_y (float): The vertical speed of the ball.
+            radius (int): The radius of the ball.
+            color (tuple): The color of the ball.
+            gravity (float): The gravity which will affect the ball.
+        """
         self.x = x
         self.y = y
         self.speed_x = speed_x
@@ -14,6 +26,9 @@ class Ball:
     
 
     def update(self) -> None:
+        """
+        Updates the ball's position.
+        """
         # Updating the vertical speed of the ball due to gravity
         self.speed_y += self.gravity * Settings.FRAME_TIME
 

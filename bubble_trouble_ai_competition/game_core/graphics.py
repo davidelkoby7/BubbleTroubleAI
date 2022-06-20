@@ -12,6 +12,10 @@ class Graphics:
     def __init__(self, screen_size: tuple = (800, 600), background_color: tuple = Settings.BG_COLOR):
         """
         Initialize the graphics.
+
+        Args:
+            screen_size (tuple): The size of the screen.
+            background_color (tuple): The background color.
         """
 
         # Store initial values.
@@ -28,6 +32,10 @@ class Graphics:
     def draw(self, ais: list[BasePlayer], balls: list[Ball]):
         """
         Draw the game objects.
+
+        Args:
+            ais (list[BasePlayer]): The players to draw.
+            balls (list[Ball]): The balls to draw.
         """
         # Clear the screen.
         self.screen.fill(self.background_color)
@@ -47,6 +55,9 @@ class Graphics:
     def draw_ai(self, ai: BasePlayer):
         """
         Draws an ai.
+
+        Args:
+            ai (BasePlayer): The ai to draw.
         """
         pygame.draw.rect(self.screen, ai.color, pygame.Rect(ai.x, self.screen_height - ai.y - ai.height, ai.width, ai.height))
 
@@ -54,5 +65,8 @@ class Graphics:
     def draw_ball(self, ball: Ball):
         """
         Draws a ball.
+
+        Args:
+            ball (Ball): The ball to draw.
         """
         pygame.draw.circle(self.screen, ball.color, (int(ball.x), int(ball.y)), ball.radius)
