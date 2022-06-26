@@ -27,6 +27,7 @@ class Ball:
         self.radius = self.size * Settings.BALL_SIZE_TO_RADIUS_RATIO
         self.color = color
         self.gravity = gravity
+        self.last_shot_by = None
     
 
     def update(self) -> None:
@@ -80,13 +81,24 @@ class Ball:
             bool: True if the ball collides with the shot, False otherwise.
         """
         # Check if the ball's center collides with the shot's center
-        print (shot.x, shot.y, shot.width, shot.height)
         if (circle_rect_collide(shot.x, shot.y, shot.width, shot.height, self.x, self.y, self.radius)):
-            print ("Collision")
             return True
 
         # No collision - return False
         return False
+
+    
+    def collides_with_ceiling(self) -> bool:
+        """
+        Checks if the ball collides with the cieling.
+
+        Returns:
+            bool: True if the ball collides with the cieling, False otherwise.
+        """
+        if self.y - self.radius <= 0:
+            return True
+        return False
+    
 
     def draw(self, screen: pygame.Surface) -> None:
         pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)

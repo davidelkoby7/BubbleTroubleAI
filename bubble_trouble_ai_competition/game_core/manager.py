@@ -36,6 +36,7 @@ class GameManager:
 
         self.event_observable.add_observer(Events.PLAYER_SHOT, self.on_player_shot)
         self.event_observable.add_observer(Events.ARROW_OUT_OF_BOUNDS, self.on_arrow_out_of_bounds)
+        self.event_observable.add_observer(Events.BALL_POPPED, self.on_ball_popped)
 
         self.load_ais(ais_dir_path)
         
@@ -139,8 +140,14 @@ class GameManager:
             for shot in self.shots:
                 if (ball.collides_with_shot(shot) == True):
                     shot.shooting_player.is_shooting = False
-                    self.balls.remove(ball)
+                    ball.last_shot_by = shot.shooting_player
                     self.shots.remove(shot)
+                    self.event_observable.notify_observers(Events.BALL_POPPED, ball)
+        
+        # Check if a ball hit the ceiling.
+        for ball in self.balls[:]:
+            if (ball.collides_with_ceiling() == True):
+                self.event_observable.notify_observers(Events.BALL_POPPED, ball, ceiling_shot = True)
 
 
     def ai_lost(self, ai: BasePlayer) -> None:
@@ -152,7 +159,14 @@ class GameManager:
             ai (BasePlayer): The AI that lost.
         """
         # TODO: Implement something normal.
+
+        # Kill the AI.
         self.ais.remove(ai)
+
+        # Remove all shots made by the AI.
+        for shot in self.shots:
+            if (shot.shooting_player == ai):
+                self.shots.remove(shot)
 
 
     def on_player_shot(self, ai: BasePlayer) -> None:
@@ -163,7 +177,6 @@ class GameManager:
             ai (BasePlayer): The AI that shot.
         """
         self.shots.append(ArrowShot(ai.x, ai.y, Settings.ARROW_SPEED, ai, self.event_observable))
-        print (ai.name + " shot!")
 
 
     def on_arrow_out_of_bounds(self, arrow: ArrowShot) -> None:
@@ -175,4 +188,25 @@ class GameManager:
         """
         arrow.shooting_player.is_shooting = False
         self.shots.remove(arrow)
+
+
+    def on_ball_popped(self, ball: Ball, ceiling_shot = False) -> None:
+        """
+        Called when a ball is popped.
+
+        Args:
+            ball (Ball): The ball that was popped.
+            shooting_player (BasePlayer): The player that shot the ball.
+        """
+        # Remove the ball from the game.
+        self.balls.remove(ball)
+
+        # If the ball is at a minimum size, it will not be split.
+        if (ball.size == 1):
+            return
+        
+        # Otherwise - split the ball into 2 smaller balls, if it's not a ceiling shot.
+        if (ceiling_shot == False):
+            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, max(0, ball.speed_y) - Settings.BALL_POPPED_SPEED_BOOST, ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, max(0, ball.speed_y) - Settings.BALL_POPPED_SPEED_BOOST, ball.size - 1, ball.color))
 

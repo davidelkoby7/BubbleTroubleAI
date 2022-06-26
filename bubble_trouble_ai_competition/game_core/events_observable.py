@@ -15,8 +15,6 @@ class EventsObservable:
 
         for event in ALL_EVENTS_LIST:
             self.observable_events[event] = []
-        
-        print (self.observable_events)
     
 
     def add_observer(self, eventType: Events, observer) -> None:
