@@ -52,17 +52,17 @@ class Ball:
         Handles the collision with the screen borders.
         If the ball has collided with the screen borders, it will reverse the speed.
         """
-        if self.y < 0:
-            self.y = 0
+        if self.y - self.radius < 0:
+            self.y = self.radius
             self.speed_y *= -1
-        elif self.y > Settings.SCREEN_HEIGHT:
-            self.y = Settings.SCREEN_HEIGHT
+        elif self.y + self.radius > Settings.SCREEN_HEIGHT:
+            self.y = Settings.SCREEN_HEIGHT - self.radius
             self.speed_y *= -1
         
-        if self.x < 0:
-            self.x = 0
+        if self.x - self.radius < 0:
+            self.x = self.radius
             self.speed_x *= -1
-        elif self.x > Settings.SCREEN_WIDTH:
-            self.x = Settings.SCREEN_WIDTH
+        elif self.x + self.radius > Settings.SCREEN_WIDTH:
+            self.x = Settings.SCREEN_WIDTH - self.radius
             self.speed_x *= -1
 

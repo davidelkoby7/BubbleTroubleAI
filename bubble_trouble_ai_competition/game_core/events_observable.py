@@ -50,6 +50,5 @@ class EventsObservable:
             *args: The arguments to pass to the observers.
             **kwargs: The keyword arguments to pass to the observers.
         """
-        for event in self.observable_events:
-            for observer in self.observable_events[event]:
-                observer(*args, **kwargs)
+        for observer in self.observable_events[event]:
+            observer(*args, **kwargs)

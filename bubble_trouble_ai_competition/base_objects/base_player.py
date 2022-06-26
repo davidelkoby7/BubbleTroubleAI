@@ -2,7 +2,7 @@ import random
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
-from bubble_trouble_ai_competition.utils.constants import Directions, Settings
+from bubble_trouble_ai_competition.utils.constants import Directions, Events, Settings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
@@ -31,6 +31,7 @@ class BasePlayer:
         self.color = (255, 0, 0)
         self.speed = SpeedTypes.NORMAL
         self.events_observable = events_observable
+        self.shooting_delay = 0
 
 
     def update(self) -> None:
@@ -41,6 +42,10 @@ class BasePlayer:
         self.update_head_center()
         self.direction = self.pick_direction()
 
+        # Update the shooting delay
+        if (self.shooting_delay > 0):
+            self.shooting_delay -= 1
+
     
     def pick_direction(self) -> Directions:
         """
@@ -48,6 +53,15 @@ class BasePlayer:
         """
         return random.choice([Directions.LEFT, Directions.RIGHT])
 
+
+    def shoot(self):
+        """
+        Player will shoot.
+        """
+        if (self.shooting_delay == 0):
+            self.events_observable.notify_observers(Events.PLAYER_SHOT, self)
+            self.shooting_delay = Settings.SHOOTING_DELAY
+    
 
     def move(self) -> None:
         self.x += self.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
