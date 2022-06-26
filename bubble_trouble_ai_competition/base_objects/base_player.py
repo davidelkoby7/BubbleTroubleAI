@@ -1,4 +1,6 @@
 import random
+import pygame
+
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
@@ -31,7 +33,7 @@ class BasePlayer:
         self.color = (255, 0, 0)
         self.speed = SpeedTypes.NORMAL
         self.events_observable = events_observable
-        self.shooting_delay = 0
+        self.is_shooting = False
 
 
     def update(self) -> None:
@@ -41,10 +43,6 @@ class BasePlayer:
 
         self.update_head_center()
         self.direction = self.pick_direction()
-
-        # Update the shooting delay
-        if (self.shooting_delay > 0):
-            self.shooting_delay -= 1
 
     
     def pick_direction(self) -> Directions:
@@ -58,7 +56,8 @@ class BasePlayer:
         """
         Player will shoot.
         """
-        if (self.shooting_delay == 0):
+        if (self.is_shooting == False):
+            self.is_shooting = True
             self.events_observable.notify_observers(Events.PLAYER_SHOT, self)
             self.shooting_delay = Settings.SHOOTING_DELAY
     
@@ -87,7 +86,6 @@ class BasePlayer:
         self.head_center = ((self.x + (self.x + self.width)) / 2, self.y - self.head_radius)
 
 
-
     def collides_with_ball(self, ball: Ball) -> bool:
         """
         Checks if the player collides with a ball.
@@ -108,4 +106,22 @@ class BasePlayer:
         
         # No collision - return False
         return False
+
+
+    def draw(self, screen: pygame.Surface):
+        # Drawing body
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+
+        # Drawing head
+        pygame.draw.circle(screen, self.color, (int(self.head_center[0]), int(self.head_center[1])), self.head_radius)
+
+
+    def can_shoot(self) -> bool:
+        """
+        Checks if the player can shoot.
+
+        Returns:
+            bool: True if the player can shoot, False otherwise.
+        """
+        return self.is_shooting == False
 

@@ -2,6 +2,7 @@ import os
 import random
 import pygame
 import importlib
+from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
@@ -29,10 +30,12 @@ class GameManager:
 
         self.ai_objects = []
         self.ai_classes = []
+        self.shots = []
 
         self.event_observable = EventsObservable()
 
         self.event_observable.add_observer(Events.PLAYER_SHOT, self.on_player_shot)
+        self.event_observable.add_observer(Events.ARROW_OUT_OF_BOUNDS, self.on_arrow_out_of_bounds)
 
         self.load_ais(ais_dir_path)
         
@@ -99,22 +102,20 @@ class GameManager:
                     self.game_over = True  
                     break
             
-            # Notifying the ais of the event.
-            self.event_observable.notify_observers(Events.BALL_POPPED, 1, ball_name = "davidalk")
+            all_items = self.balls + self.ais + self.shots
             
-            # Run the main logic for each AI, and move it.
+            # Run the main logic for each AI, ball, and shot
+            for item in all_items:
+                item.update()
+            
             for ai in self.ais:
-                ai.update()
                 ai.move()
-            
-            for ball in self.balls:
-                ball.update()
 
             # Collision detection.
             self.handle_collision()
 
             # Draw the screen
-            self.graphics.draw(self.ais, self.balls)
+            self.graphics.draw(self.ais, self.balls, self.shots)
 
             # Calculating the time it took to run this iteration
             time_taken = pygame.time.get_ticks() - start_time
@@ -127,11 +128,20 @@ class GameManager:
         """
         Handles the collisions in the game.
         """
+        # Check if any AI hit a ball.
         for ai in self.ais:
             for ball in self.balls:
                 if (ai.collides_with_ball(ball) == True):
                     self.ai_lost(ai)
     
+        # Check if any ball hit a shot.
+        for ball in self.balls:
+            for shot in self.shots:
+                if (ball.collides_with_shot(shot) == True):
+                    shot.shooting_player.is_shooting = False
+                    self.balls.remove(ball)
+                    self.shots.remove(shot)
+
 
     def ai_lost(self, ai: BasePlayer) -> None:
         """
@@ -150,8 +160,19 @@ class GameManager:
         Called when a player shoots.
 
         Args:
-            event_type (str): The event type.
-            event_data (tuple): The event data.
+            ai (BasePlayer): The AI that shot.
         """
+        self.shots.append(ArrowShot(ai.x, ai.y, Settings.ARROW_SPEED, ai, self.event_observable))
         print (ai.name + " shot!")
+
+
+    def on_arrow_out_of_bounds(self, arrow: ArrowShot) -> None:
+        """
+        Called when an arrow goes out of bounds.
+
+        Args:
+            arrow (ArrowShot): The arrow that went out of bounds.
+        """
+        arrow.shooting_player.is_shooting = False
+        self.shots.remove(arrow)
 

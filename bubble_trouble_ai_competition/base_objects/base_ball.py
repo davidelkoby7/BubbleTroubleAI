@@ -1,5 +1,7 @@
 
+import pygame
 from bubble_trouble_ai_competition.utils.constants import Settings
+from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collide
 
 
 class Ball:
@@ -65,4 +67,27 @@ class Ball:
         elif self.x + self.radius > Settings.SCREEN_WIDTH:
             self.x = Settings.SCREEN_WIDTH - self.radius
             self.speed_x *= -1
+
+
+    def collides_with_shot(self, shot) -> bool:
+        """
+        Checks if the ball collides with a shot.
+
+        Args:
+            shot (ArrowShot): The shot to check if the ball collides with.
+
+        Returns:
+            bool: True if the ball collides with the shot, False otherwise.
+        """
+        # Check if the ball's center collides with the shot's center
+        print (shot.x, shot.y, shot.width, shot.height)
+        if (circle_rect_collide(shot.x, shot.y, shot.width, shot.height, self.x, self.y, self.radius)):
+            print ("Collision")
+            return True
+
+        # No collision - return False
+        return False
+
+    def draw(self, screen: pygame.Surface) -> None:
+        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
 
