@@ -11,7 +11,7 @@ class BasePlayer:
     Base class to create an AI playing the game.
     """
 
-    def __init__(self, name: str, direction: Directions, events_observable: EventsObservable, position: tuple = (20, 0), dimensions: tuple = Settings.PLAYER_DIMENSIONS, head_radius = Settings.HEAD_RADIUS, screen_size: tuple = Settings.SCREEN_SIZE) -> None:
+    def __init__(self, name: str, direction: Directions, events_observable: EventsObservable, position: tuple = (20, 0), dimensions: tuple = Settings.PLAYER_DIMENSIONS, head_radius: int = Settings.HEAD_RADIUS, screen_size: tuple = Settings.SCREEN_SIZE) -> None:
         """
         Args:
             name (str): The name of the player.
