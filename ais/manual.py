@@ -26,7 +26,7 @@ class manualAI(BasePlayer):
         if keys[pygame.K_RIGHT]:
             return Directions.RIGHT
         
-        return self.direction
+        return Directions.STAND
 
     
     def on_ball_popped(self, ball_id: int, ball_name: str = "None") -> None:

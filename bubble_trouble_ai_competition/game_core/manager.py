@@ -37,9 +37,9 @@ class GameManager:
         self.graphics = Graphics(screen_size=screen_size)
 
         self.balls = [
-            Ball(300, 100, 10, 10, 8, (255, 0, 0)),
-            Ball(700, 200, 10, 20, 4, (0, 255, 0)),
-            Ball(1000, 100, 20, 20, 3, (0, 0, 255)),
+            Ball(300, 100, 6, 0, 6, (255, 0, 0)),
+            Ball(700, 200, 6, 0, 4, (0, 255, 0)),
+            Ball(1000, 100, 6, 0, 3, (0, 0, 255)),
             ]
 
 
@@ -97,22 +97,13 @@ class GameManager:
             # Notifying the ais of the event.
             self.event_observable.notify_observers(Events.BALL_POPPED, 1, ball_name = "davidalk")
             
-            # Run the main logic for each AI.
+            # Run the main logic for each AI, and move it.
             for ai in self.ais:
                 ai.update()
+                ai.move()
             
             for ball in self.balls:
                 ball.update()
-            
-            # Moving all the ais
-            for ai in self.ais:
-                ai.x += ai.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
-
-                # Making sure the AI is not going out of bounds.
-                if (ai.x < 0):
-                    ai.x = 0
-                if (ai.x > Settings.SCREEN_WIDTH - ai.width):
-                    ai.x = Settings.SCREEN_WIDTH - ai.width
 
             # Collision detection.
             self.handle_collision()

@@ -5,6 +5,7 @@ class Directions:
     """
     LEFT = -1
     RIGHT = 1
+    STAND = 0
 
 
 class Settings:
@@ -18,14 +19,14 @@ class Settings:
     FPS = 30
     FRAME_TIME = 1 / FPS
     TITLE = "Bubble Trouble AI Competition"
-    PLAYER_DIMENSIONS = (30, 100)
+    PLAYER_DIMENSIONS = (30, 70)
     PLAYER_WIDTH = PLAYER_DIMENSIONS[0]
     PLAYER_HEIGHT = PLAYER_DIMENSIONS[1]
     HEAD_RADIUS = PLAYER_DIMENSIONS[0] / 2
-    PLAYER_SPEED = 4
+    PLAYER_SPEED = 9
     BG_COLOR = (0, 0, 0)
 
-    DEFAULT_GRAVITY = 5
+    DEFAULT_GRAVITY = 1
     BALL_SIZE_TO_RADIUS_RATIO = 10
     
 

@@ -48,6 +48,16 @@ class BasePlayer:
         """
         return random.choice([Directions.LEFT, Directions.RIGHT])
 
+
+    def move(self) -> None:
+        self.x += self.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
+
+        # Making sure the AI is not going out of bounds.
+        if (self.x < 0):
+            self.x = 0
+        if (self.x > Settings.SCREEN_WIDTH - self.width):
+            self.x = Settings.SCREEN_WIDTH - self.width
+    
     
     def talk(self) -> None:
         """
