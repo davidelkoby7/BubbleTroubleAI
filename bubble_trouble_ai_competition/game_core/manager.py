@@ -3,6 +3,7 @@ import random
 import pygame
 import importlib
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
+from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
@@ -127,4 +128,17 @@ class GameManager:
         for ai in self.ais:
             for ball in self.balls:
                 if (ai.collides_with_ball(ball) == True):
-                    print ("Collision!")
+                    self.ai_lost(ai)
+    
+
+    def ai_lost(self, ai: BasePlayer) -> None:
+        """
+        Called when an AI loses.
+        Will remove it from the actively playing ais.
+
+        Args:
+            ai (BasePlayer): The AI that lost.
+        """
+        # TODO: Implement something normal.
+        self.ais.remove(ai)
+
