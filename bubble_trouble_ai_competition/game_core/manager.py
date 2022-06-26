@@ -204,6 +204,6 @@ class GameManager:
         
         # Otherwise - split the ball into 2 smaller balls, if it's not a ceiling shot.
         if (ceiling_shot == False):
-            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, max(0, ball.speed_y) - Settings.BALL_POPPED_SPEED_BOOST, ball.size - 1, ball.color))
-            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, max(0, ball.speed_y) - Settings.BALL_POPPED_SPEED_BOOST, ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, min(0, ball.speed_y) - Settings.BALL_POPPED_SPEED_BOOST, ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, min(0, ball.speed_y) - Settings.BALL_POPPED_SPEED_BOOST, ball.size - 1, ball.color))
 
