@@ -50,7 +50,7 @@ def circle_rect_collide(rleft: int, rtop: int, width: int, height: int, center_x
     """
 
     # complete boundbox of the rectangle
-    rright, rbottom = rleft + width/2, rtop + height/2
+    rright, rbottom = rleft + width, rtop + height
 
     # bounding box of the circle
     cleft, ctop     = center_x-radius, center_y-radius
@@ -61,8 +61,8 @@ def circle_rect_collide(rleft: int, rtop: int, width: int, height: int, center_x
         return False  # no collision possible
 
     # check whether any point of rectangle is inside circle's radius
-    for x in (rleft, rleft+width):
-        for y in (rtop, rtop+height):
+    for x in range(int(rleft), int(rright)):
+        for y in range(int(rtop), int(rbottom)):
             # compare distance between circle's center point and each point of
             # the rectangle with the circle's radius
             if math.hypot(x-center_x, y-center_y) <= radius:

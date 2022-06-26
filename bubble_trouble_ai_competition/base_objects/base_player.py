@@ -1,8 +1,10 @@
 import random
+import pygame
+
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
-from bubble_trouble_ai_competition.utils.constants import Directions, Settings
+from bubble_trouble_ai_competition.utils.constants import Directions, Events, Settings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
@@ -31,6 +33,7 @@ class BasePlayer:
         self.color = (255, 0, 0)
         self.speed = SpeedTypes.NORMAL
         self.events_observable = events_observable
+        self.is_shooting = False
 
 
     def update(self) -> None:
@@ -40,6 +43,7 @@ class BasePlayer:
 
         self.update_head_center()
         self.direction = self.pick_direction()
+        self.move()
 
     
     def pick_direction(self) -> Directions:
@@ -48,6 +52,30 @@ class BasePlayer:
         """
         return random.choice([Directions.LEFT, Directions.RIGHT])
 
+
+    def shoot(self):
+        """
+        Player will shoot.
+        """
+        if (self.is_shooting == False):
+            self.is_shooting = True
+            self.events_observable.notify_observers(Events.PLAYER_SHOT, self)
+            self.shooting_delay = Settings.SHOOTING_DELAY
+    
+
+    def move(self) -> None:
+        """
+        Moves the player.
+        """
+
+        self.x += self.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
+
+        # Making sure the AI is not going out of bounds.
+        if (self.x < 0):
+            self.x = 0
+        if (self.x > Settings.SCREEN_WIDTH - self.width):
+            self.x = Settings.SCREEN_WIDTH - self.width
+    
     
     def talk(self) -> None:
         """
@@ -61,7 +89,6 @@ class BasePlayer:
         Updates the head center of the player.
         """
         self.head_center = ((self.x + (self.x + self.width)) / 2, self.y - self.head_radius)
-
 
 
     def collides_with_ball(self, ball: Ball) -> bool:
@@ -84,4 +111,28 @@ class BasePlayer:
         
         # No collision - return False
         return False
+
+
+    def draw(self, screen: pygame.Surface) -> None:
+        """
+        Draws the player on the screen.
+
+        Args:
+            screen (pygame.Surface): The screen to draw the player on.
+        """
+        # Drawing body
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+
+        # Drawing head
+        pygame.draw.circle(screen, self.color, (int(self.head_center[0]), int(self.head_center[1])), self.head_radius)
+
+
+    def can_shoot(self) -> bool:
+        """
+        Checks if the player can shoot.
+
+        Returns:
+            bool: True if the player can shoot, False otherwise.
+        """
+        return self.is_shooting == False
 

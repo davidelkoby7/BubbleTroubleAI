@@ -19,6 +19,9 @@ class manualAI(BasePlayer):
     
     def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()
+        
+        if keys[pygame.K_SPACE]:
+            self.shoot()
 
         if keys[pygame.K_LEFT]:
             return Directions.LEFT
@@ -26,7 +29,7 @@ class manualAI(BasePlayer):
         if keys[pygame.K_RIGHT]:
             return Directions.RIGHT
         
-        return self.direction
+        return Directions.STAND
 
     
     def on_ball_popped(self, ball_id: int, ball_name: str = "None") -> None:

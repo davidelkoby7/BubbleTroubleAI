@@ -1,4 +1,5 @@
 import pygame
+from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
@@ -29,48 +30,24 @@ class Graphics:
         self.screen = pygame.display.set_mode(screen_size)
     
     
-    def draw(self, ais: list[BasePlayer], balls: list[Ball]):
+    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot]) -> None:
         """
         Draw the game objects.
 
         Args:
             ais (list[BasePlayer]): The players to draw.
             balls (list[Ball]): The balls to draw.
+            shots (list[ArrowShot]): The shots to draw.
         """
         # Clear the screen.
         self.screen.fill(self.background_color)
 
-        # Draw the ais.
-        for ai in ais:
-            self.draw_ai(ai)
+        all_items = balls + shots + ais
 
-        # Draw the balls.
-        for ball in balls:
-            self.draw_ball(ball)
+        # Draw the ais.
+        for item in all_items:
+            item.draw(self.screen)
 
         # Updating the screen.
         pygame.display.flip()
 
-
-    def draw_ai(self, ai: BasePlayer):
-        """
-        Draws an ai.
-
-        Args:
-            ai (BasePlayer): The ai to draw.
-        """
-        # Drawing body
-        pygame.draw.rect(self.screen, ai.color, pygame.Rect(ai.x, ai.y, ai.width, ai.height))
-
-        # Drawing head
-        pygame.draw.circle(self.screen, ai.color, (int(ai.head_center[0]), int(ai.head_center[1])), ai.head_radius)
-
-
-    def draw_ball(self, ball: Ball):
-        """
-        Draws a ball.
-
-        Args:
-            ball (Ball): The ball to draw.
-        """
-        pygame.draw.circle(self.screen, ball.color, (int(ball.x), int(ball.y)), ball.radius)

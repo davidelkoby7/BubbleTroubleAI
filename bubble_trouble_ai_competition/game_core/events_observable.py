@@ -15,8 +15,6 @@ class EventsObservable:
 
         for event in ALL_EVENTS_LIST:
             self.observable_events[event] = []
-        
-        print (self.observable_events)
     
 
     def add_observer(self, eventType: Events, observer) -> None:
@@ -50,6 +48,5 @@ class EventsObservable:
             *args: The arguments to pass to the observers.
             **kwargs: The keyword arguments to pass to the observers.
         """
-        for event in self.observable_events:
-            for observer in self.observable_events[event]:
-                observer(*args, **kwargs)
+        for observer in self.observable_events[event]:
+            observer(*args, **kwargs)
