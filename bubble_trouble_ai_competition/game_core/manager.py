@@ -113,6 +113,18 @@ class GameManager:
                 if (ai.x > Settings.SCREEN_WIDTH - ai.width):
                     ai.x = Settings.SCREEN_WIDTH - ai.width
 
+            # Collision detection.
+            self.handle_collision()
+
             # Draw the screen
             self.graphics.draw(self.ais, self.balls)
 
+
+    def handle_collision(self) -> None:
+        """
+        Handles the collisions in the game.
+        """
+        for ai in self.ais:
+            for ball in self.balls:
+                if (ai.collides_with_ball(ball) == True):
+                    print ("Collision!")

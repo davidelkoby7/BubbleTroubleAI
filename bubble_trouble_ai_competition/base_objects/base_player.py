@@ -1,7 +1,9 @@
 import random
+from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.utils.constants import Directions, Settings
+from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
 class BasePlayer:
@@ -59,4 +61,27 @@ class BasePlayer:
         Updates the head center of the player.
         """
         self.head_center = ((self.x + (self.x + self.width)) / 2, self.y - self.head_radius)
+
+
+
+    def collides_with_ball(self, ball: Ball) -> bool:
+        """
+        Checks if the player collides with a ball.
+
+        Args:
+            ball (Ball): The ball to check if the player collides with.
+        
+        Returns:
+            bool: True if the player collides with the ball, False otherwise.
+        """
+        # Check if the player's head collides with the ball
+        if (circles_collide(self.head_center, self.head_radius, (ball.x, ball.y), ball.radius)):
+            return True
+        
+        # Check if the player's body collides with the ball
+        if (circle_rect_collide(self.x, self.y, self.width, self.height, ball.x, ball.y, ball.radius)):
+            return True
+        
+        # No collision - return False
+        return False
 
