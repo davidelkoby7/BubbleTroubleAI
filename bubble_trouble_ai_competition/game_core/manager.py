@@ -109,9 +109,6 @@ class GameManager:
             for item in all_items:
                 item.update()
             
-            for ai in self.ais:
-                ai.move()
-
             # Collision detection.
             self.handle_collision()
 

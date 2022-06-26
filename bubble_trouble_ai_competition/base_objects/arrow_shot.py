@@ -30,12 +30,18 @@ class ArrowShot:
 
 
     def update(self) -> None:
+        """
+        Updates the arrow's position, and checks if it has reached the ceiling.
+        """
         self.y -= self.speed_y * Settings.FRAME_TIME
         if (self.y < 0):
             self.events_observable.notify_observers(Events.ARROW_OUT_OF_BOUNDS, self)
 
 
-    def draw(self, screen) -> None:
+    def draw(self, screen: pygame.Surface) -> None:
+        """
+        Draws the arrow on the screen.
+        """
         self.height = screen.get_height() - self.y
         pygame.draw.rect(screen, (30, 60, 90), pygame.Rect(self.x, self.y, self.width, self.height))
 

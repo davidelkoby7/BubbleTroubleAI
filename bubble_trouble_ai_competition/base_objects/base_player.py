@@ -43,6 +43,7 @@ class BasePlayer:
 
         self.update_head_center()
         self.direction = self.pick_direction()
+        self.move()
 
     
     def pick_direction(self) -> Directions:
@@ -63,6 +64,10 @@ class BasePlayer:
     
 
     def move(self) -> None:
+        """
+        Moves the player.
+        """
+
         self.x += self.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
 
         # Making sure the AI is not going out of bounds.
@@ -108,7 +113,13 @@ class BasePlayer:
         return False
 
 
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface) -> None:
+        """
+        Draws the player on the screen.
+
+        Args:
+            screen (pygame.Surface): The screen to draw the player on.
+        """
         # Drawing body
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
 
