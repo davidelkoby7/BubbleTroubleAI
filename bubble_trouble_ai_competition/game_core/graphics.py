@@ -59,7 +59,11 @@ class Graphics:
         Args:
             ai (BasePlayer): The ai to draw.
         """
-        pygame.draw.rect(self.screen, ai.color, pygame.Rect(ai.x, self.screen_height - ai.y - ai.height, ai.width, ai.height))
+        # Drawing body
+        pygame.draw.rect(self.screen, ai.color, pygame.Rect(ai.x, ai.y, ai.width, ai.height))
+
+        # Drawing head
+        pygame.draw.circle(self.screen, ai.color, (int(ai.head_center[0]), int(ai.head_center[1])), ai.head_radius)
 
 
     def draw_ball(self, ball: Ball):

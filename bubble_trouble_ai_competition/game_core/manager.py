@@ -14,7 +14,7 @@ class GameManager:
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS) -> None:
+    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, screen_size: tuple = Settings.SCREEN_SIZE) -> None:
         """
         Initializes the game manager.
 
@@ -24,6 +24,7 @@ class GameManager:
         """
         self.game_over = False
         self.fps = fps
+        self.screen_size = screen_size
 
         self.ai_objects = []
         self.ai_classes = []
@@ -32,7 +33,7 @@ class GameManager:
 
         self.load_ais(ais_dir_path)
         
-        self.graphics = Graphics()
+        self.graphics = Graphics(screen_size=screen_size)
 
         self.balls = [
             Ball(300, 100, 10, 10, 20, (255, 0, 0)),
@@ -64,7 +65,7 @@ class GameManager:
                     raise CantLoadBotException("Could not load ai class: " + ai_name)
 
         # Create the ai objects.
-        self.ais = [class_ref(events_observable = self.event_observable) for class_ref in self.ai_classes]
+        self.ais = [class_ref(events_observable = self.event_observable, screen_size = self.screen_size) for class_ref in self.ai_classes]
 
 
     def print_ais(self) -> None:
