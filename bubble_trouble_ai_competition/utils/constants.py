@@ -26,6 +26,7 @@ class Settings:
     BG_COLOR = (0, 0, 0)
 
     DEFAULT_GRAVITY = 5
+    BALL_SIZE_TO_RADIUS_RATIO = 10
     
 
 class Events:

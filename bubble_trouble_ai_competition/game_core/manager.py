@@ -37,9 +37,9 @@ class GameManager:
         self.graphics = Graphics(screen_size=screen_size)
 
         self.balls = [
-            Ball(300, 100, 10, 10, 20, (255, 0, 0)),
-            Ball(700, 200, 10, 20, 20, (0, 255, 0)),
-            Ball(1000, 100, 20, 20, 20, (0, 0, 255)),
+            Ball(300, 100, 10, 10, 8, (255, 0, 0)),
+            Ball(700, 200, 10, 20, 4, (0, 255, 0)),
+            Ball(1000, 100, 20, 20, 3, (0, 0, 255)),
             ]
 
 
