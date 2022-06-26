@@ -3,6 +3,7 @@ import random
 import pygame
 import importlib
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
+from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
@@ -14,7 +15,7 @@ class GameManager:
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS) -> None:
+    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, screen_size: tuple = Settings.SCREEN_SIZE) -> None:
         """
         Initializes the game manager.
 
@@ -24,6 +25,7 @@ class GameManager:
         """
         self.game_over = False
         self.fps = fps
+        self.screen_size = screen_size
 
         self.ai_objects = []
         self.ai_classes = []
@@ -32,7 +34,7 @@ class GameManager:
 
         self.load_ais(ais_dir_path)
         
-        self.graphics = Graphics()
+        self.graphics = Graphics(screen_size=screen_size)
 
         self.balls = [
             Ball(300, 100, 10, 10, 20, (255, 0, 0)),
@@ -64,7 +66,7 @@ class GameManager:
                     raise CantLoadBotException("Could not load ai class: " + ai_name)
 
         # Create the ai objects.
-        self.ais = [class_ref(events_observable = self.event_observable) for class_ref in self.ai_classes]
+        self.ais = [class_ref(events_observable = self.event_observable, screen_size = self.screen_size) for class_ref in self.ai_classes]
 
 
     def print_ais(self) -> None:
@@ -112,6 +114,31 @@ class GameManager:
                 if (ai.x > Settings.SCREEN_WIDTH - ai.width):
                     ai.x = Settings.SCREEN_WIDTH - ai.width
 
+            # Collision detection.
+            self.handle_collision()
+
             # Draw the screen
             self.graphics.draw(self.ais, self.balls)
+
+
+    def handle_collision(self) -> None:
+        """
+        Handles the collisions in the game.
+        """
+        for ai in self.ais:
+            for ball in self.balls:
+                if (ai.collides_with_ball(ball) == True):
+                    self.ai_lost(ai)
+    
+
+    def ai_lost(self, ai: BasePlayer) -> None:
+        """
+        Called when an AI loses.
+        Will remove it from the actively playing ais.
+
+        Args:
+            ai (BasePlayer): The AI that lost.
+        """
+        # TODO: Implement something normal.
+        self.ais.remove(ai)
 

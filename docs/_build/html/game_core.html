@@ -14,7 +14,6 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -80,45 +79,69 @@
            <div itemprop="articleBody">
              
   <section id="game-core-package">
-<h1>game_core package<a class="headerlink" href="#game-core-package" title="Permalink to this heading"></a></h1>
+<h1>game_core package<a class="headerlink" href="#game-core-package" title="Permalink to this headline"></a></h1>
 <section id="module-bubble_trouble_ai_competition.game_core.graphics">
-<span id="graphics-module"></span><h2>Graphics module<a class="headerlink" href="#module-bubble_trouble_ai_competition.game_core.graphics" title="Permalink to this heading"></a></h2>
+<span id="graphics-module"></span><h2>Graphics module<a class="headerlink" href="#module-bubble_trouble_ai_competition.game_core.graphics" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.graphics.Graphics">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bubble_trouble_ai_competition.game_core.graphics.</span></span><span class="sig-name descname"><span class="pre">Graphics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bubble_trouble_ai_competition.game_core.graphics.</span></span><span class="sig-name descname"><span class="pre">Graphics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Will handle the graphics.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.graphics.Graphics.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initialize the graphics.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>screen_size (tuple): The size of the screen.
+background_color (tuple): The background color.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.graphics.Graphics.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ais</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="base_objects.html#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer" title="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer"><span class="pre">bubble_trouble_ai_competition.base_objects.base_player.BasePlayer</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics.draw" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ais</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="base_objects.html#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer" title="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer"><span class="pre">bubble_trouble_ai_competition.base_objects.base_player.BasePlayer</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">balls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bubble_trouble_ai_competition.base_objects.base_ball.Ball</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics.draw" title="Permalink to this definition"></a></dt>
 <dd><p>Draw the game objects.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ais (list[BasePlayer]): The players to draw.
+balls (list[Ball]): The balls to draw.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.graphics.Graphics.draw_ai">
-<span class="sig-name descname"><span class="pre">draw_ai</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ai</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="base_objects.html#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer" title="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer"><span class="pre">BasePlayer</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics.draw_ai" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw_ai</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ai</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="base_objects.html#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer" title="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer"><span class="pre">bubble_trouble_ai_competition.base_objects.base_player.BasePlayer</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics.draw_ai" title="Permalink to this definition"></a></dt>
 <dd><p>Draws an ai.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ai (BasePlayer): The ai to draw.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.graphics.Graphics.draw_ball">
+<span class="sig-name descname"><span class="pre">draw_ball</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ball</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bubble_trouble_ai_competition.base_objects.base_ball.Ball</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.graphics.Graphics.draw_ball" title="Permalink to this definition"></a></dt>
+<dd><p>Draws a ball.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ball (Ball): The ball to draw.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="module-bubble_trouble_ai_competition.game_core.manager">
-<span id="gamemanager-module"></span><h2>GameManager module<a class="headerlink" href="#module-bubble_trouble_ai_competition.game_core.manager" title="Permalink to this heading"></a></h2>
+<span id="gamemanager-module"></span><h2>GameManager module<a class="headerlink" href="#module-bubble_trouble_ai_competition.game_core.manager" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.manager.GameManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bubble_trouble_ai_competition.game_core.manager.</span></span><span class="sig-name descname"><span class="pre">GameManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ais_dir_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.manager.GameManager" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bubble_trouble_ai_competition.game_core.manager.</span></span><span class="sig-name descname"><span class="pre">GameManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ais_dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.manager.GameManager" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Will manage the game objects, main loop and logic.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.manager.GameManager.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ais_dir_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.manager.GameManager.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ais_dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">(800,</span> <span class="pre">600)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.manager.GameManager.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initializes the game manager.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>fps (int): The frames per second to run the game at.
@@ -129,7 +152,7 @@ ais_dir_path (str): The path to the directory containing the ais.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.manager.GameManager.load_ais">
-<span class="sig-name descname"><span class="pre">load_ais</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ais_dir_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.manager.GameManager.load_ais" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">load_ais</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ais_dir_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.manager.GameManager.load_ais" title="Permalink to this definition"></a></dt>
 <dd><p>Load the ais from the given directory.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>ais_dir_path (str): The path to the directory containing the ais.</p>
@@ -152,14 +175,31 @@ Just for testing to see if the ais are loaded correctly.</p>
 <dd><p>Run the main game loop.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.manager.GameManager.handle_collision">
+<span class="sig-name descname"><span class="pre">handle_collision</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.manager.GameManager.handle_collision" title="Permalink to this definition"></a></dt>
+<dd><p>Handles the collisions in the game.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.manager.GameManager.ai_lost">
+<span class="sig-name descname"><span class="pre">ai_lost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ai</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="base_objects.html#bubble_trouble_ai_competition.base_objects.base_player.BasePlayer" title="bubble_trouble_ai_competition.base_objects.base_player.BasePlayer"><span class="pre">bubble_trouble_ai_competition.base_objects.base_player.BasePlayer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.manager.GameManager.ai_lost" title="Permalink to this definition"></a></dt>
+<dd><p>Called when an AI loses.
+Will remove it from the actively playing ais.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ai (BasePlayer): The AI that lost.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
 <section id="module-bubble_trouble_ai_competition.game_core.events_observable">
-<span id="eventsobserver-module"></span><h2>EventsObserver module<a class="headerlink" href="#module-bubble_trouble_ai_competition.game_core.events_observable" title="Permalink to this heading"></a></h2>
+<span id="eventsobserver-module"></span><h2>EventsObserver module<a class="headerlink" href="#module-bubble_trouble_ai_competition.game_core.events_observable" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.events_observable.EventsObservable">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bubble_trouble_ai_competition.game_core.events_observable.</span></span><span class="sig-name descname"><span class="pre">EventsObservable</span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.events_observable.EventsObservable" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bubble_trouble_ai_competition.game_core.events_observable.</span></span><span class="sig-name descname"><span class="pre">EventsObservable</span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.events_observable.EventsObservable" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>An observable object that all observers can subscribe to in order to get notified about things in the game.</p>
 <dl class="py method">
@@ -170,7 +210,7 @@ Just for testing to see if the ais are loaded correctly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.events_observable.EventsObservable.add_observer">
-<span class="sig-name descname"><span class="pre">add_observer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="utils.html#bubble_trouble_ai_competition.utils.constants.Events" title="bubble_trouble_ai_competition.utils.constants.Events"><span class="pre">Events</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">observer</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.events_observable.EventsObservable.add_observer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_observer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventType</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="utils.html#bubble_trouble_ai_competition.utils.constants.Events" title="bubble_trouble_ai_competition.utils.constants.Events"><span class="pre">bubble_trouble_ai_competition.utils.constants.Events</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">observer</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.events_observable.EventsObservable.add_observer" title="Permalink to this definition"></a></dt>
 <dd><p>Add the given observer to the observable object.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>observer: The observer to add to the observable object.</p>
@@ -180,10 +220,11 @@ Just for testing to see if the ais are loaded correctly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bubble_trouble_ai_competition.game_core.events_observable.EventsObservable.remove_observer">
-<span class="sig-name descname"><span class="pre">remove_observer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eventType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="utils.html#bubble_trouble_ai_competition.utils.constants.Events" title="bubble_trouble_ai_competition.utils.constants.Events"><span class="pre">Events</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.events_observable.EventsObservable.remove_observer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_observer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eventType</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="utils.html#bubble_trouble_ai_competition.utils.constants.Events" title="bubble_trouble_ai_competition.utils.constants.Events"><span class="pre">bubble_trouble_ai_competition.utils.constants.Events</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bubble_trouble_ai_competition.game_core.events_observable.EventsObservable.remove_observer" title="Permalink to this definition"></a></dt>
 <dd><p>Remove the given observer from the observable object.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>observer (Observer): The observer to remove from the observable object.</p>
+<dt>Args:</dt><dd><p>observer (Observer): The observer to remove from the observable object.
+eventType (Events): The event type to remove the observer from.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -204,7 +245,7 @@ Just for testing to see if the ais are loaded correctly.</p>
 
 </section>
 <section id="module-bubble_trouble_ai_competition.game_core">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-bubble_trouble_ai_competition.game_core" title="Permalink to this heading"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-bubble_trouble_ai_competition.game_core" title="Permalink to this headline"></a></h2>
 <p>Module for handling the core game mechanics.</p>
 </section>
 </section>
