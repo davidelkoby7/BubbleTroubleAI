@@ -32,14 +32,16 @@ class GameManager:
 
         self.event_observable = EventsObservable()
 
+        self.event_observable.add_observer(Events.PLAYER_SHOT, self.on_player_shot)
+
         self.load_ais(ais_dir_path)
         
         self.graphics = Graphics(screen_size=screen_size)
 
         self.balls = [
-            Ball(300, 100, 6, 0, 6, (255, 0, 0)),
-            Ball(700, 200, 6, 0, 4, (0, 255, 0)),
-            Ball(1000, 100, 6, 0, 3, (0, 0, 255)),
+            Ball(300, 100, Settings.BALL_SPEED, 0, 6, (255, 0, 0)),
+            Ball(700, 200, Settings.BALL_SPEED, 0, 4, (0, 255, 0)),
+            Ball(1000, 100, Settings.BALL_SPEED, 0, 3, (0, 0, 255)),
             ]
 
 
@@ -85,6 +87,9 @@ class GameManager:
 
         # Main game loop.
         while (self.game_over != True):
+            # Keeping the start time of the frame.
+            start_time = pygame.time.get_ticks()
+
             # Shuffling the AI's order to make sure no one has an advantage in the long run by knowing what others are doing.
             random.shuffle(self.ais)
 
@@ -111,6 +116,12 @@ class GameManager:
             # Draw the screen
             self.graphics.draw(self.ais, self.balls)
 
+            # Calculating the time it took to run this iteration
+            time_taken = pygame.time.get_ticks() - start_time
+
+            # Controling the framerate.
+            pygame.time.wait(1000 // self.fps - time_taken)
+
 
     def handle_collision(self) -> None:
         """
@@ -132,4 +143,15 @@ class GameManager:
         """
         # TODO: Implement something normal.
         self.ais.remove(ai)
+
+
+    def on_player_shot(self, ai: BasePlayer) -> None:
+        """
+        Called when a player shoots.
+
+        Args:
+            event_type (str): The event type.
+            event_data (tuple): The event data.
+        """
+        print (ai.name + " shot!")
 

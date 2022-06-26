@@ -16,18 +16,21 @@ class Settings:
     SCREEN_WIDTH = SCREEN_SIZE[0]
     SCREEN_HEIGHT = SCREEN_SIZE[1]
     
-    FPS = 30
+    FPS = 60
     FRAME_TIME = 1 / FPS
     TITLE = "Bubble Trouble AI Competition"
     PLAYER_DIMENSIONS = (30, 70)
     PLAYER_WIDTH = PLAYER_DIMENSIONS[0]
     PLAYER_HEIGHT = PLAYER_DIMENSIONS[1]
     HEAD_RADIUS = PLAYER_DIMENSIONS[0] / 2
-    PLAYER_SPEED = 9
+    PLAYER_SPEED = 180
+    BALL_SPEED = 150
     BG_COLOR = (0, 0, 0)
 
-    DEFAULT_GRAVITY = 1
+    DEFAULT_GRAVITY = 450
     BALL_SIZE_TO_RADIUS_RATIO = 10
+
+    SHOOTING_DELAY = FPS / 2 # In units of frames
     
 
 class Events:
@@ -35,6 +38,7 @@ class Events:
     All events that can be triggered in the game.
     """
     BALL_POPPED = "ball_popped"
+    PLAYER_SHOT = "player_shot"
     POWERUP_PICKED = "powerup_picked"
 
 ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
