@@ -204,6 +204,13 @@ class GameManager:
         
         # Otherwise - split the ball into 2 smaller balls, if it's not a ceiling shot.
         if (ceiling_shot == False):
-            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, -abs(ball.speed_y - Settings.BALL_POPPED_SPEED_BOOST), ball.size - 1, ball.color))
-            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, -abs(ball.speed_y - Settings.BALL_POPPED_SPEED_BOOST), ball.size - 1, ball.color))
+            if (ball.speed_y > 0):
+                print ("Positive - Going down")
+                new_vertical_speed = Settings.BALL_POPPED_DOWN_SPEED
+            else:
+                print ("Negative - Going up")
+                new_vertical_speed = ball.speed_y - Settings.BALL_POPPED_UP_SPEED_DEC
+
+            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))
 
