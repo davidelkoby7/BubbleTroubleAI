@@ -5,7 +5,7 @@ from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.utils.constants import Directions, Events, Settings
-from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide
+from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, load_and_scale_image
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
 class BasePlayer:
@@ -13,7 +13,8 @@ class BasePlayer:
     Base class to create an AI playing the game.
     """
 
-    def __init__(self, name: str, direction: Directions, events_observable: EventsObservable, position: tuple = (20, 0), dimensions: tuple = Settings.PLAYER_DIMENSIONS, head_radius: int = Settings.HEAD_RADIUS, screen_size: tuple = Settings.SCREEN_SIZE) -> None:
+    def __init__(self, name: str, direction: Directions, events_observable: EventsObservable, position: tuple = (20, 0), dimensions: tuple = Settings.PLAYER_DIMENSIONS,
+                head_radius: int = Settings.HEAD_RADIUS, screen_size: tuple = Settings.SCREEN_SIZE, ais_dir_path = None) -> None:
         """
         Args:
             name (str): The name of the player.
@@ -34,6 +35,11 @@ class BasePlayer:
         self.speed = SpeedTypes.NORMAL
         self.events_observable = events_observable
         self.is_shooting = False
+        self.head_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head.png", self.head_radius * 2, self.head_radius * 2)
+        self.head_right_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_right.png", self.head_radius * 2, self.head_radius * 2)
+        self.head_left_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_left.png", self.head_radius * 2, self.head_radius * 2)
+        self.body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
+        self.body_image_rect = self.body_image.get_rect()
 
 
     def update(self) -> None:
@@ -41,9 +47,9 @@ class BasePlayer:
         Updates the player's attributes.
         """
 
-        self.update_head_center()
         self.direction = self.pick_direction()
         self.move()
+        self.update_head_center()
 
     
     def pick_direction(self) -> Directions:
@@ -121,10 +127,18 @@ class BasePlayer:
             screen (pygame.Surface): The screen to draw the player on.
         """
         # Drawing body
-        pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+        # pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+        screen.blit(self.body_image, (self.x, self.y))
 
         # Drawing head
-        pygame.draw.circle(screen, self.color, (int(self.head_center[0]), int(self.head_center[1])), self.head_radius)
+        # pygame.draw.circle(screen, self.color, (int(self.head_center[0]), int(self.head_center[1])), self.head_radius)
+        head_image_draw_position = (self.head_center[0] - self.head_radius, self.head_center[1] - self.head_radius)
+        if (self.direction == Directions.STAND):
+            screen.blit(self.head_image, head_image_draw_position)
+        elif (self.direction == Directions.LEFT):
+            screen.blit(self.head_left_image, head_image_draw_position)
+        elif (self.direction == Directions.RIGHT):
+            screen.blit(self.head_right_image, head_image_draw_position)
 
 
     def can_shoot(self) -> bool:

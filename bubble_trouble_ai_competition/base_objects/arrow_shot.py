@@ -3,6 +3,7 @@ import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 from bubble_trouble_ai_competition.utils.constants import Events, Settings
+from bubble_trouble_ai_competition.utils.general_utils import load_image_and_keep_aspect_ratio
 
 
 class ArrowShot:
@@ -27,6 +28,7 @@ class ArrowShot:
         self.speed_y = speed_y
         self.shooting_player = shooting_player
         self.events_observable = events_observable
+        self.arrow_image = load_image_and_keep_aspect_ratio(Settings.ASSETS_DIR + "/arrow.png", self.width)
 
 
     def update(self) -> None:
@@ -43,5 +45,5 @@ class ArrowShot:
         Draws the arrow on the screen.
         """
         self.height = screen.get_height() - self.y
-        pygame.draw.rect(screen, (30, 60, 90), pygame.Rect(self.x, self.y, self.width, self.height))
+        screen.blit(self.arrow_image, (self.x, self.y))
 
