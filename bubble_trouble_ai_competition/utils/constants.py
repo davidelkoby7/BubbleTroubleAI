@@ -1,4 +1,15 @@
 
+class BallColors:
+    RED = "red"
+    BLUE = "blue"
+    GREEN = "green"
+    YELLOW = "yellow"
+    PURPLE = "purple"
+    ORANGE = "orange"
+
+ALL_BALL_COLORS = [getattr(BallColors, x) for x in dir(BallColors) if "__" not in x]    
+
+
 class Directions:
     """
     All available directions for the player to move in.
@@ -21,7 +32,7 @@ class Settings:
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)
 
-    PLAYER_DIMENSIONS = (30, 70)
+    PLAYER_DIMENSIONS = (30, 50)
     PLAYER_WIDTH = PLAYER_DIMENSIONS[0]
     PLAYER_HEIGHT = PLAYER_DIMENSIONS[1]
     HEAD_RADIUS = PLAYER_DIMENSIONS[0] / 2
@@ -36,6 +47,10 @@ class Settings:
     SHOOTING_DELAY = FPS / SHOTS_PER_SECOND # In units of frames
     ARROW_WIDTH = 10
     ARROW_SPEED = 500
+
+    BASE_MODULE_DIR = __file__ [:-18] # The minus 18 - to remove the part of the path until the base of our module. TODO: FIX THIS SHIT
+    ASSETS_DIR = BASE_MODULE_DIR + "assets"
+    BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/background.jpg"
     
 
 class Events:

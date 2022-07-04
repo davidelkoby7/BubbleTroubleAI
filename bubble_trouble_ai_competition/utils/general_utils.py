@@ -93,3 +93,18 @@ def load_and_scale_image(path: str, width: int, height: int) -> pygame.Surface:
     image = pygame.transform.scale(image, (width, height))
     return image
 
+
+def load_image_and_keep_aspect_ratio(path: str, width: int) -> pygame.Surface:
+    """
+    Loads an image and keeps the aspect ratio.
+
+    Args:
+        path (str): The path to the image.
+        width (int): The width of the image.
+    
+    Returns:
+        pygame.Surface: The scaled image.
+    """
+    image = pygame.image.load(path)
+    image = pygame.transform.scale(image, (width, int(width * image.get_height() / image.get_width())))
+    return image

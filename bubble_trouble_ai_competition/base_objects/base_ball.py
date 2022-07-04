@@ -1,11 +1,11 @@
 
 import pygame
-from bubble_trouble_ai_competition.utils.constants import Settings
-from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collide
+from bubble_trouble_ai_competition.utils.constants import BallColors, Settings
+from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collide, load_and_scale_image
 
 
 class Ball:
-    def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: str, gravity: float = Settings.DEFAULT_GRAVITY) -> None:
+    def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: BallColors, gravity: float = Settings.DEFAULT_GRAVITY) -> None:
         """
         Initializes a ball object
 
@@ -16,7 +16,7 @@ class Ball:
             speed_y (float): The vertical speed of the ball.
             size (int): The size of the ball, in terms of how many times can this ball be split until it's completely popped.
             radius (int): The radius of the ball.
-            color (tuple): The color of the ball.
+            color (BallColors): The color of the ball.
             gravity (float): The gravity which will affect the ball.
         """
         self.x = x
@@ -26,6 +26,7 @@ class Ball:
         self.size = size
         self.radius = self.size * Settings.BALL_SIZE_TO_RADIUS_RATIO
         self.color = color
+        self.ball_image = load_and_scale_image(Settings.ASSETS_DIR + "/" + self.color + "_ball.png", self.radius * 2, self.radius * 2)
         self.gravity = gravity
         self.last_shot_by = None
     
@@ -101,5 +102,5 @@ class Ball:
     
 
     def draw(self, screen: pygame.Surface) -> None:
-        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
+        screen.blit(self.ball_image, (self.x - self.radius, self.y - self.radius))
 
