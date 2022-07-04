@@ -1,5 +1,7 @@
 import math
 
+import pygame
+
 
 def distance(point1: tuple, point2: tuple) -> float:
     """
@@ -73,4 +75,21 @@ def circle_rect_collide(rleft: int, rtop: int, width: int, height: int, center_x
         return True  # overlaid
 
     return False  # no collision detected
+
+
+def load_and_scale_image(path: str, width: int, height: int) -> pygame.Surface:
+    """
+    Loads an image and scales it to the given width and height.
+
+    Args:
+        path (str): The path to the image.
+        width (int): The width of the image.
+        height (int): The height of the image.
+    
+    Returns:
+        pygame.Surface: The scaled image.
+    """
+    image = pygame.image.load(path)
+    image = pygame.transform.scale(image, (width, height))
+    return image
 

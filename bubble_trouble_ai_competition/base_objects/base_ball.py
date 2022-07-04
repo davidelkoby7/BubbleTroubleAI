@@ -5,7 +5,7 @@ from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collid
 
 
 class Ball:
-    def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: tuple, gravity: float = Settings.DEFAULT_GRAVITY) -> None:
+    def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: str, gravity: float = Settings.DEFAULT_GRAVITY) -> None:
         """
         Initializes a ball object
 
