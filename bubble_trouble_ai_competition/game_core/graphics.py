@@ -3,6 +3,7 @@ from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
+from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.utils.constants import Settings
 
 class Graphics:
@@ -30,7 +31,7 @@ class Graphics:
         self.screen = pygame.display.set_mode(screen_size)
     
     
-    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot]) -> None:
+    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], powerups: list[Powerup]) -> None:
         """
         Draw the game objects.
 
@@ -42,7 +43,7 @@ class Graphics:
         # Clear the screen.
         self.screen.fill(self.background_color)
 
-        all_items = balls + shots + ais
+        all_items = balls + shots + ais + powerups
 
         # Draw the ais.
         for item in all_items:

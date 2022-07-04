@@ -30,6 +30,24 @@ def circles_collide(circle1_center: tuple, circle1_radius: int, circle2_center: 
     """
     return distance(circle1_center, circle2_center) < circle1_radius + circle2_radius
 
+def rect_collide(rect1_left: int, rect1_top: int, rect1_width: int, rect1_height: int, rect2_left: int, rect2_top: int, rect2_width: int, rect2_height: int) -> bool:
+    """
+    Checks if two rectangles collide.
+
+    Args:
+        rect1_left (int): The left coordinate of the first rectangle.
+        rect1_top (int): The top coordinate of the first rectangle.
+        rect1_width (int): The width of the first rectangle.
+        rect1_height (int): The height of the first rectangle.
+        rect2_left (int): The left coordinate of the second rectangle.
+        rect2_top (int): The top coordinate of the second rectangle.
+        rect2_width (int): The width of the second rectangle.
+        rect2_height (int): The height of the second rectangle.
+    
+    Returns:
+        bool: True if the two rectangles collide, False otherwise.
+    """
+    return rect1_left < rect2_left + rect2_width and rect1_left + rect1_width > rect2_left and rect1_top < rect2_top + rect2_height and rect1_top + rect1_height > rect2_top
 
 def circle_rect_collide(rleft: int, rtop: int, width: int, height: int, center_x: int, center_y: int, radius: int) -> bool:
     """

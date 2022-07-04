@@ -2,10 +2,11 @@ import random
 import pygame
 
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
+from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.utils.constants import Directions, Events, Settings
-from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide
+from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
 class BasePlayer:
@@ -112,6 +113,28 @@ class BasePlayer:
         # No collision - return False
         return False
 
+
+    def collides_with_powerup(self, powerup: Powerup) -> bool:
+        """
+        Checks if the player collides with a power up.
+
+        Args:
+            powerup (Powerup): The power up to check if the player collides with.
+        
+        Returns:
+            bool: True if the player collides with the power up, False otherwise.
+        """
+        # Check if the player's head collides with the powerup
+        if (circle_rect_collide(powerup.x, powerup.y, powerup.width, powerup.height, self.head_center[0], self.head_center[1], self.head_radius)):
+            return True
+
+        # Check if the player's body collides with the powerup
+        if rect_collide(self.x, self.y, self.width, self.height, powerup.x, powerup.y, powerup.width, powerup.height):
+            return True      
+ 
+        # No collision - return False
+        return False
+  
 
     def draw(self, screen: pygame.Surface) -> None:
         """

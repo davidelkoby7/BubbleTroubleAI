@@ -5,6 +5,7 @@ import importlib
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
+from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
@@ -31,21 +32,25 @@ class GameManager:
         self.ai_objects = []
         self.ai_classes = []
         self.shots = []
+        self.powerups = [
+            Powerup(300, 100, Settings.BALL_SPEED, (0, 255, 0)),
+        ]
 
         self.event_observable = EventsObservable()
 
         self.event_observable.add_observer(Events.PLAYER_SHOT, self.on_player_shot)
         self.event_observable.add_observer(Events.ARROW_OUT_OF_BOUNDS, self.on_arrow_out_of_bounds)
         self.event_observable.add_observer(Events.BALL_POPPED, self.on_ball_popped)
+        self.event_observable.add_observer(Events.POWERUP_PICKED, self.on_powerup_picked)
 
         self.load_ais(ais_dir_path)
         
         self.graphics = Graphics(screen_size=screen_size)
 
         self.balls = [
-            Ball(300, 100, Settings.BALL_SPEED, 0, 6, (255, 0, 0)),
+            Ball(300, 100, Settings.BALL_SPEED, 0, 10, (255, 0, 0)),
             Ball(700, 200, Settings.BALL_SPEED, 0, 4, (0, 255, 0)),
-            Ball(1000, 100, Settings.BALL_SPEED, 0, 3, (0, 0, 255)),
+            Ball(1000, 100, Settings.BALL_SPEED, 0, 10, (0, 0, 255)),
             ]
 
 
@@ -103,7 +108,7 @@ class GameManager:
                     self.game_over = True  
                     break
             
-            all_items = self.balls + self.ais + self.shots
+            all_items = self.balls + self.ais + self.shots + self.powerups
             
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
@@ -113,7 +118,7 @@ class GameManager:
             self.handle_collision()
 
             # Draw the screen
-            self.graphics.draw(self.ais, self.balls, self.shots)
+            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups)
 
             # Calculating the time it took to run this iteration
             time_taken = pygame.time.get_ticks() - start_time
@@ -131,7 +136,10 @@ class GameManager:
             for ball in self.balls:
                 if (ai.collides_with_ball(ball) == True):
                     self.ai_lost(ai)
-    
+            for powerup in self.powerups:
+                if (ai.collides_with_powerup(powerup) == True):
+                    self.event_observable.notify_observers(Events.POWERUP_PICKED, powerup)
+
         # Check if any ball hit a shot.
         for ball in self.balls:
             for shot in self.shots:
@@ -185,6 +193,16 @@ class GameManager:
         """
         arrow.shooting_player.is_shooting = False
         self.shots.remove(arrow)
+
+
+    def on_powerup_picked(self, powerup: Powerup) -> None:
+        """
+        Called when a powerup is picked.
+
+        Args:
+            powerup (Powerup): The powerup that was picked.
+        """
+        self.powerups.remove(powerup)
 
 
     def on_ball_popped(self, ball: Ball, ceiling_shot = False) -> None:
