@@ -5,6 +5,7 @@ from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.utils.constants import Settings
+from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
 
 class Graphics:
     """
@@ -29,6 +30,9 @@ class Graphics:
         # Initialize the pygame module.
         pygame.init()
         self.screen = pygame.display.set_mode(screen_size)
+
+        # Loading the background image. 
+        self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.screen_width, self.screen_height)
     
     
     def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], powerups: list[Powerup]) -> None:
@@ -42,6 +46,9 @@ class Graphics:
         """
         # Clear the screen.
         self.screen.fill(self.background_color)
+
+        # Draw background.
+        self.screen.blit(self.background_image, (0, 0))
 
         all_items = balls + shots + ais + powerups
 

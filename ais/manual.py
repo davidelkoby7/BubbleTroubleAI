@@ -5,18 +5,18 @@ from bubble_trouble_ai_competition.utils.constants import Directions, Events
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 
 class manualAI(BasePlayer):
-    def __init__(self, events_observable: EventsObservable, screen_size: tuple) -> None:
+    def __init__(self, events_observable: EventsObservable, screen_size: tuple, ais_dir_path: str) -> None:
         """
         Constructs the manual AI.
         """
-        super().__init__("manual", Directions.RIGHT, events_observable, screen_size=screen_size)
+        super().__init__("manual", Directions.RIGHT, events_observable, screen_size=screen_size, ais_dir_path=ais_dir_path)
 
         # self.events_observable.add_observer(Events.BALL_POPPED,
         #     lambda ball_id, ball_name:
         #         print (f"On Ball Popped! {ball_id=}, {ball_name=}")
         # )
 
-    
+
     def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()
         

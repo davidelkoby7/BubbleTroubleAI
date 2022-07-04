@@ -9,7 +9,7 @@ from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
-from bubble_trouble_ai_competition.utils.constants import Events, Settings
+from bubble_trouble_ai_competition.utils.constants import BallColors, Events, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 class GameManager:
@@ -48,9 +48,9 @@ class GameManager:
         self.graphics = Graphics(screen_size=screen_size)
 
         self.balls = [
-            Ball(300, 100, Settings.BALL_SPEED, 0, 10, (255, 0, 0)),
-            Ball(700, 200, Settings.BALL_SPEED, 0, 4, (0, 255, 0)),
-            Ball(1000, 100, Settings.BALL_SPEED, 0, 10, (0, 0, 255)),
+            Ball(700, 200, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
+            Ball(1000, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
+            Ball(500, 100, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
             ]
 
 
@@ -69,7 +69,7 @@ class GameManager:
         # Dynamically load the ais from their files.
         for file in os.listdir(ais_dir_path):
             if (file.endswith(".py") and file != "__init__.py"):
-                ai_name = file[:-3]
+                ai_name = file[:-3] # The minus 3 => Removing the .py ending
                 imported_module = importlib.import_module("ais." + ai_name)
                 try:
                     self.ai_classes.append(getattr(imported_module, ai_name + "AI"))
@@ -77,7 +77,7 @@ class GameManager:
                     raise CantLoadBotException("Could not load ai class: " + ai_name)
 
         # Create the ai objects.
-        self.ais = [class_ref(events_observable = self.event_observable, screen_size = self.screen_size) for class_ref in self.ai_classes]
+        self.ais = [class_ref(events_observable = self.event_observable, screen_size = self.screen_size, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
 
 
     def print_ais(self) -> None:
@@ -222,6 +222,6 @@ class GameManager:
         
         # Otherwise - split the ball into 2 smaller balls, if it's not a ceiling shot.
         if (ceiling_shot == False):
-            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, min(0, ball.speed_y) - Settings.BALL_POPPED_SPEED_BOOST, ball.size - 1, ball.color))
-            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, min(0, ball.speed_y) - Settings.BALL_POPPED_SPEED_BOOST, ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, -abs(ball.speed_y - Settings.BALL_POPPED_SPEED_BOOST), ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, -abs(ball.speed_y - Settings.BALL_POPPED_SPEED_BOOST), ball.size - 1, ball.color))
 
