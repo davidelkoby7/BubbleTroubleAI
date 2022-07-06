@@ -54,9 +54,9 @@ class GameManager:
         self.graphics = Graphics(screen_size=screen_size)
 
         self.balls = [
-            # Ball(700, 200, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
-            # Ball(1000, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
-            # Ball(500, 100, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
+            Ball(700, 200, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
+            Ball(1000, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
+            Ball(500, 100, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
             ]
 
 
