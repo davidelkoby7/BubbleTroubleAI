@@ -4,7 +4,7 @@ import pygame
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
-from bubble_trouble_ai_competition.utils.constants import Directions, Events, PowerupTypes, Settings
+from bubble_trouble_ai_competition.utils.constants import Directions, Events, Settings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide, load_and_scale_image
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
