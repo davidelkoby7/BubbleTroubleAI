@@ -2,10 +2,9 @@ import random
 import pygame
 
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
-from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
-from bubble_trouble_ai_competition.utils.constants import Directions, Events, Settings
+from bubble_trouble_ai_competition.utils.constants import Directions, Events, PowerupTypes, Settings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide, load_and_scale_image
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
@@ -75,7 +74,7 @@ class BasePlayer:
         Moves the player.
         """
 
-        self.x += self.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
+        self.x += self.direction * Settings.FRAME_TIME * self.speed
 
         # Making sure the AI is not going out of bounds.
         if (self.x < 0):
@@ -120,7 +119,7 @@ class BasePlayer:
         return False
 
 
-    def collides_with_powerup(self, powerup: Powerup) -> bool:
+    def collides_with_powerup(self, powerup) -> bool:
         """
         Checks if the player collides with a power up.
 

@@ -1,8 +1,11 @@
 
 from turtle import width
 import pygame
+from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.utils.constants import Settings
 from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collide
+from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
+
 
 
 class Powerup:
@@ -20,9 +23,10 @@ class Powerup:
         self.y = y
         self.speed_y = speed_y
         self.color = color
-        self.width = 20
-        self.height = 20
+        self.width = 50
+        self.height = 50
         self.gravity = 0
+        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "powerup.png", self.width, self.height)
     
 
     def update(self) -> None:
@@ -44,6 +48,12 @@ class Powerup:
         self.y += self.speed_y * Settings.FRAME_TIME
 
 
+    def activate(self, player: BasePlayer) -> None:
+        """
+        Activates the powerup.
+        """
+        pass
+
     def handle_floor_collision(self) -> None:
         """
         Handles the collision with the floor.
@@ -55,4 +65,4 @@ class Powerup:
 
 
     def draw(self, screen: pygame.Surface) -> None:
-        pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+        screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
