@@ -26,8 +26,8 @@ class BasePlayer:
         self.screen_size = screen_size
         self.width = dimensions[0]
         self.height = dimensions[1]
-        self.x = position[0]
-        self.y = self.screen_size[1] - position[1] - self.height
+        self.x = position[0] + Settings.LEFT_BORDER_X_VALUE
+        self.y = Settings.FLOOR_Y_VALUE - position[1] - self.height
         self.dimensions = dimensions
         self.head_radius = head_radius
         self.update_head_center()
@@ -77,10 +77,10 @@ class BasePlayer:
         self.x += self.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
 
         # Making sure the AI is not going out of bounds.
-        if (self.x < 0):
-            self.x = 0
-        if (self.x > Settings.SCREEN_WIDTH - self.width):
-            self.x = Settings.SCREEN_WIDTH - self.width
+        if (self.x < Settings.LEFT_BORDER_X_VALUE):
+            self.x = Settings.LEFT_BORDER_X_VALUE
+        if (self.x > Settings.RIGHT_BORDER_X_VALUE - self.width):
+            self.x = Settings.RIGHT_BORDER_X_VALUE - self.width
     
     
     def talk(self) -> None:

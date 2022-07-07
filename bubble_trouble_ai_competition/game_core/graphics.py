@@ -11,7 +11,7 @@ class Graphics:
     Will handle the graphics.
     """
     
-    def __init__(self, screen_size: tuple = (800, 600), background_color: tuple = Settings.BG_COLOR):
+    def __init__(self):
         """
         Initialize the graphics.
 
@@ -21,17 +21,22 @@ class Graphics:
         """
 
         # Store initial values.
-        self.screen_size = screen_size
-        self.screen_width = screen_size[0]
-        self.screen_height = screen_size[1]
-        self.background_color = background_color
+        self.screen_size = Settings.SCREEN_SIZE
+        self.screen_width = self.screen_size[0]
+        self.screen_height = self.screen_size[1]
+
+        self.game_area_size = Settings.GAME_AREA_SIZE
+        self.game_area_width = self.game_area_size[0]
+        self.game_area_height = self.game_area_size[1]
+
+        self.game_area_position = Settings.GAME_AREA_POSITION
 
         # Initialize the pygame module.
         pygame.init()
-        self.screen = pygame.display.set_mode(screen_size)
+        self.screen = pygame.display.set_mode(self.screen_size)
 
         # Loading the background image. 
-        self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.screen_width, self.screen_height)
+        self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.game_area_width, self.game_area_height)
     
     
     def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot]) -> None:
@@ -44,10 +49,10 @@ class Graphics:
             shots (list[ArrowShot]): The shots to draw.
         """
         # Clear the screen.
-        self.screen.fill(self.background_color)
+        self.screen.fill((0, 0, 0))
 
         # Draw background.
-        self.screen.blit(self.background_image, (0, 0))
+        self.screen.blit(self.background_image, Settings.GAME_AREA_POSITION)
 
         all_items = balls + shots + ais
 

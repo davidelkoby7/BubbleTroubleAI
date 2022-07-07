@@ -40,12 +40,12 @@ class GameManager:
 
         self.load_ais(ais_dir_path)
         
-        self.graphics = Graphics(screen_size=screen_size)
+        self.graphics = Graphics()
 
         self.balls = [
-            Ball(700, 200, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
-            Ball(1000, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
-            Ball(500, 100, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
+            Ball(100, 100, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
+            Ball(500, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
+            Ball(300, 200, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
             ]
 
 
@@ -173,7 +173,7 @@ class GameManager:
         Args:
             ai (BasePlayer): The AI that shot.
         """
-        self.shots.append(ArrowShot(ai.x, ai.y, Settings.ARROW_SPEED, ai, self.event_observable))
+        self.shots.append(ArrowShot(Settings.ARROW_SPEED, ai, self.event_observable))
 
 
     def on_arrow_out_of_bounds(self, arrow: ArrowShot) -> None:
@@ -211,6 +211,6 @@ class GameManager:
                 print ("Negative - Going up")
                 new_vertical_speed = ball.speed_y - Settings.BALL_POPPED_UP_SPEED_DEC
 
-            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))
-            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), -ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))
 
