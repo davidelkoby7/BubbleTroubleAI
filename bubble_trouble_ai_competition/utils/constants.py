@@ -23,9 +23,20 @@ class Settings:
     """
     All settings for the game (FPS / Title \ ratios etc).
     """
-    SCREEN_SIZE = (800, 600)
+    SCREEN_SIZE = (1600, 900)
     SCREEN_WIDTH = SCREEN_SIZE[0]
     SCREEN_HEIGHT = SCREEN_SIZE[1]
+
+    GAME_AREA_SIZE = (1400, 550)
+    GAME_AREA_POSITION = (50, 50)
+    FLOOR_Y_VALUE = GAME_AREA_POSITION[1] + GAME_AREA_SIZE[1]
+    CIELING_Y_VALUE = GAME_AREA_POSITION[1]
+    LEFT_BORDER_X_VALUE = GAME_AREA_POSITION[0]
+    RIGHT_BORDER_X_VALUE = GAME_AREA_POSITION[0] + GAME_AREA_SIZE[0]
+
+    SCOREBOARD_HEIGHT_SHIFT = 30
+    SCOREBOARD_START_POSITION = (LEFT_BORDER_X_VALUE, FLOOR_Y_VALUE + SCOREBOARD_HEIGHT_SHIFT)
+    SCOREBOARD_SPACING = 30
     
     FPS = 60
     FRAME_TIME = 1 / FPS
@@ -64,3 +75,25 @@ class Events:
     ARROW_OUT_OF_BOUNDS = "arrow_out_of_bounds"
 
 ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
+
+
+class ScoreboardConstants:
+    SCOREBOARD_SIZE = (200, 150)
+    SCOREBOARD_WIDTH = SCOREBOARD_SIZE[0]
+    SCOREBOARD_HEIGHT = SCOREBOARD_SIZE[1]
+
+    PLAYER_IMAGE_SIZE = (50, 50)
+    PLAYER_IMAGE_WIDTH = PLAYER_IMAGE_SIZE[0]
+    PLAYER_IMAGE_HEIGHT = PLAYER_IMAGE_SIZE[1]
+
+    HORIZONTAL_TEXT_MARGINS = 10
+    VERTICAL_TEXT_MARGINS = 5
+
+    BACKGROUND_COLOR = (70, 70, 70)
+
+
+class DesignConstants:
+    BASE_FONT_NAME = "Arial"
+    BASE_FONT_SIZE = 20
+    BASE_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
+

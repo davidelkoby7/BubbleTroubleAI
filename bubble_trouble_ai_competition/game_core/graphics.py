@@ -3,7 +3,8 @@ from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
-from bubble_trouble_ai_competition.utils.constants import Settings
+from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
+from bubble_trouble_ai_competition.utils.constants import DesignConstants, Settings
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
 
 class Graphics:
@@ -11,7 +12,7 @@ class Graphics:
     Will handle the graphics.
     """
     
-    def __init__(self, screen_size: tuple = (800, 600), background_color: tuple = Settings.BG_COLOR):
+    def __init__(self):
         """
         Initialize the graphics.
 
@@ -21,20 +22,28 @@ class Graphics:
         """
 
         # Store initial values.
-        self.screen_size = screen_size
-        self.screen_width = screen_size[0]
-        self.screen_height = screen_size[1]
-        self.background_color = background_color
+        self.screen_size = Settings.SCREEN_SIZE
+        self.screen_width = self.screen_size[0]
+        self.screen_height = self.screen_size[1]
+
+        self.game_area_size = Settings.GAME_AREA_SIZE
+        self.game_area_width = self.game_area_size[0]
+        self.game_area_height = self.game_area_size[1]
+
+        self.game_area_position = Settings.GAME_AREA_POSITION
 
         # Initialize the pygame module.
         pygame.init()
-        self.screen = pygame.display.set_mode(screen_size)
+        self.screen = pygame.display.set_mode(self.screen_size)
 
         # Loading the background image. 
-        self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.screen_width, self.screen_height)
+        self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.game_area_width, self.game_area_height)
+
+        # Handling constants
+        DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
     
     
-    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot]) -> None:
+    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], scoreboards: list[AIScoreboard]) -> None:
         """
         Draw the game objects.
 
@@ -44,12 +53,12 @@ class Graphics:
             shots (list[ArrowShot]): The shots to draw.
         """
         # Clear the screen.
-        self.screen.fill(self.background_color)
+        self.screen.fill((0, 0, 0))
 
         # Draw background.
-        self.screen.blit(self.background_image, (0, 0))
+        self.screen.blit(self.background_image, Settings.GAME_AREA_POSITION)
 
-        all_items = balls + shots + ais
+        all_items = scoreboards + balls + shots + ais
 
         # Draw the ais.
         for item in all_items:
