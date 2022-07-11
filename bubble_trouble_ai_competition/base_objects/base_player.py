@@ -13,7 +13,7 @@ class BasePlayer:
     Base class to create an AI playing the game.
     """
 
-    def __init__(self, name: str, direction: Directions, events_observable: EventsObservable, position: tuple = (20, 0), dimensions: tuple = Settings.PLAYER_DIMENSIONS,
+    def __init__(self, name: str, direction: Directions, events_observable: EventsObservable, position: tuple = (1000, 0), dimensions: tuple = Settings.PLAYER_DIMENSIONS,
                 head_radius: int = Settings.HEAD_RADIUS, screen_size: tuple = Settings.SCREEN_SIZE, ais_dir_path = None) -> None:
         """
         Args:
@@ -40,6 +40,7 @@ class BasePlayer:
         self.head_left_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_left.png", self.head_radius * 2, self.head_radius * 2)
         self.body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
         self.body_image_rect = self.body_image.get_rect()
+        self.score = 0
 
 
     def update(self) -> None:
@@ -149,4 +150,14 @@ class BasePlayer:
             bool: True if the player can shoot, False otherwise.
         """
         return self.is_shooting == False
+
+
+    def get_score(self) -> int:
+        """
+        Returns the player's score.
+
+        Returns:
+            int: The player's score.
+        """
+        return self.score
 

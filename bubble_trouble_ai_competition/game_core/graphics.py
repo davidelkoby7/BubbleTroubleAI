@@ -3,7 +3,8 @@ from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
-from bubble_trouble_ai_competition.utils.constants import Settings
+from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
+from bubble_trouble_ai_competition.utils.constants import DesignConstants, Settings
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
 
 class Graphics:
@@ -37,9 +38,12 @@ class Graphics:
 
         # Loading the background image. 
         self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.game_area_width, self.game_area_height)
+
+        # Handling constants
+        DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
     
     
-    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot]) -> None:
+    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], scoreboards: list[AIScoreboard]) -> None:
         """
         Draw the game objects.
 
@@ -54,7 +58,7 @@ class Graphics:
         # Draw background.
         self.screen.blit(self.background_image, Settings.GAME_AREA_POSITION)
 
-        all_items = balls + shots + ais
+        all_items = scoreboards + balls + shots + ais
 
         # Draw the ais.
         for item in all_items:
