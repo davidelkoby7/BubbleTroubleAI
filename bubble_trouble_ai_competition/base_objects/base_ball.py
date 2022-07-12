@@ -5,7 +5,7 @@ from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collid
 
 
 class Ball:
-    def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: BallColors, gravity: float = Settings.DEFAULT_GRAVITY) -> None:
+    def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: BallColors, gravity: float = Settings.DEFAULT_GRAVITY, last_shot_by = None) -> None:
         """
         Initializes a ball object
 
@@ -19,8 +19,8 @@ class Ball:
             color (BallColors): The color of the ball.
             gravity (float): The gravity which will affect the ball.
         """
-        self.x = x
-        self.y = y
+        self.x = x + Settings.LEFT_BORDER_X_VALUE
+        self.y = y + Settings.CIELING_Y_VALUE
         self.speed_x = speed_x
         self.speed_y = speed_y
         self.size = size
@@ -28,8 +28,28 @@ class Ball:
         self.color = color
         self.ball_image = load_and_scale_image(Settings.ASSETS_DIR + "/" + self.color + "_ball.png", self.radius * 2, self.radius * 2)
         self.gravity = gravity
-        self.last_shot_by = None
+        self.last_shot_by = last_shot_by
     
+
+    def get_raw_x(self) -> int:
+        """
+        Returns the raw x coordinate of the ball.
+
+        Returns:
+            int: The raw x coordinate of the ball.
+        """
+        return self.x - Settings.LEFT_BORDER_X_VALUE
+    
+
+    def get_raw_y(self) -> int:
+        """
+        Returns the raw y coordinate of the ball.
+
+        Returns:
+            int: The raw y coordinate of the ball.
+        """
+        return self.y - Settings.CIELING_Y_VALUE
+
 
     def update(self) -> None:
         """
@@ -56,18 +76,17 @@ class Ball:
         Handles the collision with the screen borders.
         If the ball has collided with the screen borders, it will reverse the speed.
         """
-        if self.y - self.radius < 0:
-            self.y = self.radius
-            self.speed_y *= -1
-        elif self.y + self.radius > Settings.SCREEN_HEIGHT:
-            self.y = Settings.SCREEN_HEIGHT - self.radius
+        if self.y - self.radius < Settings.CIELING_Y_VALUE: # Doesn't matter - if it touches the cieling the ball will be destroyed anyway
+            pass
+        elif self.y + self.radius > Settings.FLOOR_Y_VALUE:
+            self.y = Settings.FLOOR_Y_VALUE - self.radius
             self.speed_y *= -1
         
-        if self.x - self.radius < 0:
-            self.x = self.radius
+        if self.x - self.radius < Settings.LEFT_BORDER_X_VALUE:
+            self.x = Settings.LEFT_BORDER_X_VALUE + self.radius
             self.speed_x *= -1
-        elif self.x + self.radius > Settings.SCREEN_WIDTH:
-            self.x = Settings.SCREEN_WIDTH - self.radius
+        elif self.x + self.radius > Settings.RIGHT_BORDER_X_VALUE:
+            self.x = Settings.RIGHT_BORDER_X_VALUE - self.radius
             self.speed_x *= -1
 
 
@@ -96,8 +115,9 @@ class Ball:
         Returns:
             bool: True if the ball collides with the cieling, False otherwise.
         """
-        if self.y - self.radius <= 0:
+        if self.y - self.radius <= Settings.CIELING_Y_VALUE:
             return True
+            
         return False
     
 

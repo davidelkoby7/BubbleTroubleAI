@@ -14,7 +14,8 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
-from bubble_trouble_ai_competition.utils.constants import BallColors, Events, Settings
+from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
+from bubble_trouble_ai_competition.utils.constants import BallColors, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 class GameManager:
@@ -51,13 +52,19 @@ class GameManager:
         self.event_observable.add_observer(Events.POWERUP_PICKED, self.on_powerup_picked)
 
         self.load_ais(ais_dir_path)
+
+        # Initializing scoreboards.
+        self.scoreboards = []
+        for i in range(len(self.ais)):
+            self.scoreboards.append(AIScoreboard(self.ais[i],Settings.SCOREBOARD_START_POSITION[0] + (Settings.SCOREBOARD_SPACING + ScoreboardConstants.SCOREBOARD_WIDTH) * i,
+                                                Settings.SCOREBOARD_START_POSITION[1]))
         
-        self.graphics = Graphics(screen_size=screen_size)
+        self.graphics = Graphics()
 
         self.balls = [
-            Ball(700, 200, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
-            Ball(1000, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
-            Ball(500, 100, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
+            Ball(100, 100, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
+            Ball(500, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
+            Ball(300, 200, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
             ]
 
 
@@ -129,7 +136,7 @@ class GameManager:
             self.handle_collision()
 
             # Draw the screen
-            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups)
+            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups, self.scoreboards)
 
             # Calculating the time it took to run this iteration
             time_taken = pygame.time.get_ticks() - start_time
@@ -158,12 +165,12 @@ class GameManager:
                     shot.shooting_player.is_shooting = False
                     ball.last_shot_by = shot.shooting_player
                     self.shots.remove(shot)
-                    self.event_observable.notify_observers(Events.BALL_POPPED, ball)
+                    self.event_observable.notify_observers(Events.BALL_POPPED, ball, ball.last_shot_by)
         
         # Check if a ball hit the ceiling.
         for ball in self.balls[:]:
             if (ball.collides_with_ceiling() == True):
-                self.event_observable.notify_observers(Events.BALL_POPPED, ball, ceiling_shot = True)
+                self.event_observable.notify_observers(Events.BALL_POPPED, ball, ball.last_shot_by, ceiling_shot = True)
 
 
     def ai_lost(self, ai: BasePlayer) -> None:
@@ -192,7 +199,7 @@ class GameManager:
         Args:
             ai (BasePlayer): The AI that shot.
         """
-        self.shots.append(ArrowShot(ai.x, ai.y, Settings.ARROW_SPEED, ai, self.event_observable))
+        self.shots.append(ArrowShot(Settings.ARROW_SPEED, ai, self.event_observable))
 
 
     def on_arrow_out_of_bounds(self, arrow: ArrowShot) -> None:
@@ -216,10 +223,9 @@ class GameManager:
         self.powerups.remove(powerup)
         self.activated_powerups.append(powerup)
         powerup.activate(player)
-        print (self.powerups)
 
 
-    def on_ball_popped(self, ball: Ball, ceiling_shot = False) -> None:
+    def on_ball_popped(self, ball: Ball, shooter: BasePlayer, ceiling_shot = False) -> None:
         """
         Called when a ball is popped.
 
@@ -229,6 +235,11 @@ class GameManager:
         """
         # Remove the ball from the game.
         self.balls.remove(ball)
+
+        # Add score to the player that shot the ball.
+        shooter.score += ball.size
+        if (ceiling_shot == True):
+            shooter.score += sum([i for i in range(ball.size)])
 
         # If the ball is at a minimum size, it will not be split.
         if (ball.size == 1):
@@ -241,6 +252,6 @@ class GameManager:
             else:
                 new_vertical_speed = ball.speed_y - Settings.BALL_POPPED_UP_SPEED_DEC
 
-            self.balls.append(Ball(ball.x, ball.y, ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))
-            self.balls.append(Ball(ball.x, ball.y, -ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))
+            self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), ball.speed_x, new_vertical_speed, ball.size - 1, ball.color, last_shot_by=ball.last_shot_by))
+            self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), -ball.speed_x, new_vertical_speed, ball.size - 1, ball.color, last_shot_by=ball.last_shot_by))
 
