@@ -26,29 +26,44 @@ class Powerup:
         self.height = 50
         self.gravity = 0
         self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "powerup.png", self.width, self.height)
-        self.active = False
-        self.timer = 0
-        self.duration = 5 * 60
         self.player = None
+        
+        self.active = False
+        self.has_active_timer = True
+        self.active_timer = 0
+        self.active_duration = 5 * 60
+        
+        self.pickable = True
+        self.pickable_duration = 10 * 60
+        self.pickable_timer = 0
+        self.has_pickable_timer = True
 
 
     def update(self) -> None:
         """
         Updates the power up state.
-        Checks if the power up is active and if so, updates the timer.
-        If the timer reaches the duration, the power up is deactivated.
+        Moves the powerup and handles the collision with the floor.
+        Checks if the powerup is not picked up until the timer is up. If so, change its state to not pickable.
+        If the powerup picked, check if the power up has an active timer.
+        If so, updates the active_timer.
+        If the active_timer reaches the active_duration, the power up is deactivated.
         """
-        if self.active:
-            self.timer += 1
-            if self.timer >= self.duration:
-                self.active = False
-                self.timer = 0
-        else:
+        # move the poweup until it hits the floor
+        if self.speed_y > 0:
             self.move()
             self.handle_floor_collision()
-            self.timer = 0
         
-        # If powerup picked up and the timer is over the duration, deactivate the powerup.
+        if self.active and self.has_active_timer:
+            self.active_timer += 1
+            if self.active_timer >= self.active_duration:
+                self.active = False
+        
+        if self.pickable and self.has_pickable_timer:
+                self.pickable_timer += 1
+                if self.pickable_timer >= self.pickable_duration:
+                    self.pickable = False
+        
+        # If powerup picked up and the active_timer is over the active_duration, deactivate the powerup.
         if self.player and not self.active:
             self.deactivate()
 

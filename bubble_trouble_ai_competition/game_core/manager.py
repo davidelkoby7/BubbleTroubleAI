@@ -38,7 +38,7 @@ class GameManager:
         self.ai_objects = []
         self.ai_classes = []
         self.shots = []
-        self.powerups = [
+        self.powerups: list[Powerup] = [
             PlayerSpeedBoostPowerup(200, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED, (0, 255, 0)),
             ShieldPowerup(400, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED, (0, 255, 0)),       
         ]
@@ -91,7 +91,7 @@ class GameManager:
                     raise CantLoadBotException("Could not load ai class: " + ai_name)
 
         # Create the ai objects.
-        self.ais = [class_ref(events_observable = self.event_observable, screen_size = self.screen_size, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
+        self.ais: list[BasePlayer] = [class_ref(events_observable = self.event_observable, screen_size = self.screen_size, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
 
 
     def print_ais(self) -> None:
@@ -171,6 +171,11 @@ class GameManager:
         for ball in self.balls[:]:
             if (ball.collides_with_ceiling() == True):
                 self.event_observable.notify_observers(Events.BALL_POPPED, ball, ball.last_shot_by, ceiling_shot = True)
+        
+        # check if powerup is not pickable anymore
+        for powerup in self.powerups:
+            if powerup.pickable == False:
+                self.powerups.remove(powerup)
 
 
     def ai_lost(self, ai: BasePlayer) -> None:
