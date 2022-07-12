@@ -4,7 +4,7 @@ import pygame
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
-from bubble_trouble_ai_competition.utils.constants import Directions, Events, Settings
+from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, load_and_scale_image
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
@@ -13,8 +13,8 @@ class BasePlayer:
     Base class to create an AI playing the game.
     """
 
-    def __init__(self, name: str, direction: Directions, events_observable: EventsObservable, position: tuple = (1000, 0), dimensions: tuple = Settings.PLAYER_DIMENSIONS,
-                head_radius: int = Settings.HEAD_RADIUS, screen_size: tuple = Settings.SCREEN_SIZE, ais_dir_path = None) -> None:
+    def __init__(self, name: str, direction: Directions, events_observable: EventsObservable,
+                 position: tuple = (1000, 0), ais_dir_path = None) -> None:
         """
         Args:
             name (str): The name of the player.
@@ -23,13 +23,12 @@ class BasePlayer:
         self.name = name
         self.direction = direction
         self.position = position
-        self.screen_size = screen_size
-        self.width = dimensions[0]
-        self.height = dimensions[1]
-        self.x = position[0] + Settings.LEFT_BORDER_X_VALUE
-        self.y = Settings.FLOOR_Y_VALUE - position[1] - self.height
-        self.dimensions = dimensions
-        self.head_radius = head_radius
+        self.width = Settings.PLAYER_DIMENSIONS[0]
+        self.height = Settings.PLAYER_DIMENSIONS[1]
+        self.x = position[0] + DisplayConstants.LEFT_BORDER_X_VALUE
+        self.y = DisplayConstants.FLOOR_Y_VALUE - position[1] - self.height
+        self.head_radius = Settings.HEAD_RADIUS
+        self.dimensions = Settings.PLAYER_DIMENSIONS
         self.update_head_center()
         self.color = (255, 0, 0)
         self.speed = SpeedTypes.NORMAL
@@ -67,7 +66,6 @@ class BasePlayer:
         if (self.is_shooting == False):
             self.is_shooting = True
             self.events_observable.notify_observers(Events.PLAYER_SHOT, self)
-            self.shooting_delay = Settings.SHOOTING_DELAY
     
 
     def move(self) -> None:
@@ -78,10 +76,10 @@ class BasePlayer:
         self.x += self.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
 
         # Making sure the AI is not going out of bounds.
-        if (self.x < Settings.LEFT_BORDER_X_VALUE):
-            self.x = Settings.LEFT_BORDER_X_VALUE
-        if (self.x > Settings.RIGHT_BORDER_X_VALUE - self.width):
-            self.x = Settings.RIGHT_BORDER_X_VALUE - self.width
+        if (self.x < DisplayConstants.LEFT_BORDER_X_VALUE):
+            self.x = DisplayConstants.LEFT_BORDER_X_VALUE
+        if (self.x > DisplayConstants.RIGHT_BORDER_X_VALUE - self.width):
+            self.x = DisplayConstants.RIGHT_BORDER_X_VALUE - self.width
     
     
     def talk(self) -> None:

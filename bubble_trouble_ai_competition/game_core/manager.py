@@ -17,7 +17,7 @@ class GameManager:
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, screen_size: tuple = Settings.SCREEN_SIZE) -> None:
+    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, screen_size: tuple = (0, 0)) -> None:
         """
         Initializes the game manager.
 
@@ -25,6 +25,8 @@ class GameManager:
             fps (int): The frames per second to run the game at.
             ais_dir_path (str): The path to the directory containing the ais.
         """
+        self.graphics = Graphics()
+
         self.game_over = False
         self.fps = fps
         self.screen_size = screen_size
@@ -44,10 +46,8 @@ class GameManager:
         # Initializing scoreboards.
         self.scoreboards = []
         for i in range(len(self.ais)):
-            self.scoreboards.append(AIScoreboard(self.ais[i],Settings.SCOREBOARD_START_POSITION[0] + (Settings.SCOREBOARD_SPACING + ScoreboardConstants.SCOREBOARD_WIDTH) * i,
-                                                Settings.SCOREBOARD_START_POSITION[1]))
-        
-        self.graphics = Graphics()
+            self.scoreboards.append(AIScoreboard(self.ais[i], ScoreboardConstants.SCOREBOARD_START_POSITION[0] + (ScoreboardConstants.SCOREBOARD_SPACING + ScoreboardConstants.SCOREBOARD_WIDTH) * i,
+                                                ScoreboardConstants.SCOREBOARD_START_POSITION[1]))
 
         self.balls = [
             Ball(100, 100, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
@@ -79,7 +79,7 @@ class GameManager:
                     raise CantLoadBotException("Could not load ai class: " + ai_name)
 
         # Create the ai objects.
-        self.ais = [class_ref(events_observable = self.event_observable, screen_size = self.screen_size, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
+        self.ais = [class_ref(events_observable = self.event_observable, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
 
 
     def print_ais(self) -> None:
