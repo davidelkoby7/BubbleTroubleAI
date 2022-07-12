@@ -83,8 +83,8 @@ class Powerup:
         Handles the collision with the floor.
         If the powerup has collided with the floor, it will stop.
         """
-        if self.y + self.height > Settings.SCREEN_HEIGHT:
-            self.y = Settings.SCREEN_HEIGHT - self.height
+        if self.y + self.height > Settings.FLOOR_Y_VALUE:
+            self.y = Settings.FLOOR_Y_VALUE - self.height
             self.speed_y = 0
 
 

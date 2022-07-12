@@ -39,8 +39,8 @@ class GameManager:
         self.ai_classes = []
         self.shots = []
         self.powerups = [
-            PlayerSpeedBoostPowerup(200, 150, Settings.BALL_SPEED, (0, 255, 0)),
-            ShieldPowerup(20, 150, Settings.BALL_SPEED, (0, 255, 0)),       
+            PlayerSpeedBoostPowerup(200, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED, (0, 255, 0)),
+            ShieldPowerup(400, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED, (0, 255, 0)),       
         ]
         self.activated_powerups = []
 
