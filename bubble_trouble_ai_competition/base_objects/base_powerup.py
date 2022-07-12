@@ -9,7 +9,7 @@ from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_ima
 
 
 class Powerup:
-    def __init__(self, x: int, y: int, speed_y: float, color: tuple, gravity: float = Settings.DEFAULT_GRAVITY) -> None:
+    def __init__(self, x: int, y: int, speed_y: float, gravity: float = Settings.DEFAULT_GRAVITY) -> None:
         """
         Initializes a powerup object
         Args:
@@ -22,19 +22,35 @@ class Powerup:
         self.x = x
         self.y = y
         self.speed_y = speed_y
-        self.color = color
         self.width = 50
         self.height = 50
         self.gravity = 0
         self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "powerup.png", self.width, self.height)
-    
+        self.active = False
+        self.timer = 0
+        self.duration = 5 * 60
+        self.player = None
+
 
     def update(self) -> None:
         """
-        Updates the ball's position, speed, handles size etc.
+        Updates the power up state.
+        Checks if the power up is active and if so, updates the timer.
+        If the timer reaches the duration, the power up is deactivated.
         """
-        self.move()
-        self.handle_floor_collision()
+        if self.active:
+            self.timer += 1
+            if self.timer >= self.duration:
+                self.active = False
+                self.timer = 0
+        else:
+            self.move()
+            self.handle_floor_collision()
+            self.timer = 0
+        
+        # If powerup picked up and the timer is over the duration, deactivate the powerup.
+        if self.player and not self.active:
+            self.deactivate()
 
 
     def move(self) -> None:
@@ -52,7 +68,15 @@ class Powerup:
         """
         Activates the powerup.
         """
-        pass
+        self.active = True
+        self.player = player
+    
+    def deactivate(self) -> None:
+        """
+        Deactivates the powerup.
+        """
+        self.active = False
+
 
     def handle_floor_collision(self) -> None:
         """
@@ -61,8 +85,10 @@ class Powerup:
         """
         if self.y + self.height > Settings.SCREEN_HEIGHT:
             self.y = Settings.SCREEN_HEIGHT - self.height
-            self.speed_y = 0 
+            self.speed_y = 0
 
 
     def draw(self, screen: pygame.Surface) -> None:
-        screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
+        # if powerup is not picked up, draw it.
+        if self.player == None:
+            screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))

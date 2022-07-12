@@ -51,6 +51,11 @@ class Settings:
     BASE_MODULE_DIR = __file__ [:-18] # The minus 18 - to remove the part of the path until the base of our module. TODO: FIX THIS SHIT
     ASSETS_DIR = BASE_MODULE_DIR + "assets"
     BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/background.jpg"
+
+
+class PowerupsSettings:
+    SHIELD_WIDTH = Settings.PLAYER_WIDTH + 20
+    SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2 + 20
     
 
 class Events:

@@ -8,11 +8,12 @@ from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 
 # Powerup class
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
-from bubble_trouble_ai_competition.powerups.player_speed_boost import PlayerSpeedBoostPowerup
+from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import PlayerSpeedBoostPowerup
 
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
+from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.utils.constants import BallColors, Events, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
@@ -37,8 +38,8 @@ class GameManager:
         self.ai_classes = []
         self.shots = []
         self.powerups = [
-            # Powerup(300, 100, Settings.BALL_SPEED, (0, 255, 0)),
             PlayerSpeedBoostPowerup(200, 150, Settings.BALL_SPEED, (0, 255, 0)),
+            ShieldPowerup(20, 150, Settings.BALL_SPEED, (0, 255, 0)),       
         ]
         self.activated_powerups = []
 
@@ -114,17 +115,21 @@ class GameManager:
                     self.game_over = True  
                     break
             
-            all_items = self.balls + self.ais + self.shots + self.powerups + self.activated_powerups
-            
+            all_items = self.balls + self.ais + self.shots + self.powerups
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
                 item.update()
-                   
+            
+            for item in self.activated_powerups:
+                item.update()
+                if (not item.active == True):
+                    self.activated_powerups.remove(item)
+                
             # Collision detection.
             self.handle_collision()
 
             # Draw the screen
-            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups)
+            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups)
 
             # Calculating the time it took to run this iteration
             time_taken = pygame.time.get_ticks() - start_time
@@ -211,6 +216,7 @@ class GameManager:
         self.powerups.remove(powerup)
         self.activated_powerups.append(powerup)
         powerup.activate(player)
+        print (self.powerups)
 
 
     def on_ball_popped(self, ball: Ball, ceiling_shot = False) -> None:
@@ -231,10 +237,8 @@ class GameManager:
         # Otherwise - split the ball into 2 smaller balls, if it's not a ceiling shot.
         if (ceiling_shot == False):
             if (ball.speed_y > 0):
-                print ("Positive - Going down")
                 new_vertical_speed = Settings.BALL_POPPED_DOWN_SPEED
             else:
-                print ("Negative - Going up")
                 new_vertical_speed = ball.speed_y - Settings.BALL_POPPED_UP_SPEED_DEC
 
             self.balls.append(Ball(ball.x, ball.y, ball.speed_x, new_vertical_speed, ball.size - 1, ball.color))

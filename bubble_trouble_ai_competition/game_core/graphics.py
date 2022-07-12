@@ -50,7 +50,7 @@ class Graphics:
         # Draw background.
         self.screen.blit(self.background_image, (0, 0))
 
-        all_items = balls + shots + ais + powerups
+        all_items = shots + ais + balls + powerups
 
         # Draw the ais.
         for item in all_items:

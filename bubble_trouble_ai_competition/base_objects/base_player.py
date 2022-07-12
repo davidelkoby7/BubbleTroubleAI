@@ -40,6 +40,7 @@ class BasePlayer:
         self.head_left_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_left.png", self.head_radius * 2, self.head_radius * 2)
         self.body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
         self.body_image_rect = self.body_image.get_rect()
+        self.shield = False
 
 
     def update(self) -> None:
@@ -107,6 +108,10 @@ class BasePlayer:
         Returns:
             bool: True if the player collides with the ball, False otherwise.
         """
+        # Check if the player has shield
+        if (self.shield):
+            return False
+
         # Check if the player's head collides with the ball
         if (circles_collide(self.head_center, self.head_radius, (ball.x, ball.y), ball.radius)):
             return True
@@ -172,3 +177,22 @@ class BasePlayer:
         """
         return self.is_shooting == False
 
+
+    def get_player_top_right_corner(self) -> tuple:
+        """
+        Returns the top right corner of the player.
+
+        Returns:
+            tuple: The top right corner of the player.
+        """
+        return (self.x + self.width, self.y - self.head_radius*2)
+
+
+    def get_player_top_left_corner(self) -> tuple:
+        """
+        Returns the top left corner of the player.
+
+        Returns:
+            tuple: The top left corner of the player.
+        """
+        return (self.x, self.y - self.head_radius*2)
