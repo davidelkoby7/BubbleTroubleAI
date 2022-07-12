@@ -8,6 +8,7 @@ from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 
 # Powerup class
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
+from bubble_trouble_ai_competition.powerups.double_arrows_power_up import DoubleArrowsPowerup
 from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import PlayerSpeedBoostPowerup
 
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
@@ -39,8 +40,8 @@ class GameManager:
         self.ai_classes = []
         self.shots = []
         self.powerups: list[Powerup] = [
-            PlayerSpeedBoostPowerup(200, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED, (0, 255, 0)),
-            ShieldPowerup(400, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED, (0, 255, 0)),       
+            PlayerSpeedBoostPowerup(200, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED),
+            ShieldPowerup(400, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
         ]
         self.activated_powerups = []
 

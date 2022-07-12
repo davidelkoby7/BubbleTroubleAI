@@ -8,17 +8,15 @@ class PlayerSpeedBoostPowerup(Powerup):
     """
     Power up that increases the player's speed.
     """
-    def __init__(self, x: int, y: int, width: int, height: int):
+    def __init__(self, x: int, y: int, speed_y: float, gravity: float = ...) -> None:
         """
         Initializes the power up.
         
         Args:
             x (int): The x coordinate of the power up.
             y (int): The y coordinate of the power up.
-            width (int): The width of the power up.
-            height (int): The height of the power up.
         """
-        super().__init__(x, y, width, height)
+        super().__init__(x, y, speed_y, gravity)
         self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "player_speed_boost_powerup.png", self.width, self.height)
 
 
