@@ -71,6 +71,11 @@ class DisplayConstants:
     RIGHT_BORDER_X_VALUE = GAME_AREA_POSITION[0] + GAME_AREA_SIZE[0]
 
 
+class PowerupsSettings:
+    SHIELD_WIDTH = Settings.PLAYER_WIDTH + 20
+    SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2 + 20
+    
+
 class Events:
     """
     All events that can be triggered in the game.

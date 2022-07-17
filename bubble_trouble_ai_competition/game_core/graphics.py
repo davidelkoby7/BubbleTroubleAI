@@ -3,6 +3,7 @@ from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
+from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import DesignConstants, DisplayConstants, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
@@ -72,8 +73,8 @@ class Graphics:
             else:
                 setattr(constants_class, constant_name, int(constant_value * DisplayConstants.SCREEN_BIT))
 
-
-    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], scoreboards: list[AIScoreboard]) -> None:
+    
+    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], powerups: list[Powerup], scoreboards: list[AIScoreboard]) -> None:
         """
         Draw the game objects.
 
@@ -88,7 +89,7 @@ class Graphics:
         # Draw background.
         self.screen.blit(self.background_image, DisplayConstants.GAME_AREA_POSITION)
 
-        all_items = scoreboards + balls + shots + ais
+        all_items = scoreboards + shots + ais + balls + powerups
 
         # Draw the ais.
         for item in all_items:

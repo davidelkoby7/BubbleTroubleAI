@@ -5,9 +5,16 @@ import importlib
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
+
+# Powerup class
+from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
+from bubble_trouble_ai_competition.powerups.double_arrows_power_up import DoubleArrowsPowerup
+from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import PlayerSpeedBoostPowerup
+
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
+from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
@@ -34,12 +41,18 @@ class GameManager:
         self.ai_objects = []
         self.ai_classes = []
         self.shots = []
+        self.powerups: list[Powerup] = [
+            PlayerSpeedBoostPowerup(200, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED),
+            ShieldPowerup(400, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
+        ]
+        self.activated_powerups = []
 
         self.event_observable = EventsObservable()
 
         self.event_observable.add_observer(Events.PLAYER_SHOT, self.on_player_shot)
         self.event_observable.add_observer(Events.ARROW_OUT_OF_BOUNDS, self.on_arrow_out_of_bounds)
         self.event_observable.add_observer(Events.BALL_POPPED, self.on_ball_popped)
+        self.event_observable.add_observer(Events.POWERUP_PICKED, self.on_powerup_picked)
 
         self.load_ais(ais_dir_path)
 
@@ -79,7 +92,7 @@ class GameManager:
                     raise CantLoadBotException("Could not load ai class: " + ai_name)
 
         # Create the ai objects.
-        self.ais = [class_ref(events_observable = self.event_observable, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
+        self.ais: list[BasePlayer] = [class_ref(events_observable = self.event_observable, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
 
 
     def print_ais(self) -> None:
@@ -110,17 +123,21 @@ class GameManager:
                     self.game_over = True  
                     break
             
-            all_items = self.balls + self.ais + self.shots
-            
+            all_items = self.balls + self.ais + self.shots + self.powerups
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
                 item.update()
             
+            for item in self.activated_powerups:
+                item.update()
+                if (not item.active == True):
+                    self.activated_powerups.remove(item)
+                
             # Collision detection.
             self.handle_collision()
 
             # Draw the screen
-            self.graphics.draw(self.ais, self.balls, self.shots, self.scoreboards)
+            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups, self.scoreboards)
 
             # Calculating the time it took to run this iteration
             time_taken = pygame.time.get_ticks() - start_time
@@ -138,7 +155,10 @@ class GameManager:
             for ball in self.balls:
                 if (ai.collides_with_ball(ball) == True):
                     self.ai_lost(ai)
-    
+            for powerup in self.powerups:
+                if (ai.collides_with_powerup(powerup) == True):
+                    self.event_observable.notify_observers(Events.POWERUP_PICKED, powerup, ai)
+
         # Check if any ball hit a shot.
         for ball in self.balls:
             for shot in self.shots:
@@ -152,6 +172,11 @@ class GameManager:
         for ball in self.balls[:]:
             if (ball.collides_with_ceiling() == True):
                 self.event_observable.notify_observers(Events.BALL_POPPED, ball, ball.last_shot_by, ceiling_shot = True)
+        
+        # check if powerup is not pickable anymore
+        for powerup in self.powerups:
+            if powerup.pickable == False:
+                self.powerups.remove(powerup)
 
 
     def ai_lost(self, ai: BasePlayer) -> None:
@@ -194,6 +219,18 @@ class GameManager:
         self.shots.remove(arrow)
 
 
+    def on_powerup_picked(self, powerup: Powerup, player: BasePlayer) -> None:
+        """
+        Called when a powerup is picked.
+
+        Args:
+            powerup (Powerup): The powerup that was picked.
+        """
+        self.powerups.remove(powerup)
+        self.activated_powerups.append(powerup)
+        powerup.activate(player)
+
+
     def on_ball_popped(self, ball: Ball, shooter: BasePlayer, ceiling_shot = False) -> None:
         """
         Called when a ball is popped.
@@ -217,10 +254,8 @@ class GameManager:
         # Otherwise - split the ball into 2 smaller balls, if it's not a ceiling shot.
         if (ceiling_shot == False):
             if (ball.speed_y > 0):
-                print ("Positive - Going down")
                 new_vertical_speed = Settings.BALL_POPPED_DOWN_SPEED
             else:
-                print ("Negative - Going up")
                 new_vertical_speed = ball.speed_y - Settings.BALL_POPPED_UP_SPEED_DEC
 
             self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), ball.speed_x, new_vertical_speed, ball.size - 1, ball.color, last_shot_by=ball.last_shot_by))

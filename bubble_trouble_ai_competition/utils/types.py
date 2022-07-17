@@ -17,6 +17,6 @@ class SpeedTypes:
     """
     Defines all the speed types in the game.
     """
-    NORMAL = "NORMAL"
-    FAST = "FAST"
-    SLOW = "SLOW"
+    NORMAL = 180
+    FAST = 1000
+    SLOW = 100
