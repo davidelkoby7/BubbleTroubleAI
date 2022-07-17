@@ -5,11 +5,11 @@ from bubble_trouble_ai_competition.utils.constants import Directions, Events
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 
 class manualWASDAI(BasePlayer):
-    def __init__(self, events_observable: EventsObservable, screen_size: tuple, ais_dir_path: str) -> None:
+    def __init__(self, events_observable: EventsObservable, ais_dir_path: str) -> None:
         """
         Constructs the manual AI.
         """
-        super().__init__("manualWASD", Directions.RIGHT, events_observable, screen_size=screen_size, ais_dir_path=ais_dir_path)
+        super().__init__("manualWASD", Directions.RIGHT, events_observable, ais_dir_path=ais_dir_path)
 
         # self.events_observable.add_observer(Events.BALL_POPPED,
         #     lambda ball_id, ball_name:

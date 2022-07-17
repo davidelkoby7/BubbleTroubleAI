@@ -8,7 +8,6 @@ from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 
 # Powerup class
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
-from bubble_trouble_ai_competition.powerups.double_arrows_power_up import DoubleArrowsPowerup
 from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import PlayerSpeedBoostPowerup
 
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
@@ -16,7 +15,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.utils.constants import BallColors, Events, ScoreboardConstants, Settings
+from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 class GameManager:
@@ -24,7 +23,7 @@ class GameManager:
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, screen_size: tuple = Settings.SCREEN_SIZE) -> None:
+    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, screen_size: tuple = DisplayConstants.GAME_AREA_SIZE) -> None:
         """
         Initializes the game manager.
 
@@ -32,6 +31,10 @@ class GameManager:
             fps (int): The frames per second to run the game at.
             ais_dir_path (str): The path to the directory containing the ais.
         """
+        DisplayConstants.GAME_AREA_SIZE = screen_size
+        
+        self.graphics = Graphics()
+
         self.game_over = False
         self.fps = fps
         self.screen_size = screen_size
@@ -40,8 +43,8 @@ class GameManager:
         self.ai_classes = []
         self.shots = []
         self.powerups: list[Powerup] = [
-            PlayerSpeedBoostPowerup(200, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            ShieldPowerup(400, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
+            PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
+            ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
         ]
         self.activated_powerups = []
 
@@ -57,10 +60,8 @@ class GameManager:
         # Initializing scoreboards.
         self.scoreboards = []
         for i in range(len(self.ais)):
-            self.scoreboards.append(AIScoreboard(self.ais[i],Settings.SCOREBOARD_START_POSITION[0] + (Settings.SCOREBOARD_SPACING + ScoreboardConstants.SCOREBOARD_WIDTH) * i,
-                                                Settings.SCOREBOARD_START_POSITION[1]))
-        
-        self.graphics = Graphics()
+            self.scoreboards.append(AIScoreboard(self.ais[i], ScoreboardConstants.SCOREBOARD_START_POSITION[0] + (ScoreboardConstants.SCOREBOARD_SPACING + ScoreboardConstants.SCOREBOARD_WIDTH) * i,
+                                                ScoreboardConstants.SCOREBOARD_START_POSITION[1]))
 
         self.balls = [
             Ball(100, 100, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
@@ -92,7 +93,7 @@ class GameManager:
                     raise CantLoadBotException("Could not load ai class: " + ai_name)
 
         # Create the ai objects.
-        self.ais: list[BasePlayer] = [class_ref(events_observable = self.event_observable, screen_size = self.screen_size, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
+        self.ais: list[BasePlayer] = [class_ref(events_observable = self.event_observable, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
 
 
     def print_ais(self) -> None:

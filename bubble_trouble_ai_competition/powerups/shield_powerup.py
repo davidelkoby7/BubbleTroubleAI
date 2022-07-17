@@ -21,6 +21,7 @@ class ShieldPowerup(Powerup):
         self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "shield_powerup.png", self.width, self.height)
         self.shield_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "shield.png", PowerupsSettings.SHIELD_WIDTH, PowerupsSettings.SHIELD_HEIGHT)
 
+
     def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the power up.
@@ -28,9 +29,10 @@ class ShieldPowerup(Powerup):
             screen (pygame.Surface): The screen to draw on.
         """
         if self.active:
-            screen.blit(self.shield_image, (self.player.get_player_top_left_corner()[0], self.player.get_player_top_left_corner()[1]))
+            screen.blit(self.shield_image, (self.player.get_player_top_left_corner()[0] - PowerupsSettings.SHIELD_SIZE_INCREASE / 2, self.player.get_player_top_left_corner()[1] - PowerupsSettings.SHIELD_SIZE_INCREASE / 2))
         else:
             screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
+
 
     def activate(self, player) -> None:
         """
