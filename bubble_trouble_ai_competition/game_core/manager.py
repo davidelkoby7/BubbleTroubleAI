@@ -23,7 +23,7 @@ class GameManager:
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, screen_size: tuple = (0, 0)) -> None:
+    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, screen_size: tuple = DisplayConstants.GAME_AREA_SIZE) -> None:
         """
         Initializes the game manager.
 
@@ -31,6 +31,8 @@ class GameManager:
             fps (int): The frames per second to run the game at.
             ais_dir_path (str): The path to the directory containing the ais.
         """
+        DisplayConstants.GAME_AREA_SIZE = screen_size
+        
         self.graphics = Graphics()
 
         self.game_over = False
