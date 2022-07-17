@@ -5,7 +5,7 @@ from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.utils.constants import Directions, Events, Settings
-from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, load_and_scale_image
+from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide, load_and_scale_image
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 
 class BasePlayer:
@@ -40,6 +40,7 @@ class BasePlayer:
         self.head_left_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_left.png", self.head_radius * 2, self.head_radius * 2)
         self.body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
         self.body_image_rect = self.body_image.get_rect()
+        self.shield = False
         self.score = 0
 
 
@@ -75,7 +76,7 @@ class BasePlayer:
         Moves the player.
         """
 
-        self.x += self.direction * Settings.FRAME_TIME * Settings.PLAYER_SPEED
+        self.x += self.direction * Settings.FRAME_TIME * self.speed
 
         # Making sure the AI is not going out of bounds.
         if (self.x < Settings.LEFT_BORDER_X_VALUE):
@@ -108,6 +109,10 @@ class BasePlayer:
         Returns:
             bool: True if the player collides with the ball, False otherwise.
         """
+        # Check if the player has shield
+        if (self.shield):
+            return False
+
         # Check if the player's head collides with the ball
         if (circles_collide(self.head_center, self.head_radius, (ball.x, ball.y), ball.radius)):
             return True
@@ -119,6 +124,28 @@ class BasePlayer:
         # No collision - return False
         return False
 
+
+    def collides_with_powerup(self, powerup) -> bool:
+        """
+        Checks if the player collides with a power up.
+
+        Args:
+            powerup (Powerup): The power up to check if the player collides with.
+        
+        Returns:
+            bool: True if the player collides with the power up, False otherwise.
+        """
+        # Check if the player's head collides with the powerup
+        if (circle_rect_collide(powerup.x, powerup.y, powerup.width, powerup.height, self.head_center[0], self.head_center[1], self.head_radius)):
+            return True
+
+        # Check if the player's body collides with the powerup
+        if rect_collide(self.x, self.y, self.width, self.height, powerup.x, powerup.y, powerup.width, powerup.height):
+            return True      
+ 
+        # No collision - return False
+        return False
+  
 
     def draw(self, screen: pygame.Surface) -> None:
         """
@@ -152,6 +179,26 @@ class BasePlayer:
         return self.is_shooting == False
 
 
+    def get_player_top_right_corner(self) -> tuple:
+        """
+        Returns the top right corner of the player.
+
+        Returns:
+            tuple: The top right corner of the player.
+        """
+        return (self.x + self.width, self.y - self.head_radius*2)
+
+
+    def get_player_top_left_corner(self) -> tuple:
+        """
+        Returns the top left corner of the player.
+
+        Returns:
+            tuple: The top left corner of the player.
+        """
+        return (self.x, self.y - self.head_radius*2)
+
+
     def get_score(self) -> int:
         """
         Returns the player's score.
@@ -160,4 +207,3 @@ class BasePlayer:
             int: The player's score.
         """
         return self.score
-
