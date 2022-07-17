@@ -5,7 +5,7 @@ from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.utils.constants import DesignConstants, DisplayConstants, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale
+from bubble_trouble_ai_competition.utils.constants import DesignConstants, DisplayConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
 
 class Graphics:
@@ -53,12 +53,13 @@ class Graphics:
         # Scale everything relative to the screen bits.
         display_constants_to_update = [x for x in dir(DisplayConstants) if ("__" not in x and "SCREEN_" not in x)]
         scoreboard_constants_to_update = [x for x in dir(ScoreboardConstants) if ("__" not in x and "BACKGROUND_COLOR" not in x)]
-        print (settings_properties_to_scale)
+        powerup_constants_to_update = [x for x in dir(PowerupsSettings) if ("__" not in x)]
 
         self.scale_constants_list(display_constants_to_update, DisplayConstants)
         self.scale_constants_list(scoreboard_constants_to_update, ScoreboardConstants)
         self.scale_constants_list(settings_properties_to_scale, Settings)
         self.scale_constants_list(design_constants_properties_to_scale, DesignConstants)
+        self.scale_constants_list(powerup_constants_to_update, PowerupsSettings)
     
         # Changing constants after the changes we made.
         DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)

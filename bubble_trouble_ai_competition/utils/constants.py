@@ -72,8 +72,9 @@ class DisplayConstants:
 
 
 class PowerupsSettings:
-    SHIELD_WIDTH = Settings.PLAYER_WIDTH + 20
-    SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2 + 20
+    SHIELD_SIZE_INCREASE = 1.5 # In units of screen bits.
+    SHIELD_WIDTH = Settings.PLAYER_WIDTH + SHIELD_SIZE_INCREASE
+    SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2 + SHIELD_SIZE_INCREASE
     
 
 class Events:

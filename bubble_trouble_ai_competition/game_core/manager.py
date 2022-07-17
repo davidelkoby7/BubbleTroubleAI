@@ -8,7 +8,6 @@ from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 
 # Powerup class
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
-from bubble_trouble_ai_competition.powerups.double_arrows_power_up import DoubleArrowsPowerup
 from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import PlayerSpeedBoostPowerup
 
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
@@ -16,7 +15,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.utils.constants import BallColors, Events, ScoreboardConstants, Settings
+from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 class GameManager:
@@ -42,8 +41,8 @@ class GameManager:
         self.ai_classes = []
         self.shots = []
         self.powerups: list[Powerup] = [
-            PlayerSpeedBoostPowerup(200, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            ShieldPowerup(400, Settings.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
+            PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
+            ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
         ]
         self.activated_powerups = []
 
