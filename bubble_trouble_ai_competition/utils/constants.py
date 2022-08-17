@@ -24,8 +24,9 @@ class Settings:
     All settings for the game (FPS / Title \ ratios etc).
     """
     
-    FPS = 60
+    FPS = 60 
     FRAME_TIME = 1 / FPS
+    TIMEOUT = 90 * FPS # In units of FPS seconds.
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)
 
@@ -86,6 +87,7 @@ class Events:
     PLAYER_SHOT = "player_shot"
     POWERUP_PICKED = "powerup_picked"
     ARROW_OUT_OF_BOUNDS = "arrow_out_of_bounds"
+    GAME_TIMEOUT = "game_timeout"
 
 ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
 
@@ -104,11 +106,23 @@ class ScoreboardConstants:
     VERTICAL_TEXT_MARGINS = 0.5 # In units of screen bits.
 
     BACKGROUND_COLOR = (70, 70, 70)
-
     SCOREBOARD_HEIGHT_SHIFT = 2 # In units of screen bits.
     SCOREBOARD_START_POSITION = (2, DisplayConstants.FLOOR_Y_VALUE + SCOREBOARD_HEIGHT_SHIFT) # In units of screen bits.
     SCOREBOARD_SPACING = 1 # In units of screen bits.
 
+class CountdownBarConstans():
+   
+    BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE + 1)
+    BAR_X = BAR_POSITION[0] 
+    BAR_Y = BAR_POSITION[1]
+    BAR_WIDTH = DisplayConstants.RIGHT_BORDER_X_VALUE - DisplayConstants.GAME_AREA_POSITION[0]
+    BAR_HEIGHT = 1.2 # In units of screen bits
+
+    BAR_COLOR = (70, 70, 70)
+
+countdown_bar_constants_to_update = [
+    'BAR_HEIGHT'  
+]
 
 class DesignConstants:
     BASE_FONT_NAME = "Arial"
