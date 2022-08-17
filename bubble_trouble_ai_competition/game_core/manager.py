@@ -270,7 +270,14 @@ class GameManager:
             self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), -ball.speed_x, new_vertical_speed, ball.size - 1, ball.color, last_shot_by=ball.last_shot_by))
 
     def on_game_timeout(self):
-        # TODO:
-        # freeze game
-        # print TIME OUT to screen
-        pass
+        """
+        Called when game time is up.
+        """
+        #TODO:
+        # get this to base_obj_text_msg
+        # pygame.time.wait(Settings.FREEZE_TIME) # get this to deamon thread
+        self.graphics.draw_text_msg("Game Timeout") # get this to base_obj_text_msg
+
+        pygame.time.wait(Settings.FREEZE_TIME) # get this to deamon thread
+        self.game_over = True
+    

@@ -126,3 +126,7 @@ def load_image_and_keep_aspect_ratio(path: str, width: int) -> pygame.Surface:
     image = pygame.image.load(path)
     image = pygame.transform.scale(image, (width, int(width * image.get_height() / image.get_width())))
     return image
+
+
+    
+  

@@ -102,9 +102,18 @@ class Graphics:
         # Draw the ais.
         for item in all_items:
             item.draw(self.screen)
-
-       
-
+    
         # Updating the screen.
         pygame.display.flip()
 
+    def draw_text_msg(self, msg: str):
+        # Drawing the background of the text box
+        font = pygame.font.Font('freesansbold.ttf', 32)
+        x_middle = (DisplayConstants.LEFT_BORDER_X_VALUE + DisplayConstants.RIGHT_BORDER_X_VALUE) / 2
+        y_middle = (DisplayConstants.CIELING_Y_VALUE + DisplayConstants.FLOOR_Y_VALUE) / 2
+        pygame.draw.rect(self.screen, (255,255,255), pygame.Rect(x_middle,y_middle, 300, 80), border_radius=20)
+        # Writing the relevant text.
+        text_surface = font.render(msg, False, (255,48,48))
+        self.screen.blit(text_surface, (x_middle+30, y_middle+30))
+        pygame.display.flip()
+  

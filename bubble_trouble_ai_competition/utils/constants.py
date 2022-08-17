@@ -26,7 +26,8 @@ class Settings:
     
     FPS = 60 
     FRAME_TIME = 1 / FPS
-    TIMEOUT = 90 * FPS # In units of FPS seconds.
+    TIMEOUT = 5 * FPS # In units of FPS seconds.
+    FREEZE_TIME = 15 * FPS # In units of FPS seconds.
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)
 
