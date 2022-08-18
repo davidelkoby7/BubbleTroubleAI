@@ -64,7 +64,7 @@ class Graphics:
         self.scale_constants_list(alert_constants_to_update, AlertConstans)
 
         # Reasign conutdown bar display constants settings.
-        CountdownBarConstans.BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE)
+        CountdownBarConstans.BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE + 1)
         CountdownBarConstans.BAR_WIDTH = DisplayConstants.RIGHT_BORDER_X_VALUE - DisplayConstants.GAME_AREA_POSITION[0]
 
         # Reasign alert display constants settings.
