@@ -89,6 +89,8 @@ class Events:
     POWERUP_PICKED = "powerup_picked"
     ARROW_OUT_OF_BOUNDS = "arrow_out_of_bounds"
     GAME_TIMEOUT = "game_timeout"
+    SHOWED_ALERT = "showed_alert"
+
 
 ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
 
@@ -111,19 +113,6 @@ class ScoreboardConstants:
     SCOREBOARD_START_POSITION = (2, DisplayConstants.FLOOR_Y_VALUE + SCOREBOARD_HEIGHT_SHIFT) # In units of screen bits.
     SCOREBOARD_SPACING = 1 # In units of screen bits.
 
-class CountdownBarConstans():
-   
-    BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE + 1)
-    BAR_X = BAR_POSITION[0] 
-    BAR_Y = BAR_POSITION[1]
-    BAR_WIDTH = DisplayConstants.RIGHT_BORDER_X_VALUE - DisplayConstants.GAME_AREA_POSITION[0]
-    BAR_HEIGHT = 1.2 # In units of screen bits
-
-    BAR_COLOR = (70, 70, 70)
-
-countdown_bar_constants_to_update = [
-    'BAR_HEIGHT'  
-]
 
 class DesignConstants:
     BASE_FONT_NAME = "Arial"
@@ -133,3 +122,31 @@ class DesignConstants:
 design_constants_properties_to_scale = [
     'BASE_FONT_SIZE'
 ]
+
+class CountdownBarConstans:
+   
+    BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE + 1)
+    BAR_WIDTH = DisplayConstants.RIGHT_BORDER_X_VALUE - DisplayConstants.GAME_AREA_POSITION[0]
+    BAR_HEIGHT = 1.2 # In units of screen bits
+
+    BAR_COLOR = (70, 70, 70)
+    LOADING_COLOR = (118,238,198)
+
+countdown_bar_constants_to_update = [
+    'BAR_HEIGHT'  
+]
+class AlertConstans:
+    ALERT_FONT_NAME = "freesansbold.ttf"
+    ALERT_FONT_SIZE = 5 # In units of screen bits
+    ALERT_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
+
+
+    AlERT_POSITION = ((DisplayConstants.LEFT_BORDER_X_VALUE + DisplayConstants.RIGHT_BORDER_X_VALUE)/DisplayConstants.SCREEN_BIT*2,
+                    (DisplayConstants.CIELING_Y_VALUE + DisplayConstants.FLOOR_Y_VALUE)/DisplayConstants.SCREEN_BIT*2)
+
+    ALERT_COLOR = (255,48,48)
+
+alert_constants_to_update = [
+    'ALERT_FONT_SIZE'
+]
+

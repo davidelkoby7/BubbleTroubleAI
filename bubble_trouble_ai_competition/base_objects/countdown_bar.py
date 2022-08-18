@@ -1,22 +1,20 @@
 
-from tkinter import S
 import pygame
-from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
-from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, Settings, CountdownBarConstans, ScoreboardConstants
-from bubble_trouble_ai_competition.utils.general_utils import load_image_and_keep_aspect_ratio
+from bubble_trouble_ai_competition.utils.constants import Events, CountdownBarConstans
+
 
 
 class CountdownBar:
     """
     This class represents an arrow shot of a player.
     """
-    def __init__(self, countdown: int, events_observable: EnvironmentError) -> None:
+    def __init__(self, countdown: int, events_observable: EventsObservable) -> None:
         """
         Initializes the Countdown Bar.
         
         Args:
-            countdown (int): The speed of the arrow in the y direction.
+            countdown (int): The amount of time (in fps units) that the game left.
             events_observable (EventsObservable): The events observable.
         """
         self.countdown = countdown
@@ -30,7 +28,7 @@ class CountdownBar:
         self.rect_image = pygame.Surface((CountdownBarConstans.BAR_WIDTH,
                         CountdownBarConstans.BAR_HEIGHT)) 
         
-        self.rect_image.fill((118,238,198))
+        self.rect_image.fill(CountdownBarConstans.LOADING_COLOR)
         self.countdown_rect = self.rect_image.get_rect(topleft=(self.x, self.y)) 
         
        

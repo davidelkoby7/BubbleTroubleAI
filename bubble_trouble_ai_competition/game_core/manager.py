@@ -1,12 +1,14 @@
 import os
 import random
 from socket import timeout
+from xmlrpc.client import boolean
 import pygame
 import importlib
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
-from bubble_trouble_ai_competition.base_objects.countdown_bar import CountdownBar
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
+from bubble_trouble_ai_competition.base_objects.countdown_bar import CountdownBar
+from bubble_trouble_ai_competition.base_objects.base_alert import Alert
 
 # Powerup class
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
@@ -41,7 +43,6 @@ class GameManager:
         self.game_timeout = game_timeout
         self.fps = fps
         self.screen_size = screen_size
-
         self.ai_objects = []
         self.ai_classes = []
         self.shots = []
@@ -49,6 +50,8 @@ class GameManager:
             PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
         ]
+        self.alerts: list[Alert] = []
+
         self.activated_powerups = []
 
         self.event_observable = EventsObservable()
@@ -58,6 +61,7 @@ class GameManager:
         self.event_observable.add_observer(Events.BALL_POPPED, self.on_ball_popped)
         self.event_observable.add_observer(Events.POWERUP_PICKED, self.on_powerup_picked)
         self.event_observable.add_observer(Events.GAME_TIMEOUT, self.on_game_timeout)
+        self.event_observable.add_observer(Events.SHOWED_ALERT, self.on_showed_alert)
 
         self.load_ais(ais_dir_path)
         
@@ -128,11 +132,17 @@ class GameManager:
 
             # Making sure the game isn't over.
             for event in pygame.event.get():  
-                if event.type == pygame.QUIT:  
+                if event.type == pygame.QUIT:
+
                     self.game_over = True  
                     break
             
             all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar]
+
+            # Update and deals with alerts
+            for alert in self.alerts:
+                alert.update()
+
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
                 item.update()
@@ -146,8 +156,9 @@ class GameManager:
             self.handle_collision()
 
             # Draw the screen
-            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups, self.scoreboards, self.countdown_bar)
+            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups, self.scoreboards, self.alerts, self.countdown_bar)
 
+            
             # Calculating the time it took to run this iteration
             time_taken = pygame.time.get_ticks() - start_time
 
@@ -269,15 +280,21 @@ class GameManager:
             self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), ball.speed_x, new_vertical_speed, ball.size - 1, ball.color, last_shot_by=ball.last_shot_by))
             self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), -ball.speed_x, new_vertical_speed, ball.size - 1, ball.color, last_shot_by=ball.last_shot_by))
 
-    def on_game_timeout(self):
+    def on_game_timeout(self) -> None:
         """
         Called when game time is up.
+        Creates and Alert object to notice and end game.
         """
-        #TODO:
-        # get this to base_obj_text_msg
-        # pygame.time.wait(Settings.FREEZE_TIME) # get this to deamon thread
-        self.graphics.draw_text_msg("Game Timeout") # get this to base_obj_text_msg
+        
+        self.alerts.append(Alert(msg="Game Timeout", end_game=True, events_observable=self.event_observable))
 
-        pygame.time.wait(Settings.FREEZE_TIME) # get this to deamon thread
-        self.game_over = True
-    
+    def on_showed_alert(self, alert: Alert) -> None:
+        """
+        Called when alert was shown to screen.
+        Freeze the screen and get the alert's action in game (ends or continue).
+        """
+
+        pygame.time.wait(alert.freeze_time)
+        self.alerts.remove(alert)
+        self.game_over = alert.end_game
+   
