@@ -69,7 +69,6 @@ class Graphics:
     
 
     def start_playing(self):
-        print ("Emmitting start play")
         self.events_observable.notify_observers(Events.CHANGE_MENU_TO_GAME)
     
     def quit_menu(self):
@@ -168,6 +167,15 @@ class Graphics:
             button.draw(self.screen)
 
         # Draw the ais that can be played.
+        curr_y: int = MainMenuConstants.AIS_INITIAL_HEIGHT
+        for i, ai in enumerate(ais):
+            color = (255, 0, 0)
+            if (ai.is_competing):
+                color = (0, 255, 0)
+            text_surface = DesignConstants.BASE_FONT.render(f'#{i + 1}: {ai.name}', False, color)
+            self.screen.blit(text_surface, (MainMenuConstants.AIS_LEFT_MARGIN, curr_y))
+            curr_y += MainMenuConstants.AIS_HEIGHT_MARGIN
+
 
         # Updating the screen.
         pygame.display.flip()

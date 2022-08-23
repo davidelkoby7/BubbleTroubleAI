@@ -33,7 +33,7 @@ class GameManager:
         self.event_observable = event_observable
         self.graphics = graphics
         self.ais_dir_path = ais_dir_path
-        self.ais = ais
+        self.ais = [ai for ai in ais if ai.is_competing == True]
 
         DisplayConstants.GAME_AREA_SIZE = screen_size
 
@@ -81,8 +81,7 @@ class GameManager:
         """
         Run the main game loop.
         """
-        self.game_over = False
-        self.countdown_bar.frames_remaining = Settings.FRAMES_TIMEOUT
+        print ("Running the game!")
 
         # Main game loop.
         while (self.game_over != True):
@@ -126,6 +125,7 @@ class GameManager:
             pygame.time.wait(1000 // self.fps - time_taken)
         
         self.event_observable.notify_observers(Events.CHANGE_GAME_TO_MENU)
+        print ("Finished running!")
 
     def handle_collision(self) -> None:
         """
@@ -196,9 +196,6 @@ class GameManager:
         Args:
             arrow (ArrowShot): The arrow that went out of bounds.
         """
-        print("**********")
-        print(self.shots)
-        print("**********")
         arrow.shooting_player.is_shooting = False
         self.shots.remove(arrow)
 
