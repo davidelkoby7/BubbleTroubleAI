@@ -116,7 +116,6 @@ class BasePlayer:
         if (self.x > DisplayConstants.RIGHT_BORDER_X_VALUE - self.width):
             self.x = DisplayConstants.RIGHT_BORDER_X_VALUE - self.width
 
-
     
     def talk(self) -> None:
         """
@@ -196,7 +195,7 @@ class BasePlayer:
 
         if (self.direction == Directions.STAND or self.direction == Directions.DUCK):
             screen.blit(self.head_image, head_image_draw_position)
-        if (self.direction == Directions.LEFT):
+        elif (self.direction == Directions.LEFT):
             screen.blit(self.head_left_image, head_image_draw_position)
         elif (self.direction == Directions.RIGHT):
             screen.blit(self.head_right_image, head_image_draw_position)

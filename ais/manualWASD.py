@@ -20,6 +20,9 @@ class manualWASDAI(BasePlayer):
     def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()
         
+        if keys[pygame.K_w]:
+           self.shoot() 
+           
         if keys[pygame.K_s]:
             return Directions.DUCK
 
