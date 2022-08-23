@@ -1,11 +1,12 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
-
+from bubble_trouble_ai_competition.base_objects.base_alert import Alert
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
+from bubble_trouble_ai_competition.base_objects.countdown_bar import CountdownBar
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.utils.constants import DesignConstants, DisplayConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update
+from bubble_trouble_ai_competition.utils.constants import AlertConstans, CountdownBarConstans, DesignConstants, DisplayConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update, countdown_bar_constants_to_update, alert_constants_to_update
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
 
 class Graphics:
@@ -43,7 +44,7 @@ class Graphics:
         # Loading the background image. 
         self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.game_area_width, self.game_area_height)
     
-
+        
     def handle_display_constants(self):
         DisplayConstants.SCREEN_SIZE = self.screen_size
         DisplayConstants.SCREEN_WIDTH = self.screen_width
@@ -59,10 +60,20 @@ class Graphics:
         self.scale_constants_list(settings_properties_to_scale, Settings)
         self.scale_constants_list(design_constants_properties_to_scale, DesignConstants)
         self.scale_constants_list(powerup_constants_to_update, PowerupsSettings)
-    
+        self.scale_constants_list(countdown_bar_constants_to_update, CountdownBarConstans)
+        self.scale_constants_list(alert_constants_to_update, AlertConstans)
+
+        # Reasign conutdown bar display constants settings.
+        CountdownBarConstans.BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE + 1)
+        CountdownBarConstans.BAR_WIDTH = DisplayConstants.RIGHT_BORDER_X_VALUE - DisplayConstants.GAME_AREA_POSITION[0]
+
+        # Reasign alert display constants settings.
+        AlertConstans.AlERT_POSITION = ((DisplayConstants.LEFT_BORDER_X_VALUE + DisplayConstants.RIGHT_BORDER_X_VALUE)/DisplayConstants.SCREEN_BIT*2,
+                                        (DisplayConstants.CIELING_Y_VALUE + DisplayConstants.FLOOR_Y_VALUE)/DisplayConstants.SCREEN_BIT*2)
+        
         # Changing constants after the changes we made.
         DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
-
+        AlertConstans.ALERT_FONT = pygame.font.SysFont(AlertConstans.ALERT_FONT_NAME, AlertConstans.ALERT_FONT_SIZE)
 
     def scale_constants_list(self, constants_list, constants_class):
         for constant_name in constants_list:
@@ -74,7 +85,7 @@ class Graphics:
                 setattr(constants_class, constant_name, int(constant_value * DisplayConstants.SCREEN_BIT))
 
     
-    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], powerups: list[Powerup], scoreboards: list[AIScoreboard]) -> None:
+    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], powerups: list[Powerup], scoreboards: list[AIScoreboard], alerts: list[Alert],countdown_bar: CountdownBar) -> None:
         """
         Draw the game objects.
 
@@ -82,14 +93,17 @@ class Graphics:
             ais (list[BasePlayer]): The players to draw.
             balls (list[Ball]): The balls to draw.
             shots (list[ArrowShot]): The shots to draw.
+            alerts (list[Alert]): The alerts to draw.
+            countdown_bar (str): The countdown bar to draw.
         """
         # Clear the screen.
         self.screen.fill((0, 0, 0))
 
         # Draw background.
         self.screen.blit(self.background_image, DisplayConstants.GAME_AREA_POSITION)
+       
+        all_items = scoreboards + shots + ais + balls + powerups + [countdown_bar] + alerts
 
-        all_items = scoreboards + shots + ais + balls + powerups
 
         # Draw the ais.
         for item in all_items:
@@ -97,4 +111,3 @@ class Graphics:
 
         # Updating the screen.
         pygame.display.flip()
-
