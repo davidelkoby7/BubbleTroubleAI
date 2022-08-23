@@ -42,6 +42,7 @@ class BasePlayer:
         self.body_image = self.stand_body_image
         self.body_image_rect = self.body_image.get_rect()
         self.shield = False
+        self.punch = False
         self.score = 0
 
     @property

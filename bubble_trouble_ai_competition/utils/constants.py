@@ -82,6 +82,13 @@ class PowerupsSettings:
     SHIELD_WIDTH = Settings.PLAYER_WIDTH + SHIELD_SIZE_INCREASE
     SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2 + SHIELD_SIZE_INCREASE
 
+    PUNCH_SPACING = 0.2 # In units of screen bits.
+    PUNCH_WIDTH = Settings.PLAYER_WIDTH * 0.6
+    PUNCH_HEIGHT = Settings.PLAYER_HEIGHT * 0.16
+    
+    PUNCH_ACTION_WIDTH = Settings.PLAYER_WIDTH * 1.5
+    PUNCH_ACTION_HEIGHT =  Settings.PLAYER_HEIGHT * 0.16
+
 powerup_constants_to_update = [x for x in dir(PowerupsSettings) if ("__" not in x)]
 
 class Events:
