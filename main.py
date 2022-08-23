@@ -6,8 +6,7 @@ def main():
     """
 
     gm = GameManager(ais_dir_path="./ais")
-    gm.print_ais()
-    gm.run_game()
+    gm.start()
 
 if (__name__ == "__main__"):
     main()

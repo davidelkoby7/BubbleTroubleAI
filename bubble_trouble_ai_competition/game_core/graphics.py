@@ -42,6 +42,7 @@ class Graphics:
 
         # Loading the background image. 
         self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.game_area_width, self.game_area_height)
+        self.menu_background_image = load_and_scale_image(Settings.MENU_BACKGROUND_IMAGE_PATH, self.screen_width, self.screen_height)
     
 
     def handle_display_constants(self):
@@ -62,6 +63,7 @@ class Graphics:
     
         # Changing constants after the changes we made.
         DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
+        DesignConstants.TITLE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.TITLE_FONT_SIZE)
 
 
     def scale_constants_list(self, constants_list, constants_class):
@@ -98,3 +100,24 @@ class Graphics:
         # Updating the screen.
         pygame.display.flip()
 
+
+    def draw_menu(self, ais: list[BasePlayer]) -> None:
+        """
+        Draw the menu.
+        """
+        # Clear the screen.
+        self.screen.fill((0, 0, 0))
+
+        # Draw background.
+        self.screen.blit(self.menu_background_image, (0,0))
+
+        # Draw title.
+        text_surface = DesignConstants.TITLE_FONT.render(f'Davidalk King', False, (0, 255, 0))
+        self.screen.blit(text_surface, (500, 500))
+
+        # Drawing buttons.
+
+        # Draw the ais that can be played.
+
+        # Updating the screen.
+        pygame.display.flip()

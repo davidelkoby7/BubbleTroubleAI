@@ -47,6 +47,7 @@ class Settings:
     BASE_MODULE_DIR = __file__ [:-18] # The minus 18 - to remove the part of the path until the base of our module. TODO: FIX THIS SHIT
     ASSETS_DIR = BASE_MODULE_DIR + "assets"
     BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/background.jpg"
+    MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/MenuBackground.png"
 
 settings_properties_to_scale = [
     'PLAYER_DIMENSIONS', 'PLAYER_WIDTH', 'PLAYER_HEIGHT', 'HEAD_RADIUS', 'ARROW_WIDTH',
@@ -113,8 +114,11 @@ class ScoreboardConstants:
 class DesignConstants:
     BASE_FONT_NAME = "Arial"
     BASE_FONT_SIZE = 1
+    TITLE_FONT_SIZE = 3
     BASE_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
+    TITLE_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
 
 design_constants_properties_to_scale = [
-    'BASE_FONT_SIZE'
+    'BASE_FONT_SIZE',
+    'TITLE_FONT_SIZE',
 ]

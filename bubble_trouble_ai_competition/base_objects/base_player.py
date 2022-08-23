@@ -41,6 +41,7 @@ class BasePlayer:
         self.body_image_rect = self.body_image.get_rect()
         self.shield = False
         self.score = 0
+        self.is_competing = True
 
 
     def update(self) -> None:

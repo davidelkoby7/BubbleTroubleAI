@@ -1,3 +1,4 @@
+from cProfile import run
 import os
 import random
 import pygame
@@ -33,15 +34,16 @@ class GameManager:
         """
         DisplayConstants.GAME_AREA_SIZE = screen_size
         
-        self.graphics = Graphics()
+        self.graphics: Graphics = Graphics()
 
-        self.game_over = False
+        self.game_over: bool = False
+        self.menu_running: bool = True
         self.fps = fps
         self.screen_size = screen_size
 
-        self.ai_objects = []
-        self.ai_classes = []
-        self.shots = []
+        self.ai_objects: list[BasePlayer] = []
+        self.ai_classes: list = []
+        self.shots: list[ArrowShot] = []
         self.powerups: list[Powerup] = [
             PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
@@ -68,6 +70,39 @@ class GameManager:
             Ball(500, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
             Ball(300, 200, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
             ]
+
+
+    def start(self) -> None:
+        self.run_menu()
+
+
+    def run_menu(self) -> None:
+        """
+        Runs the menu.
+        """
+        self.menu_running = True
+
+        while self.menu_running:
+            # Handle events.
+            for event in pygame.event.get():
+                # If the user wants to force-quit.  
+                if (event.type == pygame.QUIT):  
+                    self.menu_running = False  
+                    break
+                
+                # If the user clicks the mouse - check for button clicks.
+                if (event.type == pygame.MOUSEBUTTONDOWN):
+                    pos = pygame.mouse.get_pos()
+                    print(f"Mouse clicked! {pos=}")
+                    break
+
+                # Handling key presses (only for valid keys, not something like alt etc.).
+                if (event.type == pygame.KEYDOWN and event.key < 100):
+                    key_pressed = chr(event.key)
+                    print(f"NUMEVENTS, {key_pressed=}")
+
+            # Drawing the menu.
+            self.graphics.draw_menu(self.ais)
 
 
     def load_ais(self, ais_dir_path: str) -> None:
