@@ -1,14 +1,16 @@
 import pygame
 
+from bubble_trouble_ai_competition.utils.constants import DesignConstants, DisplayConstants
+
 
 class Button:
-    def __init__(self, x, y, width, height, text, font, text_color, background_color, on_click):
+    def __init__(self, x, y, width, height, text, text_color: tuple = (0, 0, 0), background_color = (200, 200, 200), on_click = None):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.text = text
-        self.font = font
+        self.font = DesignConstants.BASE_FONT
         self.text_color = text_color
         self.background_color = background_color
         self.on_click = on_click

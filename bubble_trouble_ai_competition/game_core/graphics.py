@@ -5,8 +5,10 @@ from bubble_trouble_ai_competition.base_objects.base_alert import Alert
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.base_objects.countdown_bar import CountdownBar
+from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.utils.constants import AlertConstants, CountdownBarConstants, DesignConstants, DisplayConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update, countdown_bar_constants_to_update, alert_constants_to_update
+from bubble_trouble_ai_competition.ui_elements.button import Button
+from bubble_trouble_ai_competition.utils.constants import AlertConstants, CountdownBarConstants, DesignConstants, DisplayConstants, Events, MainMenuConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update, countdown_bar_constants_to_update, alert_constants_to_update, main_menu_constants_to_update
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
 
 class Graphics:
@@ -14,7 +16,7 @@ class Graphics:
     Will handle the graphics.
     """
     
-    def __init__(self):
+    def __init__(self, events_observable: EventsObservable):
         """
         Initialize the graphics.
 
@@ -35,6 +37,8 @@ class Graphics:
 
         # Store initial values.
 
+        self.events_observable = events_observable
+
         self.game_area_size = DisplayConstants.GAME_AREA_SIZE
         self.game_area_width = self.game_area_size[0]
         self.game_area_height = self.game_area_size[1]
@@ -44,7 +48,33 @@ class Graphics:
         # Loading the background image. 
         self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.game_area_width, self.game_area_height)
         self.menu_background_image = load_and_scale_image(Settings.MENU_BACKGROUND_IMAGE_PATH, self.screen_width, self.screen_height)
+
+        # Initializing buttons
+        buttons_to_create = [("Play!", self.start_playing), ("Exit", self.quit_menu)]
+        self.menu_buttons: list[Button] = []
+        self.create_buttons(buttons_to_create)
+
+
+    def create_buttons(self, buttons_to_create: list[tuple]) -> None:
+        """
+        Create the buttons.
+        """
+        curr_y: int = MainMenuConstants.BUTTONS_INITIAL_HEIGHT
+        for button_name, button_action in buttons_to_create:
+            self.menu_buttons.append(Button(MainMenuConstants.BUTTONS_LEFT_MARGIN, curr_y, 
+                MainMenuConstants.BUTTONS_WIDTH, MainMenuConstants.BUTTONS_HEIGHT,
+                button_name, on_click=button_action))
+            
+            curr_y += MainMenuConstants.BUTTONS_HEIGHT + MainMenuConstants.BUTTONS_HEIGHT_MARGIN
     
+
+    def start_playing(self):
+        print ("Emmitting start play")
+        self.events_observable.notify_observers(Events.CHANGE_MENU_TO_GAME)
+    
+    def quit_menu(self):
+        self.events_observable.notify_observers(Events.QUIT_MENU)
+
         
     def handle_display_constants(self):
         DisplayConstants.SCREEN_SIZE = self.screen_size
@@ -63,6 +93,7 @@ class Graphics:
         self.scale_constants_list(powerup_constants_to_update, PowerupsSettings)
         self.scale_constants_list(countdown_bar_constants_to_update, CountdownBarConstants)
         self.scale_constants_list(alert_constants_to_update, AlertConstants)
+        self.scale_constants_list(main_menu_constants_to_update, MainMenuConstants)
 
         # Reasign conutdown bar display constants settings.
         CountdownBarConstants.BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE + CountdownBarConstants.COUNTDOWN_SCREEN_MARGIN)
@@ -74,7 +105,7 @@ class Graphics:
         
         # Changing constants after the changes we made.
         DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
-        DesignConstants.TITLE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.TITLE_FONT_SIZE)
+        MainMenuConstants.TITLE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, MainMenuConstants.TITLE_FONT_SIZE)
         AlertConstants.ALERT_FONT = pygame.font.SysFont(AlertConstants.ALERT_FONT_NAME, AlertConstants.ALERT_FONT_SIZE)
 
 
@@ -121,6 +152,7 @@ class Graphics:
         """
         Draw the menu.
         """
+
         # Clear the screen.
         self.screen.fill((0, 0, 0))
 
@@ -128,10 +160,12 @@ class Graphics:
         self.screen.blit(self.menu_background_image, (0,0))
 
         # Draw title.
-        text_surface = DesignConstants.TITLE_FONT.render(f'Davidalk King', False, (0, 255, 0))
-        self.screen.blit(text_surface, (500, 500))
+        text_surface = MainMenuConstants.TITLE_FONT.render(Settings.TITLE, False, MainMenuConstants.TITLE_COLOR)
+        self.screen.blit(text_surface, MainMenuConstants.TITLE_POSITION)
 
         # Drawing buttons.
+        for button in self.menu_buttons:
+            button.draw(self.screen)
 
         # Draw the ais that can be played.
 
