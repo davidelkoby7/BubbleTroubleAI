@@ -24,9 +24,9 @@ class BasePlayer:
         self.direction = direction
         self.position = position
         self.width = Settings.PLAYER_DIMENSIONS[0]
-        self.height = Settings.PLAYER_DIMENSIONS[1]
+        self._height = Settings.PLAYER_DIMENSIONS[1] # player's height changes during game
         self.x = position[0] + DisplayConstants.LEFT_BORDER_X_VALUE
-        self.y = DisplayConstants.FLOOR_Y_VALUE - position[1] - self.height
+        self.y = DisplayConstants.FLOOR_Y_VALUE - position[1] - self.height # player's height changes during game 
         self.head_radius = Settings.HEAD_RADIUS
         self.dimensions = Settings.PLAYER_DIMENSIONS
         self.update_head_center()
@@ -37,11 +37,27 @@ class BasePlayer:
         self.head_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head.png", self.head_radius * 2, self.head_radius * 2)
         self.head_right_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_right.png", self.head_radius * 2, self.head_radius * 2)
         self.head_left_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_left.png", self.head_radius * 2, self.head_radius * 2)
-        self.body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
+        self.duck_body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, Settings.PLAYER_DUCK_HEIGHT)
+        self.stand_body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
+        self.body_image = self.stand_body_image
         self.body_image_rect = self.body_image.get_rect()
         self.shield = False
         self.score = 0
 
+    @property
+    def height(self):
+        """
+        Player's height
+        """
+        return self._height
+
+    @height.setter
+    def height(self, new_height):
+        """
+        Set new height for player and update  player y coordiantes.
+        """
+        self._height = new_height
+        self.y = DisplayConstants.FLOOR_Y_VALUE - self.position[1] - self.height
 
     def update(self) -> None:
         """
@@ -49,10 +65,28 @@ class BasePlayer:
         """
 
         self.direction = self.pick_direction()
-        self.move()
+
+        if self.direction == Directions.DUCK:
+            self.duck()
+        else:
+            self.stand()
+            self.move()
         self.update_head_center()
 
+    def duck(self):
+        """Player will duck."""
+
+        #  update player's new height and body image
+        self.height = Settings.PLAYER_DUCK_HEIGHT
+        self.body_image = self.duck_body_image
     
+    def stand(self):
+        """Player will stand."""
+
+        #  update player's new height and body image
+        self.height = Settings.PLAYER_DIMENSIONS[1]
+        self.body_image = self.stand_body_image
+
     def pick_direction(self) -> Directions:
         """
         Function to be implemented by the inheriting class of each ai.
@@ -81,7 +115,7 @@ class BasePlayer:
             self.x = DisplayConstants.LEFT_BORDER_X_VALUE
         if (self.x > DisplayConstants.RIGHT_BORDER_X_VALUE - self.width):
             self.x = DisplayConstants.RIGHT_BORDER_X_VALUE - self.width
-    
+
     
     def talk(self) -> None:
         """
@@ -152,20 +186,19 @@ class BasePlayer:
         Args:
             screen (pygame.Surface): The screen to draw the player on.
         """
+
         # Drawing body
-        # pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
         screen.blit(self.body_image, (self.x, self.y))
 
         # Drawing head
-        # pygame.draw.circle(screen, self.color, (int(self.head_center[0]), int(self.head_center[1])), self.head_radius)
         head_image_draw_position = (self.head_center[0] - self.head_radius, self.head_center[1] - self.head_radius)
-        if (self.direction == Directions.STAND):
+
+        if (self.direction == Directions.STAND or self.direction == Directions.DUCK):
             screen.blit(self.head_image, head_image_draw_position)
         elif (self.direction == Directions.LEFT):
             screen.blit(self.head_left_image, head_image_draw_position)
         elif (self.direction == Directions.RIGHT):
             screen.blit(self.head_right_image, head_image_draw_position)
-
 
     def can_shoot(self) -> bool:
         """
