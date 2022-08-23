@@ -1,8 +1,5 @@
 import os
 import random
-from socket import timeout
-from tkinter.messagebox import NO
-from xmlrpc.client import boolean
 import pygame
 import importlib
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
@@ -223,8 +220,7 @@ class GameManager:
             ai (BasePlayer): The AI that shot.
         """
         self.shots.append(ArrowShot(Settings.ARROW_SPEED, ai, self.event_observable))
-
-
+    
     def on_arrow_out_of_bounds(self, arrow: ArrowShot) -> None:
         """
         Called when an arrow goes out of bounds.
@@ -234,7 +230,6 @@ class GameManager:
         """
         arrow.shooting_player.is_shooting = False
         self.shots.remove(arrow)
-
 
     def on_powerup_picked(self, powerup: Powerup, player: BasePlayer) -> None:
         """

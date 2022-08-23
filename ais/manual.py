@@ -20,6 +20,9 @@ class manualAI(BasePlayer):
     def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()
         
+        if keys[pygame.K_DOWN]:
+            return Directions.DUCK
+
         if keys[pygame.K_SPACE]:
             self.shoot()
 
