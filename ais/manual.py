@@ -22,7 +22,7 @@ class manualAI(BasePlayer):
         
         if keys[pygame.K_DOWN]:
             return Directions.DUCK
-
+            
         if keys[pygame.K_SPACE]:
             self.shoot()
 
