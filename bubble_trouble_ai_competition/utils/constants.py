@@ -26,8 +26,10 @@ class Settings:
     
     FPS = 60 
     FRAME_TIME = 1 / FPS
-    TIMEOUT = 5 * FPS # In units of FPS seconds.
-    FREEZE_TIME = 15 * FPS # In units of FPS seconds.
+    TOTAL_GIME_FRAMES = 20 # Game during in seconds.
+    FREEZE_ALERT_TIME = 10 # Freeze time in milliseconds .
+    FRAMES_TIMEOUT = TOTAL_GIME_FRAMES * FPS # In units of frames.
+    FRAMES_FREEZE = FREEZE_ALERT_TIME * FPS # In units of frames.
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)
 
@@ -123,19 +125,21 @@ design_constants_properties_to_scale = [
     'BASE_FONT_SIZE'
 ]
 
-class CountdownBarConstans:
+class CountdownBarConstants:
    
     BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE + 1)
     BAR_WIDTH = DisplayConstants.RIGHT_BORDER_X_VALUE - DisplayConstants.GAME_AREA_POSITION[0]
     BAR_HEIGHT = 1.2 # In units of screen bits
+    COUNTDOWN_SCREEN_MARGIN = 0.1 # In units of screen bits
 
     BAR_COLOR = (70, 70, 70)
     LOADING_COLOR = (118,238,198)
 
 countdown_bar_constants_to_update = [
-    'BAR_HEIGHT'  
+    'BAR_HEIGHT', 'COUNTDOWN_SCREEN_MARGIN'
 ]
-class AlertConstans:
+
+class AlertConstants:
     ALERT_FONT_NAME = "freesansbold.ttf"
     ALERT_FONT_SIZE = 5 # In units of screen bits
     ALERT_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.

@@ -1,6 +1,7 @@
 import os
 import random
 from socket import timeout
+from tkinter.messagebox import NO
 from xmlrpc.client import boolean
 import pygame
 import importlib
@@ -27,7 +28,7 @@ class GameManager:
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, game_timeout: int = Settings.TIMEOUT,screen_size: tuple = DisplayConstants.GAME_AREA_SIZE) -> None:
+    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, game_timeout: int = Settings.FRAMES_TIMEOUT,screen_size: tuple = DisplayConstants.GAME_AREA_SIZE) -> None:
         """
         Initializes the game manager.
 
@@ -50,7 +51,7 @@ class GameManager:
             PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
         ]
-        self.alerts: list[Alert] = []
+        self.alert: Alert = None
 
         self.activated_powerups = []
 
@@ -123,7 +124,6 @@ class GameManager:
 
         # Main game loop.
         while (self.game_over != True):
-        #while (self.game_over != True and self.game_timeout != 0):
             # Keeping the start time of the frame.
             start_time = pygame.time.get_ticks()
 
@@ -133,15 +133,14 @@ class GameManager:
             # Making sure the game isn't over.
             for event in pygame.event.get():  
                 if event.type == pygame.QUIT:
-
                     self.game_over = True  
                     break
             
-            all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar]
+            if self.alert:
+                self.alert.update()
 
-            # Update and deals with alerts
-            for alert in self.alerts:
-                alert.update()
+            all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar] 
+
 
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
@@ -156,9 +155,8 @@ class GameManager:
             self.handle_collision()
 
             # Draw the screen
-            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups, self.scoreboards, self.alerts, self.countdown_bar)
-
-            
+            self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups, self.scoreboards, self.alert, self.countdown_bar)
+  
             # Calculating the time it took to run this iteration
             time_taken = pygame.time.get_ticks() - start_time
 
@@ -285,8 +283,8 @@ class GameManager:
         Called when game time is up.
         Creates and Alert object to notice and end game.
         """
-        
-        self.alerts.append(Alert(msg="Game Timeout", end_game=True, events_observable=self.event_observable))
+
+        self.alert = Alert(msg="Game Timeout", end_game=True, events_observable=self.event_observable)
 
     def on_showed_alert(self, alert: Alert) -> None:
         """
@@ -294,7 +292,7 @@ class GameManager:
         Freeze the screen and get the alert's action in game (ends or continue).
         """
 
-        pygame.time.wait(alert.freeze_time)
-        self.alerts.remove(alert)
+        pygame.time.wait(alert.frames_freeze)
+        self.alert = None
         self.game_over = alert.end_game
    
