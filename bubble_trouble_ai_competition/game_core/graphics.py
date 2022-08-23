@@ -1,11 +1,12 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
-
+from bubble_trouble_ai_competition.base_objects.base_alert import Alert
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
+from bubble_trouble_ai_competition.base_objects.countdown_bar import CountdownBar
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.utils.constants import DesignConstants, DisplayConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update
+from bubble_trouble_ai_competition.utils.constants import AlertConstants, CountdownBarConstants, DesignConstants, DisplayConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update, countdown_bar_constants_to_update, alert_constants_to_update
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
 
 class Graphics:
@@ -44,7 +45,7 @@ class Graphics:
         self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.game_area_width, self.game_area_height)
         self.menu_background_image = load_and_scale_image(Settings.MENU_BACKGROUND_IMAGE_PATH, self.screen_width, self.screen_height)
     
-
+        
     def handle_display_constants(self):
         DisplayConstants.SCREEN_SIZE = self.screen_size
         DisplayConstants.SCREEN_WIDTH = self.screen_width
@@ -60,10 +61,21 @@ class Graphics:
         self.scale_constants_list(settings_properties_to_scale, Settings)
         self.scale_constants_list(design_constants_properties_to_scale, DesignConstants)
         self.scale_constants_list(powerup_constants_to_update, PowerupsSettings)
-    
+        self.scale_constants_list(countdown_bar_constants_to_update, CountdownBarConstants)
+        self.scale_constants_list(alert_constants_to_update, AlertConstants)
+
+        # Reasign conutdown bar display constants settings.
+        CountdownBarConstants.BAR_POSITION = (DisplayConstants.GAME_AREA_POSITION[0], DisplayConstants.FLOOR_Y_VALUE + CountdownBarConstants.COUNTDOWN_SCREEN_MARGIN)
+        CountdownBarConstants.BAR_WIDTH = DisplayConstants.RIGHT_BORDER_X_VALUE - DisplayConstants.GAME_AREA_POSITION[0]
+
+        # Reasign alert display constants settings.
+        AlertConstants.AlERT_POSITION = ((DisplayConstants.LEFT_BORDER_X_VALUE + DisplayConstants.RIGHT_BORDER_X_VALUE)/DisplayConstants.SCREEN_BIT*2,
+                                        (DisplayConstants.CIELING_Y_VALUE + DisplayConstants.FLOOR_Y_VALUE)/DisplayConstants.SCREEN_BIT*2)
+        
         # Changing constants after the changes we made.
         DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
         DesignConstants.TITLE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.TITLE_FONT_SIZE)
+        AlertConstants.ALERT_FONT = pygame.font.SysFont(AlertConstants.ALERT_FONT_NAME, AlertConstants.ALERT_FONT_SIZE)
 
 
     def scale_constants_list(self, constants_list, constants_class):
@@ -76,7 +88,7 @@ class Graphics:
                 setattr(constants_class, constant_name, int(constant_value * DisplayConstants.SCREEN_BIT))
 
     
-    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], powerups: list[Powerup], scoreboards: list[AIScoreboard]) -> None:
+    def draw(self, ais: list[BasePlayer], balls: list[Ball], shots: list[ArrowShot], powerups: list[Powerup], scoreboards: list[AIScoreboard], alert: Alert, countdown_bar: CountdownBar) -> None:
         """
         Draw the game objects.
 
@@ -84,22 +96,26 @@ class Graphics:
             ais (list[BasePlayer]): The players to draw.
             balls (list[Ball]): The balls to draw.
             shots (list[ArrowShot]): The shots to draw.
+            alert (Alert): The alert to draw.
+            countdown_bar (CountdownBar): The countdown bar to draw.
         """
         # Clear the screen.
         self.screen.fill((0, 0, 0))
 
         # Draw background.
         self.screen.blit(self.background_image, DisplayConstants.GAME_AREA_POSITION)
-
-        all_items = scoreboards + shots + ais + balls + powerups
+       
+        all_items = scoreboards + shots + ais + balls + powerups + [countdown_bar]
 
         # Draw the ais.
         for item in all_items:
             item.draw(self.screen)
 
+        if alert:
+            alert.draw(self.screen)
+            
         # Updating the screen.
         pygame.display.flip()
-
 
     def draw_menu(self, ais: list[BasePlayer]) -> None:
         """
