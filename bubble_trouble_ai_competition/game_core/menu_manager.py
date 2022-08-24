@@ -28,13 +28,18 @@ class MenuManager:
                         if ((button.x <= pos[0] <= button.x + button.width) and
                             (button.y <= pos[1] <= button.y + button.height)):
                             button.on_click()
-                            print(f"{button.text} clicked")
                     break
 
                 # Handling key presses (only for valid keys, not something like alt etc.).
                 if (event.type == pygame.KEYDOWN and event.key < 100):
                     key_pressed = chr(event.key)
-                    print(f"NUMEVENTS, {key_pressed=}")
+                    if (not key_pressed.isdigit()):
+                        continue
+                    key_pressed = int(key_pressed)
+                    if (key_pressed > len(self.ais)):
+                        continue
+                    self.ais[key_pressed - 1].is_competing = not self.ais[key_pressed - 1].is_competing
+                    
 
             # Drawing the menu.
             self.graphics.draw_menu(self.ais)

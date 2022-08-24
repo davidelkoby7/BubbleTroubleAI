@@ -174,6 +174,9 @@ class MainMenuConstants:
     BUTTONS_HEIGHT_MARGIN = 2 # In units of screen bits.
     BUTTONS_WIDTH = 10 # In units of screen bits.
     BUTTONS_HEIGHT = 4 # In units of screen bits.
+    AIS_LEFT_MARGIN = 50
+    AIS_INITIAL_HEIGHT = 20
+    AIS_HEIGHT_MARGIN = 2
 
 main_menu_constants_to_update = [
     'TITLE_POSITION',
@@ -182,5 +185,8 @@ main_menu_constants_to_update = [
     'BUTTONS_INITIAL_HEIGHT',
     'BUTTONS_HEIGHT_MARGIN',
     'BUTTONS_WIDTH',
-    'BUTTONS_HEIGHT'
+    'BUTTONS_HEIGHT',
+    'AIS_LEFT_MARGIN',
+    'AIS_INITIAL_HEIGHT',
+    'AIS_HEIGHT_MARGIN',
 ]
