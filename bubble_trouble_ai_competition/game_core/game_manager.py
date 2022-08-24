@@ -187,8 +187,7 @@ class GameManager:
             ai (BasePlayer): The AI that shot.
         """
         self.shots.append(ArrowShot(Settings.ARROW_SPEED, ai, self.event_observable))
-
-
+    
     def on_arrow_out_of_bounds(self, arrow: ArrowShot) -> None:
         """
         Called when an arrow goes out of bounds.
@@ -201,7 +200,6 @@ class GameManager:
         print("**********")
         arrow.shooting_player.is_shooting = False
         self.shots.remove(arrow)
-
 
     def on_powerup_picked(self, powerup: Powerup, player: BasePlayer) -> None:
         """

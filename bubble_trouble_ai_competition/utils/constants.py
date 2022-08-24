@@ -20,6 +20,7 @@ class Directions:
     LEFT = -1
     RIGHT = 1
     STAND = 0
+    DUCK = 2 # initialize random number only for the DUCK identifier
 
 
 class Settings:
@@ -39,6 +40,7 @@ class Settings:
     PLAYER_DIMENSIONS = (1.5, 3) # In units of screen bits.
     PLAYER_WIDTH = PLAYER_DIMENSIONS[0] # In units of screen bits.
     PLAYER_HEIGHT = PLAYER_DIMENSIONS[1] # In units of screen bits.
+    PLAYER_DUCK_HEIGHT = PLAYER_HEIGHT * 0.3 # In units of screen bits.
     HEAD_RADIUS = PLAYER_DIMENSIONS[0] / 2 # In units of screen bits.
     PLAYER_SPEED = 20 # In units of screen bits per second.
 
@@ -57,7 +59,7 @@ class Settings:
     MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/MenuBackground.png"
 
 settings_properties_to_scale = [
-    'PLAYER_DIMENSIONS', 'PLAYER_WIDTH', 'PLAYER_HEIGHT', 'HEAD_RADIUS', 'ARROW_WIDTH',
+    'PLAYER_DIMENSIONS', 'PLAYER_WIDTH', 'PLAYER_HEIGHT', 'PLAYER_DUCK_HEIGHT', 'HEAD_RADIUS', 'ARROW_WIDTH',
     'ARROW_SPEED', 'PLAYER_SPEED', 'BALL_SPEED', 'BALL_POPPED_UP_SPEED_DEC',
     'BALL_POPPED_DOWN_SPEED', 'DEFAULT_GRAVITY', 'BALL_SIZE_TO_RADIUS_RATIO'
     ]
