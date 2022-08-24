@@ -39,9 +39,14 @@ class MenuManager:
                         self.events_observable.notify_observers(Events.CHANGE_MENU_TO_GAME)
                         continue
                     
+                    if (event.key == pygame.K_ESCAPE):
+                        self.events_observable.notify_observers(Events.QUIT_MENU)
+                        continue
+                    
                     key_pressed = chr(event.key)
                     if (not key_pressed.isdigit()):
                         continue
+
                     key_pressed = int(key_pressed)
                     if (key_pressed > len(self.ais)):
                         continue
