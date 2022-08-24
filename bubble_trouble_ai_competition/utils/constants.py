@@ -9,6 +9,9 @@ class BallColors:
 
 ALL_BALL_COLORS = [getattr(BallColors, x) for x in dir(BallColors) if "__" not in x]    
 
+class GameStates:
+    PLAYING = "playing"
+    MAIN_MENU = "main_menu"
 
 class Directions:
     """
@@ -27,9 +30,9 @@ class Settings:
     
     FPS = 60 
     FRAME_TIME = 1 / FPS
-    TOTAL_GIME_FRAMES = 20 # Game during in seconds.
+    TOTAL_GAME_FRAMES = 20 # Game during in seconds.
     FREEZE_ALERT_TIME = 10 # Freeze time in milliseconds .
-    FRAMES_TIMEOUT = TOTAL_GIME_FRAMES * FPS # In units of frames.
+    FRAMES_TIMEOUT = TOTAL_GAME_FRAMES * FPS # In units of frames.
     FRAMES_FREEZE = FREEZE_ALERT_TIME * FPS # In units of frames.
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)
@@ -53,6 +56,7 @@ class Settings:
     BASE_MODULE_DIR = __file__ [:-18] # The minus 18 - to remove the part of the path until the base of our module. TODO: FIX THIS SHIT
     ASSETS_DIR = BASE_MODULE_DIR + "assets"
     BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/background.jpg"
+    MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/MenuBackground.png"
 
 settings_properties_to_scale = [
     'PLAYER_DIMENSIONS', 'PLAYER_WIDTH', 'PLAYER_HEIGHT', 'PLAYER_DUCK_HEIGHT', 'HEAD_RADIUS', 'ARROW_WIDTH',
@@ -94,6 +98,9 @@ class Events:
     ARROW_OUT_OF_BOUNDS = "arrow_out_of_bounds"
     GAME_TIMEOUT = "game_timeout"
     SHOWED_ALERT = "showed_alert"
+    CHANGE_MENU_TO_GAME = "change_menu_to_game"
+    CHANGE_GAME_TO_MENU = "change_game_to_menu"
+    QUIT_MENU = "quit_menu"
 
 
 ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
@@ -119,12 +126,12 @@ class ScoreboardConstants:
 
 
 class DesignConstants:
-    BASE_FONT_NAME = "Arial"
-    BASE_FONT_SIZE = 1
+    BASE_FONT_NAME = "Arial-Bold"
+    BASE_FONT_SIZE = 2
     BASE_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
 
 design_constants_properties_to_scale = [
-    'BASE_FONT_SIZE'
+    'BASE_FONT_SIZE',
 ]
 
 class CountdownBarConstants:
@@ -156,3 +163,30 @@ alert_constants_to_update = [
     'ALERT_FONT_SIZE'
 ]
 
+
+class MainMenuConstants:
+    TITLE_FONT_SIZE = 5
+    TITLE_COLOR = (30, 30, 30)
+    TITLE_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
+    TITLE_POSITION = (25, 2) # In units of screen bits.
+    BUTTONS_LEFT_MARGIN = 30 # In units of screen bits.
+    BUTTONS_INITIAL_HEIGHT = 20 # In units of screen bits.
+    BUTTONS_HEIGHT_MARGIN = 2 # In units of screen bits.
+    BUTTONS_WIDTH = 10 # In units of screen bits.
+    BUTTONS_HEIGHT = 4 # In units of screen bits.
+    AIS_LEFT_MARGIN = 50
+    AIS_INITIAL_HEIGHT = 20
+    AIS_HEIGHT_MARGIN = 2
+
+main_menu_constants_to_update = [
+    'TITLE_POSITION',
+    'TITLE_FONT_SIZE',
+    'BUTTONS_LEFT_MARGIN',
+    'BUTTONS_INITIAL_HEIGHT',
+    'BUTTONS_HEIGHT_MARGIN',
+    'BUTTONS_WIDTH',
+    'BUTTONS_HEIGHT',
+    'AIS_LEFT_MARGIN',
+    'AIS_INITIAL_HEIGHT',
+    'AIS_HEIGHT_MARGIN',
+]

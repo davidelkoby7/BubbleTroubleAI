@@ -1,13 +1,11 @@
-from bubble_trouble_ai_competition.game_core.manager import GameManager
+from bubble_trouble_ai_competition.game_core.competition import Competition
 
 def main():
     """
     Game starting point.
     """
 
-    gm = GameManager(ais_dir_path="./ais")
-    gm.print_ais()
-    gm.run_game()
+    comp = Competition(ais_dir_path="./ais")
 
 if (__name__ == "__main__"):
     main()
