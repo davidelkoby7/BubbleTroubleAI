@@ -111,7 +111,7 @@ class Competition:
 
     def generate_menu_manager(self):
         self.load_ais()
-        self.menu_manager = MenuManager(self.graphics, self.ais)
+        self.menu_manager = MenuManager(self.graphics, self.ais, self.event_observable)
 
 
     def generate_game_manager(self):

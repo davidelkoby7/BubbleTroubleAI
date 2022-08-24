@@ -1,13 +1,16 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
+from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
+from bubble_trouble_ai_competition.utils.constants import Events
 
 class MenuManager:
-    def __init__(self, graphics: Graphics, ais: list[BasePlayer]):
+    def __init__(self, graphics: Graphics, ais: list[BasePlayer], events_observable: EventsObservable):
         self.menu_running = True
         self.graphics = graphics
         self.ais = ais
+        self.events_observable = events_observable
 
     def run_menu(self) -> None:
         """
@@ -32,6 +35,10 @@ class MenuManager:
 
                 # Handling key presses (only for valid keys, not something like alt etc.).
                 if (event.type == pygame.KEYDOWN and event.key < 100):
+                    if (event.key == pygame.K_RETURN):
+                        self.events_observable.notify_observers(Events.CHANGE_MENU_TO_GAME)
+                        continue
+                    
                     key_pressed = chr(event.key)
                     if (not key_pressed.isdigit()):
                         continue
@@ -39,6 +46,8 @@ class MenuManager:
                     if (key_pressed > len(self.ais)):
                         continue
                     self.ais[key_pressed - 1].is_competing = not self.ais[key_pressed - 1].is_competing
+                    
+
                     
 
             # Drawing the menu.
