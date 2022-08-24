@@ -7,10 +7,19 @@ from bubble_trouble_ai_competition.utils.constants import Events
 
 class MenuManager:
     def __init__(self, graphics: Graphics, ais: list[BasePlayer], events_observable: EventsObservable):
+        """
+        Initializes the menu manager.
+
+        Args:
+            graphics (Graphics): The graphics object.
+            ais (list[BasePlayer]): The list of AI players.
+            events_observable (EventsObservable): The events observable.
+        """
         self.menu_running = True
         self.graphics = graphics
         self.ais = ais
         self.events_observable = events_observable
+
 
     def run_menu(self) -> None:
         """
@@ -31,6 +40,7 @@ class MenuManager:
                         if ((button.x <= pos[0] <= button.x + button.width) and
                             (button.y <= pos[1] <= button.y + button.height)):
                             button.on_click()
+                            break
                     break
 
                 # Handling key presses (only for valid keys, not something like alt etc.).
@@ -51,9 +61,6 @@ class MenuManager:
                     if (key_pressed > len(self.ais)):
                         continue
                     self.ais[key_pressed - 1].is_competing = not self.ais[key_pressed - 1].is_competing
-                    
-
-                    
-
+            
             # Drawing the menu.
             self.graphics.draw_menu(self.ais)

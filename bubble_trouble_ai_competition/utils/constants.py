@@ -30,9 +30,9 @@ class Settings:
     
     FPS = 60 
     FRAME_TIME = 1 / FPS
-    TOTAL_GIME_FRAMES = 5 # Game during in seconds.
+    TOTAL_GAME_FRAMES = 20 # Game during in seconds.
     FREEZE_ALERT_TIME = 10 # Freeze time in milliseconds .
-    FRAMES_TIMEOUT = TOTAL_GIME_FRAMES * FPS # In units of frames.
+    FRAMES_TIMEOUT = TOTAL_GAME_FRAMES * FPS # In units of frames.
     FRAMES_FREEZE = FREEZE_ALERT_TIME * FPS # In units of frames.
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)

@@ -35,16 +35,10 @@ class GameManager:
         self.ais_dir_path = ais_dir_path
         self.ais = [ai for ai in ais if ai.is_competing == True]
 
-        DisplayConstants.GAME_AREA_SIZE = screen_size
-
         self.game_over = False
         self.game_timeout = game_timeout
-        self.menu_running: bool = True
         self.fps = fps
-        self.screen_size = screen_size
 
-        self.ai_objects: list[BasePlayer] = []
-        self.ai_classes: list = []
         self.shots: list[ArrowShot] = []
         self.powerups: list[Powerup] = [
             PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
@@ -81,8 +75,6 @@ class GameManager:
         """
         Run the main game loop.
         """
-        print ("Running the game!")
-
         # Main game loop.
         while (self.game_over != True):
             # Keeping the start time of the frame.
@@ -125,7 +117,7 @@ class GameManager:
             pygame.time.wait(1000 // self.fps - time_taken)
         
         self.event_observable.notify_observers(Events.CHANGE_GAME_TO_MENU)
-        print ("Finished running!")
+
 
     def handle_collision(self) -> None:
         """

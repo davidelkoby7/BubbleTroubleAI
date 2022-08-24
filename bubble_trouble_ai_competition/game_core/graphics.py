@@ -58,6 +58,9 @@ class Graphics:
     def create_buttons(self, buttons_to_create: list[tuple]) -> None:
         """
         Create the buttons.
+
+        Args:
+            buttons_to_create (list[tuple]): The buttons to create, where each item in the list is a tuple like this - ("Play!", self.start_playing).
         """
         curr_y: int = MainMenuConstants.BUTTONS_INITIAL_HEIGHT
         for button_name, button_action in buttons_to_create:
@@ -71,6 +74,7 @@ class Graphics:
     def start_playing(self):
         self.events_observable.notify_observers(Events.CHANGE_MENU_TO_GAME)
     
+
     def quit_menu(self):
         self.events_observable.notify_observers(Events.QUIT_MENU)
 
@@ -175,7 +179,6 @@ class Graphics:
             text_surface = DesignConstants.BASE_FONT.render(f'#{i + 1}: {ai.name}', False, color)
             self.screen.blit(text_surface, (MainMenuConstants.AIS_LEFT_MARGIN, curr_y))
             curr_y += MainMenuConstants.AIS_HEIGHT_MARGIN
-
 
         # Updating the screen.
         pygame.display.flip()
