@@ -96,16 +96,28 @@ class BasePlayer:
 
     def right_punch(self):
         """
+        Player will punch with his right punch.
         """
+        if (self.punch == True):
+            
+            self.events_observable.notify_observers(Events.PLAYER_RPUNCH, self)
         ...
     def left_punch(self):
         """
+        Player will punch with his left punch.
         """
+        if (self.punch == True):
+            
+            self.events_observable.notify_observers(Events.PLAYER_LPUNCH, self)
         ...
     
     def up_punch(self):
         """
+        Player will punch with his up punch.
         """
+        if (self.punch == True):
+            
+            self.events_observable.notify_observers(Events.PLAYER_UPUNCH, self)
         ...
     def shoot(self):
         """
@@ -222,6 +234,11 @@ class BasePlayer:
         """
         return self.is_shooting == False
 
+    def can_punch(self) -> bool:
+        """
+        Checks if the player can punch
+        """
+        return self.punch
 
     def get_player_top_right_corner(self) -> tuple:
         """
