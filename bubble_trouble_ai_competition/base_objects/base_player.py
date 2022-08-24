@@ -94,7 +94,19 @@ class BasePlayer:
         """
         return random.choice([Directions.LEFT, Directions.RIGHT])
 
-
+    def right_punch(self):
+        """
+        """
+        ...
+    def left_punch(self):
+        """
+        """
+        ...
+    
+    def up_punch(self):
+        """
+        """
+        ...
     def shoot(self):
         """
         Player will shoot.

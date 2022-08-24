@@ -22,6 +22,15 @@ class manualAI(BasePlayer):
         
         if keys[pygame.K_DOWN]:
             return Directions.DUCK
+        
+        if keys[pygame.K_LCTRL]:
+            self.left_punch()
+        
+        if keys[pygame.K_RCTRL]:
+            self.right_punch()
+        
+        if keys[pygame.K_LSHIFT]:
+            self.up_punch()
             
         if keys[pygame.K_SPACE]:
             self.shoot()
