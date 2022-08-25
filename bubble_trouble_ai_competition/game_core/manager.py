@@ -62,6 +62,8 @@ class GameManager:
         self.event_observable.add_observer(Events.POWERUP_PICKED, self.on_powerup_picked)
         self.event_observable.add_observer(Events.GAME_TIMEOUT, self.on_game_timeout)
         self.event_observable.add_observer(Events.SHOWED_ALERT, self.on_showed_alert)
+        self.event_observable.add_observer(Events.PLAYER_LPUNCH, self.on_player_left_punch)
+        self.event_observable.add_observer(Events.PLAYER_RPUNCH, self.on_player_right_punch)
 
         self.load_ais(ais_dir_path)
         
@@ -149,7 +151,9 @@ class GameManager:
                 item.update()
                 if (not item.active == True):
                     self.activated_powerups.remove(item)
-                
+            
+            
+            self.handle_powerup_actions()
             # Collision detection.
             self.handle_collision()
 
@@ -162,6 +166,15 @@ class GameManager:
             # Controling the framerate.
             pygame.time.wait(1000 // self.fps - time_taken)
 
+    def handle_powerup_actions(self):
+        for ai in self.ais:
+            for powerup in self.activated_powerups:
+                if isinstance(powerup, PunchPowerup) and powerup.player == ai:
+                    if ai.punch_right:
+                        self.event_observable.notify_observers(Events.PLAYER_RPUNCH, powerup, ai)
+                    if ai.punch_left:
+                        self.event_observable.notify_observers(Events.PLAYER_LPUNCH, powerup, ai)
+                        
     def handle_collision(self) -> None:
         """
         Handles the collisions in the game.
@@ -174,6 +187,14 @@ class GameManager:
             for powerup in self.powerups:
                 if (ai.collides_with_powerup(powerup) == True):
                     self.event_observable.notify_observers(Events.POWERUP_PICKED, powerup, ai)
+
+                ## maybe to change to ai list in powerup
+                if isinstance(powerup, PunchPowerup) and powerup.player == ai:
+                    if ai.punch_right:
+                        self.event_observable.notify_observers(Events.PLAYER_RPUNCH, powerup, ai)
+                    if ai.punch_left:
+                        self.event_observable.notify_observers(Events.PLAYER_LPUNCH, powerup, ai)
+                    
 
         # Check if any ball hit a shot.
         for ball in self.balls:
@@ -242,6 +263,8 @@ class GameManager:
         """
         self.powerups.remove(powerup)
         self.activated_powerups.append(powerup)
+        if isinstance(powerup, PunchPowerup):
+            player.punch_powerup = powerup
         powerup.activate(player)
 
 
@@ -292,4 +315,18 @@ class GameManager:
         pygame.time.wait(alert.frames_freeze)
         self.alert = None
         self.game_over = alert.end_game
+    
+    def on_player_right_punch(self, punch: PunchPowerup, ai: BasePlayer):
+    
+        punch.punch_action = True
+        punch.action_right_punch()
+        ai.punch_right = False
+    
+    def on_player_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
+        punch.punch_action = True
+        punch.action_left_punch()
+        ai.punch_left = False
+    
+    def on_player_up_punch(self, punch: PunchPowerup, ai: BasePlayer):
+        ...
    

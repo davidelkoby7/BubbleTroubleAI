@@ -7,7 +7,6 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide, load_and_scale_image
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
-
 class BasePlayer:
     """
     Base class to create an AI playing the game.
@@ -43,6 +42,9 @@ class BasePlayer:
         self.body_image_rect = self.body_image.get_rect()
         self.shield = False
         self.punch = False
+        self.punch_right = False
+        self.punch_left = False
+        self.punch_up = False
         self.score = 0
 
     @property
@@ -98,26 +100,24 @@ class BasePlayer:
         """
         Player will punch with his right punch.
         """
-        if (self.punch == True):
+        if self.punch_powerup:
             
-            self.events_observable.notify_observers(Events.PLAYER_RPUNCH, self)
+            self.punch_right = True
         ...
     def left_punch(self):
         """
         Player will punch with his left punch.
         """
-        if (self.punch == True):
-            
-            self.events_observable.notify_observers(Events.PLAYER_LPUNCH, self)
+        if self.punch_powerup:
+            self.punch_left = True
         ...
     
     def up_punch(self):
         """
         Player will punch with his up punch.
         """
-        if (self.punch == True):
-            
-            self.events_observable.notify_observers(Events.PLAYER_UPUNCH, self)
+        if self.punch_powerup:
+            self.punch_up = True    
         ...
     def shoot(self):
         """
@@ -233,12 +233,6 @@ class BasePlayer:
             bool: True if the player can shoot, False otherwise.
         """
         return self.is_shooting == False
-
-    def can_punch(self) -> bool:
-        """
-        Checks if the player can punch
-        """
-        return self.punch
 
     def get_player_top_right_corner(self) -> tuple:
         """

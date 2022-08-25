@@ -101,6 +101,9 @@ class Events:
     ARROW_OUT_OF_BOUNDS = "arrow_out_of_bounds"
     GAME_TIMEOUT = "game_timeout"
     SHOWED_ALERT = "showed_alert"
+    PLAYER_LPUNCH = "player_left_punch"
+    PLAYER_RPUNCH = "player_right_punch"
+    PLAYER_UPUNCH = "player_up_punch"
 
 
 ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
