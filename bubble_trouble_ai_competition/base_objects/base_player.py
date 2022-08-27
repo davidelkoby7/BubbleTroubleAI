@@ -1,10 +1,16 @@
 import random
+from tkinter import S
 import pygame
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+
+    # avoiding import cyclic error
+    from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup, Powerup
 
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
-from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings
+from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings, PowerupsSettings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide, load_and_scale_image
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 class BasePlayer:
@@ -182,7 +188,7 @@ class BasePlayer:
         return False
 
 
-    def collides_with_powerup(self, powerup) -> bool:
+    def collides_with_powerup(self, powerup: 'Powerup') -> bool:
         """
         Checks if the player collides with a power up.
 
@@ -202,7 +208,50 @@ class BasePlayer:
  
         # No collision - return False
         return False
-  
+    
+    def collides_with_punch(self, punch: 'PunchPowerup', punch_direction):
+        """
+        Checks if the player collides with other player's punch..
+
+        Args:
+            punch (PunchPowerup): The punch to check if the player collides with.
+        
+        Returns:
+            bool: True if the player collides with the punch, False otherwise.
+        """
+
+        # Check if the player's body collides with the powerup
+        if not self.shield:
+            if punch.punch_action:
+                (punch_x, punch_y) = punch.action_punch_coordinates
+                player_x = self.x
+            
+
+                if (punch_direction == 'player_right_punch' and self.x > punch_x) or (punch_direction == 'player_left_punch' and self.x-PowerupsSettings.PUNCH_ACTION_WIDTH < punch_x):
+        
+                    if rect_collide(player_x, self.y, self.width, self.height, punch_x, punch_y, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT):
+                        return True      
+ 
+        # No collision - return False
+        return False
+    
+    def get_right_punch_hit(self, punch: 'PunchPowerup'):
+        """
+        """
+        # move ai to right
+        if (self.x + Settings.HIT_RADIUS > DisplayConstants.RIGHT_BORDER_X_VALUE - self.width):
+            self.x = DisplayConstants.RIGHT_BORDER_X_VALUE - self.width
+            
+        else:
+            self.x = self.x + Settings.HIT_RADIUS
+    def get_left_punch_hit(self, punch: 'PunchPowerup'):
+        """
+        """
+        # move ai to left
+        if (self.x - Settings.HIT_RADIUS < DisplayConstants.LEFT_BORDER_X_VALUE):
+            self.x = DisplayConstants.LEFT_BORDER_X_VALUE
+        else:
+            self.x = self.x - Settings.HIT_RADIUS
 
     def draw(self, screen: pygame.Surface) -> None:
         """
@@ -253,6 +302,23 @@ class BasePlayer:
         """
         return (self.x, self.y - self.head_radius*2)
 
+    def get_player_left_hand_coordinates(self) -> tuple:
+        """
+        Returns the player's left hand coordinates.
+
+        Returns:
+            tuple: The left hand coordinates of the player (x,y).
+        """
+        return (self.x - self.head_radius + Settings.PLAYER_HANDS_SPACING, self.y - self.head_radius)
+    
+    def get_player_right_hand_coordinates(self) -> tuple:
+        """
+        Returns the player's right hand coordinates.
+
+        Returns:
+            tuple: The right hand coordinates of the player (x,y).
+        """
+        return (self.x + self.width - (self.width/2 - self.head_radius) - Settings.PLAYER_HANDS_SPACING, self.y - self.head_radius)
 
     def get_score(self) -> int:
         """

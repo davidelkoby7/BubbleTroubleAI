@@ -31,7 +31,7 @@ class Powerup:
         self.active = False
         self.has_active_timer = True
         self.active_timer = 0
-        self.active_duration = 5 * 60
+        self.active_duration = 20 * 60 # just for debug, return to 5 TODO
         
         self.pickable = True
         self.pickable_duration = 10 * 60

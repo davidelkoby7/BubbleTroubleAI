@@ -38,8 +38,10 @@ class Settings:
     PLAYER_WIDTH = PLAYER_DIMENSIONS[0] # In units of screen bits.
     PLAYER_HEIGHT = PLAYER_DIMENSIONS[1] # In units of screen bits.
     PLAYER_DUCK_HEIGHT = PLAYER_HEIGHT * 0.3 # In units of screen bits.
+    PLAYER_HANDS_SPACING = 0.1 # The diffrence between x of player's body to hand's x at player's image, in units of screen bits.
     HEAD_RADIUS = PLAYER_DIMENSIONS[0] / 2 # In units of screen bits.
     PLAYER_SPEED = 20 # In units of screen bits per second.
+    HIT_RADIUS = 3 # In units of screen bits.
 
     BALL_SPEED = 10 # In units of screen bits per second.
     DEFAULT_GRAVITY = 25 # In units of screen bits per second^2.
@@ -55,7 +57,7 @@ class Settings:
     BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/background.jpg"
 
 settings_properties_to_scale = [
-    'PLAYER_DIMENSIONS', 'PLAYER_WIDTH', 'PLAYER_HEIGHT', 'PLAYER_DUCK_HEIGHT', 'HEAD_RADIUS', 'ARROW_WIDTH',
+    'PLAYER_DIMENSIONS', 'PLAYER_WIDTH', 'PLAYER_HEIGHT', 'PLAYER_HANDS_SPACING', 'HIT_RADIUS', 'PLAYER_DUCK_HEIGHT', 'HEAD_RADIUS', 'ARROW_WIDTH',
     'ARROW_SPEED', 'PLAYER_SPEED', 'BALL_SPEED', 'BALL_POPPED_UP_SPEED_DEC',
     'BALL_POPPED_DOWN_SPEED', 'DEFAULT_GRAVITY', 'BALL_SIZE_TO_RADIUS_RATIO'
     ]
@@ -86,8 +88,8 @@ class PowerupsSettings:
     PUNCH_WIDTH = Settings.PLAYER_WIDTH * 0.6
     PUNCH_HEIGHT = Settings.PLAYER_HEIGHT * 0.16
     
-    PUNCH_ACTION_WIDTH = Settings.PLAYER_WIDTH * 1.5
-    PUNCH_ACTION_HEIGHT =  Settings.PLAYER_HEIGHT * 0.16
+    PUNCH_ACTION_WIDTH = PUNCH_WIDTH * 3
+    PUNCH_ACTION_HEIGHT =  PUNCH_HEIGHT * 5
 
 powerup_constants_to_update = [x for x in dir(PowerupsSettings) if ("__" not in x)]
 
@@ -104,6 +106,8 @@ class Events:
     PLAYER_LPUNCH = "player_left_punch"
     PLAYER_RPUNCH = "player_right_punch"
     PLAYER_UPUNCH = "player_up_punch"
+    PLAYER_COLLIDES_RPUNCH = "player_collides_left_punch"
+    PLAYER_COLLIDES_LPUNCH = "player_collides_right_punch"
 
 
 ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
