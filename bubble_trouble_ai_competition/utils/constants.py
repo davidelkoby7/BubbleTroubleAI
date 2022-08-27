@@ -86,10 +86,10 @@ class PowerupsSettings:
 
     PUNCH_SPACING = 0.2 # In units of screen bits.
     PUNCH_WIDTH = Settings.PLAYER_WIDTH * 0.6
-    PUNCH_HEIGHT = Settings.PLAYER_HEIGHT * 0.16
+    PUNCH_HEIGHT = Settings.PLAYER_HEIGHT * 0.8
     
     PUNCH_ACTION_WIDTH = PUNCH_WIDTH * 3
-    PUNCH_ACTION_HEIGHT =  PUNCH_HEIGHT * 5
+    PUNCH_ACTION_HEIGHT =  PUNCH_HEIGHT 
 
 powerup_constants_to_update = [x for x in dir(PowerupsSettings) if ("__" not in x)]
 

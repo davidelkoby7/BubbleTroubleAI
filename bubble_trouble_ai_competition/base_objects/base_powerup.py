@@ -38,7 +38,6 @@ class Powerup:
         self.pickable_timer = 0
         self.has_pickable_timer = True
 
-
     def update(self) -> None:
         """
         Updates the power up state.
@@ -62,7 +61,7 @@ class Powerup:
                 self.pickable_timer += 1
                 if self.pickable_timer >= self.pickable_duration:
                     self.pickable = False
-        
+                
         # If powerup picked up and the active_timer is over the active_duration, deactivate the powerup.
         if self.player and not self.active:
             self.deactivate()

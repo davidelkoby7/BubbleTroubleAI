@@ -24,10 +24,10 @@ class manualAI(BasePlayer):
             return Directions.DUCK
         
         if keys[pygame.K_LCTRL]:
-            self.left_punch()
+            self.do_left_punch()
         
         if keys[pygame.K_RCTRL]:
-            self.right_punch()
+            self.do_right_punch()
         
         if keys[pygame.K_LSHIFT]:
             self.up_punch()

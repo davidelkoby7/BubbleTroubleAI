@@ -102,7 +102,7 @@ class BasePlayer:
         """
         return random.choice([Directions.LEFT, Directions.RIGHT])
 
-    def right_punch(self):
+    def do_right_punch(self):
         """
         Player will punch with his right punch.
         """
@@ -110,7 +110,7 @@ class BasePlayer:
             
             self.punch_right = True
         ...
-    def left_punch(self):
+    def do_left_punch(self):
         """
         Player will punch with his left punch.
         """
@@ -209,7 +209,7 @@ class BasePlayer:
         # No collision - return False
         return False
     
-    def collides_with_punch(self, punch: 'PunchPowerup', punch_direction):
+    def collides_with_punch(self, punch: 'PunchPowerup', punch_left, punch_right):
         """
         Checks if the player collides with other player's punch..
 
@@ -222,15 +222,11 @@ class BasePlayer:
 
         # Check if the player's body collides with the powerup
         if not self.shield:
-            if punch.punch_action:
-                (punch_x, punch_y) = punch.action_punch_coordinates
-                player_x = self.x
             
-
-                if (punch_direction == 'player_right_punch' and self.x > punch_x) or (punch_direction == 'player_left_punch' and self.x-PowerupsSettings.PUNCH_ACTION_WIDTH < punch_x):
-        
-                    if rect_collide(player_x, self.y, self.width, self.height, punch_x, punch_y, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT):
-                        return True      
+            (punch_x, punch_y) = punch.action_punch_coordinates
+            if (punch_right and self.x > punch_x) or (punch_left and self.x-PowerupsSettings.PUNCH_ACTION_WIDTH < punch_x):
+                if rect_collide(self.x, self.y, self.width, self.height, punch_x, punch_y, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT):
+                    return True      
  
         # No collision - return False
         return False
