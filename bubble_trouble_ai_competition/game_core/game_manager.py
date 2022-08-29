@@ -14,6 +14,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
+from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
 
@@ -42,7 +43,8 @@ class GameManager:
         self.shots: list[ArrowShot] = []
         self.powerups: list[Powerup] = [
             PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),                    
+            ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
+            PunchPowerup(800, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),             
         ]
         self.alert: Alert = None
 
@@ -54,6 +56,10 @@ class GameManager:
         self.event_observable.add_observer(Events.POWERUP_PICKED, self.on_powerup_picked)
         self.event_observable.add_observer(Events.GAME_TIMEOUT, self.on_game_timeout)
         self.event_observable.add_observer(Events.SHOWED_ALERT, self.on_showed_alert)
+        self.event_observable.add_observer(Events.PLAYER_LPUNCH, self.on_player_left_punch)
+        self.event_observable.add_observer(Events.PLAYER_RPUNCH, self.on_player_right_punch)
+        self.event_observable.add_observer(Events.PLAYER_COLLIDES_LPUNCH, self.on_player_collides_left_punch)
+        self.event_observable.add_observer(Events.PLAYER_COLLIDES_RPUNCH, self.on_player_collides_right_punch)
         
         # Initializing scoreboards.
         self.scoreboards = []
@@ -94,7 +100,6 @@ class GameManager:
 
             all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar] 
 
-
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
                 item.update()
@@ -103,7 +108,10 @@ class GameManager:
                 item.update()
                 if (not item.active == True):
                     self.activated_powerups.remove(item)
-                
+            
+            # Handle powerups actions
+            self.handle_powerup_actions()
+
             # Collision detection.
             self.handle_collision()
 
@@ -119,15 +127,69 @@ class GameManager:
         self.event_observable.notify_observers(Events.CHANGE_GAME_TO_MENU)
 
 
+    def get_active_punch_powerups(self) -> list[PunchPowerup]:
+        return list(filter(lambda powerup: powerup if isinstance(powerup, PunchPowerup) else None, self.activated_powerups))
+
+    def handle_powerup_actions(self) -> None:
+
+        # Handle punch powerup actions.
+        for punch_powerup in self.get_active_punch_powerups():
+            
+            # Creates action punch event by punch direction.
+            if punch_powerup.player.punch_right:
+                self.event_observable.notify_observers(Events.PLAYER_RPUNCH, punch_powerup, punch_powerup.player)
+
+            elif punch_powerup.player.punch_left:
+                self.event_observable.notify_observers(Events.PLAYER_LPUNCH, punch_powerup, punch_powerup.player)
+    
+    def get_player_powerup(self, ai, powerup_instance):
+        """Get powerup by player and powerup instance. """
+        for powerup in self.activated_powerups:
+            if powerup.player == ai and type(powerup) == powerup_instance:
+                return powerup
+        return None
+
+    def handle_punch_collision(self) -> None:
+
+         # Check if ai punched by other ai's punch.
+        for powerup_punch in self.get_active_punch_powerups():
+
+            # Get all ais that are not the player with the powerup punch.
+            for ai in list(filter(lambda ai: ai if ai != powerup_punch.player else None, self.ais)):
+
+                # Check if ai collides with punch.
+                if ai.collides_with_punch(powerup_punch, powerup_punch.player.punch_left, powerup_punch.player.punch_right):
+
+                    if ai.shield:
+
+                        # Pop ai shield
+                        shield_powerup = self.get_player_powerup(ai, ShieldPowerup)
+                        ai.shield = False
+                        self.activated_powerups.remove(shield_powerup)
+
+                    # Creates punch collision events by direction.
+                    if powerup_punch.player.punch_left:
+                        self.event_observable.notify_observers(Events.PLAYER_COLLIDES_LPUNCH, powerup_punch, ai)
+                    
+                    elif powerup_punch.player.punch_right:
+                        self.event_observable.notify_observers(Events.PLAYER_COLLIDES_RPUNCH, powerup_punch, ai)
+
     def handle_collision(self) -> None:
         """
         Handles the collisions in the game.
+
         """
-        # Check if any AI hit a ball.
+        self.handle_punch_collision()
+
+        # Check collision for the ais.
         for ai in self.ais:
+
+            # Check if AI hit by a ball.
             for ball in self.balls:
                 if (ai.collides_with_ball(ball) == True):
                     self.ai_lost(ai)
+
+            # Check if AI pickup a powerup.
             for powerup in self.powerups:
                 if (ai.collides_with_powerup(powerup) == True):
                     self.event_observable.notify_observers(Events.POWERUP_PICKED, powerup, ai)
@@ -169,6 +231,11 @@ class GameManager:
         for shot in self.shots:
             if (shot.shooting_player == ai):
                 self.shots.remove(shot)
+        
+        # Remove all powerups of AI.
+        for powerup in self.activated_powerups:
+            if (powerup.player == ai):
+                self.activated_powerups.remove(powerup)
 
 
     def on_player_shot(self, ai: BasePlayer) -> None:
@@ -199,6 +266,8 @@ class GameManager:
         """
         self.powerups.remove(powerup)
         self.activated_powerups.append(powerup)
+        if isinstance(powerup, PunchPowerup):
+            player.punch_powerup = powerup
         powerup.activate(player)
 
 
@@ -250,4 +319,23 @@ class GameManager:
         pygame.time.wait(alert.frames_freeze)
         self.alert = None
         self.game_over = alert.end_game
-   
+    
+    def on_player_right_punch(self, punch: PunchPowerup, ai: BasePlayer):
+        """ Player's right punch action. """
+        punch.action_right_punch()
+    
+    def on_player_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
+        """ Player's left punch action. """
+        punch.action_left_punch()
+    
+    def on_player_collides_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
+        """ Player's left punch action collides. """
+        punch.collides_left_punch()
+        ai.get_left_punch_hit(punch)
+    
+    def on_player_collides_right_punch(self, punch: PunchPowerup, ai:BasePlayer):
+        """ Player's right punch action collides. """
+        punch.collides_right_punch()
+        ai.get_right_punch_hit(punch)
+        ...
+    
