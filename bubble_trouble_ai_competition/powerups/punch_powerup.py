@@ -24,16 +24,11 @@ class PunchPowerup(Powerup):
         self.powerup_image = pygame.transform.rotate(load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_collision_powerup.png", self.width, self.height), 270)
         self.left_punch_collision_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_collision_powerup.png", PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT)
         self.right_punch_collision_image = pygame.transform.flip(self.left_punch_collision_image, flip_x=True, flip_y=False)
-        self.up_punch_collision_image = pygame.transform.rotate(self.left_punch_collision_image, 270)
-
         self.left_action_punch_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_powerup.png", PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT)
         self.right_action_punch_image = pygame.transform.flip(self.left_action_punch_image, flip_x=True, flip_y=False)
-        self.up_action_punch_image = pygame.transform.rotate(self.left_action_punch_image, 270)
-
         self.left_punch_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_powerup.png", PowerupsSettings.PUNCH_WIDTH, PowerupsSettings.PUNCH_HEIGHT)
         self.right_punch_image = pygame.transform.flip(self.left_punch_image, flip_x=True, flip_y=False)
-        
-        self.punch_image = self.powerup_image
+        self.punch_image = self.powerup_image # Initialize value
         self.action_punch_coordinates = (0,0) # Initialize value
 
     def draw(self, screen: pygame.Surface) -> None:
@@ -72,14 +67,6 @@ class PunchPowerup(Powerup):
             self.player.punch_left = False
             self.player.punch_right = False
 
-    def collides_up_punch(self):
-        """
-        Set the up punch collision attribute, image and coordinates.
-        """
-        self.collides = True
-        self.punch_image = self.up_punch_collision_image
-        self.action_punch_coordinates = (0,0) #TODO
-
     def collides_left_punch(self):
         """
         Set the left punch collision attribute, image and coordinates.
@@ -94,7 +81,7 @@ class PunchPowerup(Powerup):
         """
         self.collides = True
         self.punch_image = self.right_punch_collision_image
-        self.action_punch_coordinates = (self.player.get_player_right_hand_coordinates()[0] - Settings.PLAYER_HANDS_SPACING*2, self.player.get_player_right_hand_coordinates()[1])
+        self.action_punch_coordinates = (self.player.get_player_right_hand_coordinates()[0] - Settings.PLAYER_HANDS_SPACING, self.player.get_player_right_hand_coordinates()[1])
 
     def action_left_punch(self):
         """
@@ -111,14 +98,6 @@ class PunchPowerup(Powerup):
         self.action = True
         self.punch_image = self.right_action_punch_image
         self.action_punch_coordinates = (self.player.get_player_right_hand_coordinates()[0] - Settings.PLAYER_HANDS_SPACING*2, self.player.get_player_right_hand_coordinates()[1])
-        
-    def action_up_punch(self):
-        """
-        Set the up punch action attribute, image and coordinates
-        """
-        self.action = True
-        self.punch_image = self.up_action_punch_image
-        self.action_punch_coordinates = (0,0) #todo
 
     def activate(self, player) -> None:
         """
@@ -137,5 +116,4 @@ class PunchPowerup(Powerup):
         """
         self.player.punch = False
         super().deactivate()
-    
     

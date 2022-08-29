@@ -1,3 +1,4 @@
+from asyncio import shield
 from binhex import LINELEN
 import os
 import random
@@ -185,6 +186,13 @@ class GameManager:
             elif punch_powerup.player.punch_left:
                 self.event_observable.notify_observers(Events.PLAYER_LPUNCH, punch_powerup, punch_powerup.player)
     
+    def get_player_powerup(self, ai, powerup_instance):
+        """Get powerup by player and powerup instance. """
+        for powerup in self.activated_powerups:
+            if powerup.player == ai and type(powerup) == powerup_instance:
+                return powerup
+        return None
+
     def handle_punch_collision(self) -> None:
 
          # Check if ai punched by other ai's punch.
@@ -195,7 +203,15 @@ class GameManager:
 
                 # Check if ai collides with punch.
                 if ai.collides_with_punch(powerup_punch, powerup_punch.player.punch_left, powerup_punch.player.punch_right):
-                    
+
+
+                    if ai.shield:
+
+                        # Pop ai shield
+                        shield_powerup = self.get_player_powerup(ai, ShieldPowerup)
+                        ai.shield = False
+                        self.activated_powerups.remove(shield_powerup)
+                        
                     # Creates punch collision events by direction.
                     if powerup_punch.player.punch_left:
                         self.event_observable.notify_observers(Events.PLAYER_COLLIDES_LPUNCH, powerup_punch, ai)
@@ -207,7 +223,6 @@ class GameManager:
         """
         Handles the collisions in the game.
 
-        #TODO: get each collision paragraph to function. just for clean code.
         """
         self.handle_punch_collision()
 
@@ -351,8 +366,6 @@ class GameManager:
         self.game_over = alert.end_game
     
     def on_player_right_punch(self, punch: PunchPowerup, ai: BasePlayer):
-        """
-        """
 
         punch.action_right_punch()
     
@@ -362,18 +375,11 @@ class GameManager:
 
         punch.action_left_punch()
     
-    def on_player_up_punch(self, punch: PunchPowerup, ai: BasePlayer):
-        """
-        TODO:
-        """
-        ...
-    
     def on_player_collides_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
         """
         """
         punch.collides_left_punch()
         ai.get_left_punch_hit(punch)
-        ...
     
     def on_player_collides_right_punch(self, punch: PunchPowerup, ai:BasePlayer):
         """

@@ -38,7 +38,7 @@ class Settings:
     PLAYER_WIDTH = PLAYER_DIMENSIONS[0] # In units of screen bits.
     PLAYER_HEIGHT = PLAYER_DIMENSIONS[1] # In units of screen bits.
     PLAYER_DUCK_HEIGHT = PLAYER_HEIGHT * 0.3 # In units of screen bits.
-    PLAYER_HANDS_SPACING = 0.1 # The diffrence between x of player's body to hand's x at player's image, in units of screen bits.
+    PLAYER_HANDS_SPACING = 0.2 # The diffrence between x of player's body to hand's x at player's image, in units of screen bits.
     HEAD_RADIUS = PLAYER_DIMENSIONS[0] / 2 # In units of screen bits.
     PLAYER_SPEED = 20 # In units of screen bits per second.
     HIT_RADIUS = 3 # In units of screen bits.
