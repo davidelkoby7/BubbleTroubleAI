@@ -1,8 +1,5 @@
-from asyncio import shield
-from binhex import LINELEN
 import os
 import random
-from tkinter import NO
 import pygame
 import importlib
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
@@ -204,14 +201,13 @@ class GameManager:
                 # Check if ai collides with punch.
                 if ai.collides_with_punch(powerup_punch, powerup_punch.player.punch_left, powerup_punch.player.punch_right):
 
-
                     if ai.shield:
 
                         # Pop ai shield
                         shield_powerup = self.get_player_powerup(ai, ShieldPowerup)
                         ai.shield = False
                         self.activated_powerups.remove(shield_powerup)
-                        
+
                     # Creates punch collision events by direction.
                     if powerup_punch.player.punch_left:
                         self.event_observable.notify_observers(Events.PLAYER_COLLIDES_LPUNCH, powerup_punch, ai)
@@ -281,7 +277,6 @@ class GameManager:
         for powerup in self.activated_powerups:
             if (powerup.player == ai):
                 self.activated_powerups.remove(powerup)
-        
 
 
     def on_player_shot(self, ai: BasePlayer) -> None:
@@ -366,24 +361,20 @@ class GameManager:
         self.game_over = alert.end_game
     
     def on_player_right_punch(self, punch: PunchPowerup, ai: BasePlayer):
-
+        """ Player's right punch action. """
         punch.action_right_punch()
     
     def on_player_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
-        """
-        """
-
+        """ Player's left punch action. """
         punch.action_left_punch()
     
     def on_player_collides_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
-        """
-        """
+        """ Player's left punch action collides. """
         punch.collides_left_punch()
         ai.get_left_punch_hit(punch)
     
     def on_player_collides_right_punch(self, punch: PunchPowerup, ai:BasePlayer):
-        """
-        """
+        """ Player's right punch action collides. """
         punch.collides_right_punch()
         ai.get_right_punch_hit(punch)
         ...

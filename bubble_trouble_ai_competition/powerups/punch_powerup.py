@@ -1,8 +1,7 @@
-from turtle import right
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.utils.constants import PowerupsSettings, Settings
-from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image, load_image_and_keep_aspect_ratio
+from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
 
 
 class PunchPowerup(Powerup):

@@ -28,9 +28,6 @@ class manualAI(BasePlayer):
         
         if keys[pygame.K_RCTRL]:
             self.do_right_punch()
-        
-        if keys[pygame.K_LSHIFT]:
-            self.up_punch()
             
         if keys[pygame.K_SPACE]:
             self.shoot()
