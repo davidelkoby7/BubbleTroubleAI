@@ -52,6 +52,7 @@ class BasePlayer:
         self.punch_left = False
         self.punch_up = False
         self.score = 0
+        self.is_competing = True
 
     @property
     def height(self):

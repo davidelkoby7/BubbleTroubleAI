@@ -1,7 +1,5 @@
-import os
 import random
 import pygame
-import importlib
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
@@ -19,14 +17,13 @@ from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
-from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 class GameManager:
     """
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, fps: int = Settings.FPS, game_timeout: int = Settings.FRAMES_TIMEOUT,screen_size: tuple = DisplayConstants.GAME_AREA_SIZE) -> None:
+    def __init__(self, ais_dir_path: str, ais:list[BasePlayer], event_observable: EventsObservable, graphics: Graphics, fps: int = Settings.FPS, game_timeout: int = Settings.FRAMES_TIMEOUT,screen_size: tuple = DisplayConstants.GAME_AREA_SIZE) -> None:
         """
         Initializes the game manager.
 
@@ -34,17 +31,16 @@ class GameManager:
             fps (int): The frames per second to run the game at.
             ais_dir_path (str): The path to the directory containing the ais.
         """
-        DisplayConstants.GAME_AREA_SIZE = screen_size
-        
-        self.graphics = Graphics()
+        self.event_observable = event_observable
+        self.graphics = graphics
+        self.ais_dir_path = ais_dir_path
+        self.ais = [ai for ai in ais if ai.is_competing == True]
 
         self.game_over = False
         self.game_timeout = game_timeout
         self.fps = fps
-        self.screen_size = screen_size
-        self.ai_objects = []
-        self.ai_classes = []
-        self.shots = []
+
+        self.shots: list[ArrowShot] = []
         self.powerups: list[Powerup] = [
             PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
@@ -53,8 +49,6 @@ class GameManager:
         self.alert: Alert = None
 
         self.activated_powerups = []
-
-        self.event_observable = EventsObservable()
 
         self.event_observable.add_observer(Events.PLAYER_SHOT, self.on_player_shot)
         self.event_observable.add_observer(Events.ARROW_OUT_OF_BOUNDS, self.on_arrow_out_of_bounds)
@@ -80,51 +74,15 @@ class GameManager:
             Ball(500, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
             Ball(300, 200, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
             ]
-        
+
         # Initializing countdown bar
         self.countdown_bar = CountdownBar(self.game_timeout, self.event_observable)
-
-
-    def load_ais(self, ais_dir_path: str) -> None:
-        """
-        Load the ais from the given directory.
-
-        Args:
-            ais_dir_path (str): The path to the directory containing the ais.
-    
-        Raises:
-            CantLoadBotException: If a bot can't be loaded.
-        """
-        self.ai_classes = []
-
-        # Dynamically load the ais from their files.
-        for file in os.listdir(ais_dir_path):
-            if (file.endswith(".py") and file != "__init__.py"):
-                ai_name = file[:-3] # The minus 3 => Removing the .py ending
-                imported_module = importlib.import_module("ais." + ai_name)
-                try:
-                    self.ai_classes.append(getattr(imported_module, ai_name + "AI"))
-                except:
-                    raise CantLoadBotException("Could not load ai class: " + ai_name)
-
-        # Create the ai objects.
-        self.ais: list[BasePlayer] = [class_ref(events_observable = self.event_observable, ais_dir_path = ais_dir_path) for class_ref in self.ai_classes]
-
-
-    def print_ais(self) -> None:
-        """
-        Calls the AI's talk method.
-        Just for testing to see if the ais are loaded correctly.
-        """
-        for ai in self.ais:
-            ai.talk()
 
 
     def run_game(self) -> None:
         """
         Run the main game loop.
         """
-
         # Main game loop.
         while (self.game_over != True):
             # Keeping the start time of the frame.
@@ -167,6 +125,9 @@ class GameManager:
 
             # Controling the framerate.
             pygame.time.wait(1000 // self.fps - time_taken)
+        
+        self.event_observable.notify_observers(Events.CHANGE_GAME_TO_MENU)
+
 
     def get_active_punch_powerups(self) -> list[PunchPowerup]:
         return list(filter(lambda powerup: powerup if isinstance(powerup, PunchPowerup) else None, self.activated_powerups))
@@ -342,13 +303,14 @@ class GameManager:
             self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), ball.speed_x, new_vertical_speed, ball.size - 1, ball.color, last_shot_by=ball.last_shot_by))
             self.balls.append(Ball(ball.get_raw_x(), ball.get_raw_y(), -ball.speed_x, new_vertical_speed, ball.size - 1, ball.color, last_shot_by=ball.last_shot_by))
 
+
     def on_game_timeout(self) -> None:
         """
         Called when game time is up.
         Creates and Alert object to notice and end game.
         """
-
         self.alert = Alert(msg="Game Timeout", end_game=True, events_observable=self.event_observable)
+
 
     def on_showed_alert(self, alert: Alert) -> None:
         """
