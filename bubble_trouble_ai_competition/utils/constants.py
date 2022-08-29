@@ -93,7 +93,10 @@ class PowerupsSettings:
     PUNCH_HEIGHT = Settings.PLAYER_HEIGHT * 0.8
     
     PUNCH_ACTION_WIDTH = PUNCH_WIDTH * 3
-    PUNCH_ACTION_HEIGHT =  PUNCH_HEIGHT 
+    PUNCH_ACTION_HEIGHT =  PUNCH_HEIGHT
+
+    MUG_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
+    MUG_HEIGHT = 0.2 
 
 powerup_constants_to_update = [x for x in dir(PowerupsSettings) if ("__" not in x)]
 
