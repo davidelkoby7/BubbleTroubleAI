@@ -60,8 +60,6 @@ class GameManager:
         self.event_observable.add_observer(Events.PLAYER_RPUNCH, self.on_player_right_punch)
         self.event_observable.add_observer(Events.PLAYER_COLLIDES_LPUNCH, self.on_player_collides_left_punch)
         self.event_observable.add_observer(Events.PLAYER_COLLIDES_RPUNCH, self.on_player_collides_right_punch)
-
-        self.load_ais(ais_dir_path)
         
         # Initializing scoreboards.
         self.scoreboards = []
