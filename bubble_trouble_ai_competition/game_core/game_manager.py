@@ -9,7 +9,7 @@ from bubble_trouble_ai_competition.base_objects.base_alert import Alert
 # Powerup class
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import PlayerSpeedBoostPowerup
-
+from bubble_trouble_ai_competition.powerups.player_speed_slower_powerup import PlayerSpeedSlowerPowerup
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
@@ -44,7 +44,8 @@ class GameManager:
         self.powerups: list[Powerup] = [
             PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            PunchPowerup(800, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),             
+            PunchPowerup(800, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
+            PlayerSpeedSlowerPowerup(900, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),           
         ]
         self.alert: Alert = None
 
@@ -212,7 +213,7 @@ class GameManager:
         for powerup in self.powerups:
             if powerup.pickable == False:
                 self.powerups.remove(powerup)
-
+        
 
     def ai_lost(self, ai: BasePlayer) -> None:
         """
@@ -233,10 +234,7 @@ class GameManager:
                 self.shots.remove(shot)
         
         # Remove all powerups of AI.
-        for powerup in self.activated_powerups:
-            if (powerup.player == ai):
-                self.activated_powerups.remove(powerup)
-
+        self.activated_powerups = list(filter(lambda powerup: powerup if powerup.player != ai else None, self.activated_powerups))
 
     def on_player_shot(self, ai: BasePlayer) -> None:
         """
@@ -267,7 +265,7 @@ class GameManager:
         self.powerups.remove(powerup)
         self.activated_powerups.append(powerup)
         if isinstance(powerup, PunchPowerup):
-            player.punch_powerup = powerup
+            player.punch_powerup = True
         powerup.activate(player)
 
 
