@@ -96,8 +96,8 @@ class PowerupsSettings:
     PUNCH_ACTION_HEIGHT =  PUNCH_HEIGHT
 
     MUG_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
-    MUG_HEIGHT = 0.2 
-
+    MUG_HEIGHT = Settings.PLAYER_HEIGHT * 0.6
+    MUG_SPACING = 0.1 # In units of screen bits.
 powerup_constants_to_update = [x for x in dir(PowerupsSettings) if ("__" not in x)]
 
 class Events:
