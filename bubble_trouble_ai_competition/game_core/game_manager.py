@@ -213,7 +213,7 @@ class GameManager:
         for powerup in self.powerups:
             if powerup.pickable == False:
                 self.powerups.remove(powerup)
-
+        
 
     def ai_lost(self, ai: BasePlayer) -> None:
         """
@@ -234,10 +234,7 @@ class GameManager:
                 self.shots.remove(shot)
         
         # Remove all powerups of AI.
-        for powerup in self.activated_powerups:
-            if (powerup.player == ai):
-                self.activated_powerups.remove(powerup)
-
+        self.activated_powerups = list(filter(lambda powerup: powerup if powerup.player != ai else None, self.activated_powerups))
 
     def on_player_shot(self, ai: BasePlayer) -> None:
         """
@@ -268,7 +265,7 @@ class GameManager:
         self.powerups.remove(powerup)
         self.activated_powerups.append(powerup)
         if isinstance(powerup, PunchPowerup):
-            player.punch_powerup = powerup
+            player.punch_powerup = True
         powerup.activate(player)
 
 
