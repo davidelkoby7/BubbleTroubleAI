@@ -117,15 +117,7 @@ class BasePlayer:
         """
         if self.punch_powerup:
             self.punch_left = True
-        ...
-    
-    def up_punch(self):
-        """
-        Player will punch with his up punch.
-        """
-        if self.punch_powerup:
-            self.punch_up = True    
-        ...
+            
     def shoot(self):
         """
         Player will shoot.

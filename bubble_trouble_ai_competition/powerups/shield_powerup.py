@@ -8,7 +8,7 @@ class ShieldPowerup(Powerup):
     """
     Powerup that protects the player from bubble collisions.
     """
-    def __init__(self, x: int, y: int, speed_y: float, gravity: float = ...) -> None:
+    def __init__(self, x: int, y: int, speed_y: float, gravity: float = ..., random = False) -> None:
         """
         Initializes the power up.
         Args:
@@ -16,9 +16,11 @@ class ShieldPowerup(Powerup):
             y (int): The y coordinate of the power up.
             speed_y (float): The vertical speed of the power up.
             gravity (float): The gravity which will affect the power up.
+            random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
-        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "shield_powerup.png", self.width, self.height)
+        powerup_image_name =  "shield_powerup.png" if not random else "random_powerup.png"
+        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  powerup_image_name, self.width, self.height) 
         self.shield_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "shield.png", PowerupsSettings.SHIELD_WIDTH, PowerupsSettings.SHIELD_HEIGHT)
 
 
