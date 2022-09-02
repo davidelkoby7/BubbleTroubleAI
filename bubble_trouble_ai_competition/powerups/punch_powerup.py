@@ -8,7 +8,7 @@ class PunchPowerup(Powerup):
     """
     Powerup that get the player the best smashing punch.
     """
-    def __init__(self, x: int, y: int, speed_y: float, gravity: float = ...) -> None:
+    def __init__(self, x: int, y: int, speed_y: float, gravity: float = ..., random = False) -> None:
         """
         Initializes the power up.
         Args:
@@ -16,11 +16,14 @@ class PunchPowerup(Powerup):
             y (int): The y coordinate of the power up.
             speed_y (float): The vertical speed of the power up.
             gravity (float): The gravity which will affect the power up.
+            random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
         self.action = False
         self.collides = False
-        self.powerup_image = pygame.transform.rotate(load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_collision_powerup.png", self.width, self.height), 270)
+        powerup_image_name =  "punch_collision_powerup.png" if not random else "random_powerup.png"
+        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  powerup_image_name, self.width, self.height) 
+        self.powerup_image = pygame.transform.rotate(self.powerup_image, 270) if not random else self.powerup_image # rotate the original powerup image
         self.left_punch_collision_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_collision_powerup.png", PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT)
         self.right_punch_collision_image = pygame.transform.flip(self.left_punch_collision_image, flip_x=True, flip_y=False)
         self.left_action_punch_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_powerup.png", PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT)
@@ -105,6 +108,7 @@ class PunchPowerup(Powerup):
         Args:
             player (Player): The player to activate.
         """
+        player.punch_powerup = True
         player.punch = True
         super().activate(player)
     

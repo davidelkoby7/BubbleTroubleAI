@@ -9,16 +9,18 @@ class PlayerSpeedSlowerPowerup(Powerup):
     """
     Power up that increases the player's speed.
     """
-    def __init__(self, x: int, y: int, speed_y: float, gravity: float = ...) -> None:
+    def __init__(self, x: int, y: int, speed_y: float, gravity: float = ..., random = False) -> None:
         """
         Initializes the power up.
         
         Args:
             x (int): The x coordinate of the power up.
             y (int): The y coordinate of the power up.
+            random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
-        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "player_speed_slower_powerup.png", self.width, self.height)
+        powerup_image_name =  "player_speed_slower_powerup.png" if not random else "random_powerup.png"
+        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  powerup_image_name, self.width, self.height)
 
         self.mud_slower_image =  load_and_scale_image(Settings.ASSETS_DIR + "/" +  "mud.png", PowerupsSettings.MUG_WIDTH, PowerupsSettings.MUG_HEIGHT)
     
