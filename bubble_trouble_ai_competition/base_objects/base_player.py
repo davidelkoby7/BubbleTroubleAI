@@ -45,14 +45,16 @@ class BasePlayer:
         self.stand_body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
         self.body_image = self.stand_body_image
         self.body_image_rect = self.body_image.get_rect()
+        self.score = 0
+        self.is_competing = True
+
+        # Section for some of the player's active powerups.
         self.punch_powerup = False
-        self.shield = False
         self.punch = False
         self.punch_right = False
         self.punch_left = False
-        self.punch_up = False
-        self.score = 0
-        self.is_competing = True
+        self.shield = False
+        self.double_points = False
 
     @property
     def height(self):

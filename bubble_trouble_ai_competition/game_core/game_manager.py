@@ -10,6 +10,7 @@ from bubble_trouble_ai_competition.base_objects.base_alert import Alert
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import PlayerSpeedBoostPowerup
 from bubble_trouble_ai_competition.powerups.player_speed_slower_powerup import PlayerSpeedSlowerPowerup
+from bubble_trouble_ai_competition.powerups.player_double_points_powerup import PlayerDoublePointsPowerup
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
@@ -45,7 +46,8 @@ class GameManager:
             PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             PunchPowerup(800, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            PlayerSpeedSlowerPowerup(900, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED), 
+            PlayerSpeedSlowerPowerup(900, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
+            PlayerDoublePointsPowerup(1050, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             random.choice(Powerup.__subclasses__())(950, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED, random=True) # pick a random powerup      
         ]
         self.alert: Alert = None
@@ -279,8 +281,15 @@ class GameManager:
         # Remove the ball from the game.
         self.balls.remove(ball)
 
-        # Add score to the player that shot the ball.
-        shooter.score += ball.size
+        # Add points to player's score that shot the ball.
+        points = ball.size
+
+        # Double the points if player have active double points powerup.
+        if self.get_player_powerup(shooter, PlayerDoublePointsPowerup):
+            points = points * 2
+        
+        # Add to points from shot to player's score.
+        shooter.score += points
         if (ceiling_shot == True):
             shooter.score += sum([i for i in range(ball.size)])
 
