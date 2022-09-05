@@ -1,9 +1,11 @@
+import os
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
-from bubble_trouble_ai_competition.utils.constants import Events
+from bubble_trouble_ai_competition.utils.constants import Events, Settings
+from bubble_trouble_ai_competition.utils.exceptions import NoLevelsImplemented
 
 class MenuManager:
     def __init__(self, graphics: Graphics, ais: list[BasePlayer], events_observable: EventsObservable):
@@ -19,6 +21,27 @@ class MenuManager:
         self.graphics = graphics
         self.ais = ais
         self.events_observable = events_observable
+        self.load_levels_from_dir()
+
+    
+    def load_levels_from_dir(self) -> None:
+        """
+        Loads the levels from the given directory.
+        
+        Returns:
+            list[str]: The levels files.
+        """
+        self.levels: list[str] = []
+
+        for level in os.listdir(Settings.LEVELS_DIR):
+            if (level.endswith(".json")):
+                self.levels.append({"name": level[:-5], "active": False}) # The minus 5 => Removing the .json ending
+        
+        if (len(self.levels) == 0):
+            raise NoLevelsImplemented()
+
+        self.curr_active_level_index: int = 0
+        self.levels[0]["active"] = True
 
 
     def run_menu(self) -> None:
@@ -54,7 +77,18 @@ class MenuManager:
                         continue
                     
                     key_pressed = chr(event.key)
+                    if (not key_pressed.isdigit() and not key_pressed.isalpha()):
+                        continue
+
                     if (not key_pressed.isdigit()):
+                        key_pressed = key_pressed.upper()
+                        index = ord(key_pressed) - ord("A")
+                        if (index >= len(self.levels)):
+                            continue
+                        
+                        self.levels[self.curr_active_level_index]["active"] = False
+                        self.curr_active_level_index = index
+                        self.levels[index]["active"] = True
                         continue
 
                     key_pressed = int(key_pressed)
@@ -63,4 +97,4 @@ class MenuManager:
                     self.ais[key_pressed - 1].is_competing = not self.ais[key_pressed - 1].is_competing
             
             # Drawing the menu.
-            self.graphics.draw_menu(self.ais)
+            self.graphics.draw_menu(self.ais, self.levels)

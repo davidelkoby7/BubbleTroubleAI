@@ -1,5 +1,10 @@
+import os
+import sys
+import json
 import random
 import pygame
+
+
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
@@ -18,38 +23,37 @@ from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
+from bubble_trouble_ai_competition.utils.exceptions import LevelNotFound
 
 class GameManager:
     """
     Will manage the game objects, main loop and logic.
     """
 
-    def __init__(self, ais_dir_path: str, ais:list[BasePlayer], event_observable: EventsObservable, graphics: Graphics, fps: int = Settings.FPS, game_timeout: int = Settings.FRAMES_TIMEOUT,screen_size: tuple = DisplayConstants.GAME_AREA_SIZE) -> None:
+    def __init__(self, ais_dir_path: str, ais:list[BasePlayer], event_observable: EventsObservable, graphics: Graphics, level: str, fps: int = Settings.FPS) -> None:
         """
         Initializes the game manager.
 
         Args:
             fps (int): The frames per second to run the game at.
             ais_dir_path (str): The path to the directory containing the ais.
+            level (str): The path of the level to load.
         """
+
+        if (self.load_level_data(level) == False):
+            raise LevelNotFound(f"{level}")
+        
+        self.initialize_level()
+        
         self.event_observable = event_observable
         self.graphics = graphics
         self.ais_dir_path = ais_dir_path
         self.ais = [ai for ai in ais if ai.is_competing == True]
 
         self.game_over = False
-        self.game_timeout = game_timeout
         self.fps = fps
 
         self.shots: list[ArrowShot] = []
-        self.powerups: list[Powerup] = [
-            PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            PunchPowerup(800, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            PlayerSpeedSlowerPowerup(900, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            PlayerDoublePointsPowerup(1050, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            random.choice(Powerup.__subclasses__())(950, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED, random=True) # pick a random powerup      
-        ]
         self.alert: Alert = None
 
         self.activated_powerups = []
@@ -71,14 +75,40 @@ class GameManager:
             self.scoreboards.append(AIScoreboard(self.ais[i], ScoreboardConstants.SCOREBOARD_START_POSITION[0] + (ScoreboardConstants.SCOREBOARD_SPACING + ScoreboardConstants.SCOREBOARD_WIDTH) * i,
                                                 ScoreboardConstants.SCOREBOARD_START_POSITION[1]))
 
-        self.balls = [
-            Ball(100, 100, Settings.BALL_SPEED, 0, 6, BallColors.PURPLE),
-            Ball(500, 100, Settings.BALL_SPEED, 0, 2, BallColors.GREEN),
-            Ball(300, 200, Settings.BALL_SPEED, 0, 4, BallColors.BLUE),
-            ]
-
         # Initializing countdown bar
         self.countdown_bar = CountdownBar(self.game_timeout, self.event_observable)
+    
+
+    def initialize_level(self) -> None:
+        self.game_timeout = self.level_data["duration"] * Settings.FPS
+
+        self.balls: list[Ball] = []
+        for ball in self.level_data["balls"]:
+            self.balls.append(
+                Ball(
+                    ball["x"] * DisplayConstants.SCREEN_BIT,
+                    ball["y"] * DisplayConstants.SCREEN_BIT,
+                    ball["speed_x"] * DisplayConstants.SCREEN_BIT,
+                    ball["speed_y"] * DisplayConstants.SCREEN_BIT,
+                    ball["size"],
+                    ball["color"]
+                    )
+                )
+        
+        self.powerups = []
+        self.powerups_data: list[Powerup] = []
+        for powerup in self.level_data["powerups"]:
+            self.powerups_data.append({"class": getattr(sys.modules[__name__], powerup["name"]), "probability": powerup["spawn_probability"]})
+
+
+    def load_level_data(self, level:str):
+        if (not os.path.exists(level)):
+            return False
+        
+        with open(level, "r") as f:
+            self.level_data = json.load(f)
+        
+        return True
 
 
     def run_game(self) -> None:
@@ -101,6 +131,8 @@ class GameManager:
             
             if self.alert:
                 self.alert.update()
+            
+            self.handle_powerup_creation()
 
             all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar] 
 
@@ -130,15 +162,22 @@ class GameManager:
         
         self.event_observable.notify_observers(Events.CHANGE_GAME_TO_MENU)
 
+    
+    def handle_powerup_creation(self):
+        for powerup in self.powerups_data:
+            rand_value:int = random.random()
+            if (rand_value <= powerup["probability"]):
+                rand_x = random.randint(DisplayConstants.LEFT_BORDER_X_VALUE, DisplayConstants.RIGHT_BORDER_X_VALUE)
+                self.powerups.append(powerup["class"](rand_x, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED))
+
 
     def get_active_punch_powerups(self) -> list[PunchPowerup]:
         return list(filter(lambda powerup: powerup if isinstance(powerup, PunchPowerup) else None, self.activated_powerups))
 
-    def handle_powerup_actions(self) -> None:
 
+    def handle_powerup_actions(self) -> None:
         # Handle punch powerup actions.
         for punch_powerup in self.get_active_punch_powerups():
-            
             # Creates action punch event by punch direction.
             if punch_powerup.player.punch_right:
                 self.event_observable.notify_observers(Events.PLAYER_RPUNCH, punch_powerup, punch_powerup.player)
@@ -146,12 +185,14 @@ class GameManager:
             elif punch_powerup.player.punch_left:
                 self.event_observable.notify_observers(Events.PLAYER_LPUNCH, punch_powerup, punch_powerup.player)
     
+
     def get_player_powerup(self, ai, powerup_instance):
         """Get powerup by player and powerup instance. """
         for powerup in self.activated_powerups:
             if powerup.player == ai and type(powerup) == powerup_instance:
                 return powerup
         return None
+
 
     def handle_punch_collision(self) -> None:
 
@@ -177,6 +218,7 @@ class GameManager:
                     
                     elif powerup_punch.player.punch_right:
                         self.event_observable.notify_observers(Events.PLAYER_COLLIDES_RPUNCH, powerup_punch, ai)
+
 
     def handle_collision(self) -> None:
         """
@@ -239,6 +281,7 @@ class GameManager:
         # Remove all powerups of AI.
         self.activated_powerups = list(filter(lambda powerup: powerup if powerup.player != ai else None, self.activated_powerups))
 
+
     def on_player_shot(self, ai: BasePlayer) -> None:
         """
         Called when a player shoots.
@@ -248,6 +291,7 @@ class GameManager:
         """
         self.shots.append(ArrowShot(Settings.ARROW_SPEED, ai, self.event_observable))
     
+
     def on_arrow_out_of_bounds(self, arrow: ArrowShot) -> None:
         """
         Called when an arrow goes out of bounds.
@@ -257,6 +301,7 @@ class GameManager:
         """
         arrow.shooting_player.is_shooting = False
         self.shots.remove(arrow)
+
 
     def on_powerup_picked(self, powerup: Powerup, player: BasePlayer) -> None:
         """
@@ -326,18 +371,22 @@ class GameManager:
         self.alert = None
         self.game_over = alert.end_game
     
+
     def on_player_right_punch(self, punch: PunchPowerup, ai: BasePlayer):
         """ Player's right punch action. """
         punch.action_right_punch()
     
+
     def on_player_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
         """ Player's left punch action. """
         punch.action_left_punch()
     
+
     def on_player_collides_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
         """ Player's left punch action collides. """
         punch.collides_left_punch()
         ai.get_left_punch_hit(punch)
+    
     
     def on_player_collides_right_punch(self, punch: PunchPowerup, ai:BasePlayer):
         """ Player's right punch action collides. """
