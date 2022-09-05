@@ -21,6 +21,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup
+from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import LevelNotFound
@@ -140,7 +141,17 @@ class GameManager:
             for item in all_items:
                 item.update()
             
+
             for item in self.activated_powerups:
+
+                # Action the freeze powerup on a random ai.
+                if isinstance(item, FreezePowerup):
+                   other_ais = [ai for ai in self.ais if ai != item.player]
+                   # Check that there are still others ais in game.
+                   if other_ais != []:
+                       ai = random.choice(other_ais)
+                       item.player.freeze_player(ai, item)
+
                 item.update()
                 if (not item.active == True):
                     self.activated_powerups.remove(item)
@@ -273,13 +284,19 @@ class GameManager:
         # Kill the AI.
         self.ais.remove(ai)
 
+        # Remove the freezing made by other players.
+        ai.freeze = False
+        
         # Remove all shots made by the AI.
         for shot in self.shots:
             if (shot.shooting_player == ai):
                 self.shots.remove(shot)
         
-        # Remove all powerups of AI.
-        self.activated_powerups = list(filter(lambda powerup: powerup if powerup.player != ai else None, self.activated_powerups))
+        # Deactivate and remove all powerups of AI.
+        for powerup in self.activated_powerups[:]:
+            if powerup.player == ai:
+                powerup.deactivate()
+                self.activated_powerups.remove(powerup)
 
 
     def on_player_shot(self, ai: BasePlayer) -> None:
