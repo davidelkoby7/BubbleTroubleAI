@@ -26,7 +26,10 @@ class ArrowShot:
         self.speed_y = speed_y
         self.shooting_player = shooting_player
         self.events_observable = events_observable
-        self.arrow_image = load_image_and_keep_aspect_ratio(Settings.ASSETS_DIR + "/arrow.png", self.width)
+
+        # Get the arrow image type (basic arrow or double points arrow).
+        arrow_type = "/arrow.png" if not shooting_player.double_points else "/double_points_arrow.png" 
+        self.arrow_image = load_image_and_keep_aspect_ratio(Settings.ASSETS_DIR + arrow_type, self.width)
 
 
     def update(self) -> None:
