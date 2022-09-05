@@ -28,15 +28,19 @@ class FreezePowerup(Powerup):
         self.ice_cube_image = load_and_scale_image(Settings.ASSETS_DIR + "/" + "ice_cube.png", PowerupsSettings.ICE_CUBE_WIDTH, PowerupsSettings.ICE_CUBE_HEIGHT)
         self.ice_cube_image.set_alpha(128)
 
+
     @property
     def freeze_player(self):
         return self._freeze_player
     
+
     @freeze_player.setter
     def freeze_player(self, ai):
         self._freeze_player = ai
-        ai.freeze = True
+        if ai != None:
+            ai.freeze = True
     
+
     def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the power up.
@@ -44,19 +48,17 @@ class FreezePowerup(Powerup):
             screen (pygame.Surface): The screen to draw on.
         """
         if self.active:
-
             # Draw the freeze power up on the owning player of this power up.
             screen.blit(self.active_player_powerup, (self.player.get_player_top_left_corner()[0] - self.player.head_radius/2, self.player.get_player_top_left_corner()[1] - PowerupsSettings.ICE_CROWN_HEIGHT + PowerupsSettings.ICE_CROWN_SPACING))
             
             if self.freeze_player and self.freeze_player.freeze:
-
                 # Draw the frozing player.
-                screen.blit(self.freeze_image, (self.freeze_player.get_player_top_left_corner()[0] - self.freeze_player.head_radius ,DisplayConstants.FLOOR_Y_VALUE - PowerupsSettings.ICE_FREEZE_HEIGHT))
-                screen.blit(self.ice_cube_image, (self.freeze_player.get_player_top_left_corner()[0] - self.freeze_player.head_radius ,DisplayConstants.FLOOR_Y_VALUE - PowerupsSettings.ICE_CROWN_HEIGHT*2 - Settings.HEAD_RADIUS*4))
+                screen.blit(self.freeze_image, (self.freeze_player.x - self.freeze_player.head_radius ,PowerupsSettings.ICE_FREEZE_HEIGHT))
+                screen.blit(self.ice_cube_image, (self.freeze_player.x - self.freeze_player.head_radius ,DisplayConstants.FLOOR_Y_VALUE - PowerupsSettings.ICE_CROWN_HEIGHT))
         else:
-
             # Draw the unpicked freeze powerup.
             screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
+
 
     def activate(self, player) -> None:
         """
@@ -67,14 +69,16 @@ class FreezePowerup(Powerup):
         player.can_freeze = True
         super().activate(player)
     
+
     def deactivate(self) -> None:
         """
         Deactivates the power up and release the freezed player.
         """
         self.player.can_freeze = False
-        if self.freeze_player:
+        if self.freeze_player != None:
             self.freeze_player.freeze = False
+            self.freeze_player = None
         super().deactivate()
-  
+
          
         

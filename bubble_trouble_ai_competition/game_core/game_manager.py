@@ -113,11 +113,12 @@ class GameManager:
 
             for item in self.activated_powerups:
 
-                # this section is POC for freeze player with the freeze powerup -> need to remove it when done.
+                # Action the freeze powerup on a random ai.
                 if isinstance(item, FreezePowerup):
-                   other_ais = list(filter(lambda ai: ai if ai != item.player else None, self.ais))
-                   if other_ais:
-                       ai = other_ais[0]
+                   other_ais = [ai for ai in self.ais if ai != item.player]
+                   # Check that there are still others ais in game.
+                   if other_ais != []:
+                       ai = random.choice(other_ais)
                        item.player.freeze_player(ai, item)
 
                 item.update()
