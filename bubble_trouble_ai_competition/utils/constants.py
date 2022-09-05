@@ -101,13 +101,17 @@ class PowerupsSettings:
 
     ICE_CROWN_WIDTH = Settings.HEAD_RADIUS * 3
     ICE_CROWN_HEIGHT  = Settings.PLAYER_HEIGHT * 0.6
-    ICE_CROWN_SPACING = 0.5 # In units of acreen bits.
+    ICE_CROWN_SPACING = 0.5 # In units of screen bits.
+    ICE_CROWN_Y = DisplayConstants.FLOOR_Y_VALUE - Settings.PLAYER_HEIGHT - Settings.HEAD_RADIUS*2 - ICE_CROWN_HEIGHT + ICE_CROWN_SPACING
 
     ICE_FREEZE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
     ICE_FREEZE_HEIGHT = Settings.PLAYER_HEIGHT * 0.8
+    ICE_FREEZE_Y = DisplayConstants.FLOOR_Y_VALUE - ICE_FREEZE_HEIGHT
 
     ICE_CUBE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
-    ICE_CUBE_HEIGHT = Settings.PLAYER_HEIGHT * 2 + Settings.HEAD_RADIUS*2
+    ICE_CUBE_HEIGHT = (Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2) * 1.3
+    ICE_CUBE_SPACING = 0.7 # In units of screen bits.
+    ICE_CUBE_Y = DisplayConstants.FLOOR_Y_VALUE - ICE_CUBE_HEIGHT + ICE_CUBE_SPACING
 
 powerup_constants_to_update = [x for x in dir(PowerupsSettings) if ("__" not in x)]
 

@@ -49,12 +49,12 @@ class FreezePowerup(Powerup):
         """
         if self.active:
             # Draw the freeze power up on the owning player of this power up.
-            screen.blit(self.active_player_powerup, (self.player.x - self.player.head_radius/2, self.player.y - PowerupsSettings.ICE_CROWN_HEIGHT + PowerupsSettings.ICE_CROWN_SPACING))
+            screen.blit(self.active_player_powerup, (self.player.x - Settings.HEAD_RADIUS/2, PowerupsSettings.ICE_CROWN_Y))
             
             if self.freeze_player and self.freeze_player.freeze:
                 # Draw the frozing player.
-                screen.blit(self.freeze_image, (self.freeze_player.x - self.freeze_player.head_radius ,DisplayConstants.FLOOR_Y_VALUE - PowerupsSettings.ICE_FREEZE_HEIGHT))
-                screen.blit(self.ice_cube_image, (self.freeze_player.x - self.freeze_player.head_radius ,DisplayConstants.FLOOR_Y_VALUE - PowerupsSettings.ICE_CROWN_HEIGHT*2 - Settings.HEAD_RADIUS*4))
+                screen.blit(self.freeze_image, (self.freeze_player.x - Settings.HEAD_RADIUS ,PowerupsSettings.ICE_FREEZE_Y))
+                screen.blit(self.ice_cube_image, (self.freeze_player.x - Settings.HEAD_RADIUS , PowerupsSettings.ICE_CUBE_Y))
         else:
             # Draw the unpicked freeze powerup.
             screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
