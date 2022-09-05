@@ -57,6 +57,7 @@ class Settings:
 
     BASE_MODULE_DIR = __file__ [:-18] # The minus 18 - to remove the part of the path until the base of our module. TODO: FIX THIS SHIT
     ASSETS_DIR = BASE_MODULE_DIR + "assets"
+    LEVELS_DIR = BASE_MODULE_DIR + "levels/"
     BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/background.jpg"
     MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/MenuBackground.png"
 
@@ -205,6 +206,9 @@ class MainMenuConstants:
     AIS_LEFT_MARGIN = 50
     AIS_INITIAL_HEIGHT = 20
     AIS_HEIGHT_MARGIN = 2
+    LEVELS_LEFT_MARGIN = 70
+    LEVELS_INITIAL_HEIGHT = 20
+    LEVELS_HEIGHT_MARGIN = 2
 
 main_menu_constants_to_update = [
     'TITLE_POSITION',
@@ -217,4 +221,7 @@ main_menu_constants_to_update = [
     'AIS_LEFT_MARGIN',
     'AIS_INITIAL_HEIGHT',
     'AIS_HEIGHT_MARGIN',
+    'LEVELS_LEFT_MARGIN',
+    'LEVELS_INITIAL_HEIGHT',
+    'LEVELS_HEIGHT_MARGIN',
 ]

@@ -1,0 +1,14 @@
+{
+    "level_name": "Starting Level",
+    "duration": 30,
+
+    "balls": [ 
+        {"x": 40, "y": 20, "speed_x": 10, "speed_y": -20, "color": "red", "size": 3},
+        {"x": 60, "y": 20, "speed_x": 10, "speed_y": 0, "color": "blue", "size": 5}
+    ],
+
+    "powerups": [
+        {"name": "PunchPowerup", "spawn_probability": 0.001},
+        {"name": "ShieldPowerup", "spawn_probability": 0.002}
+    ]
+}
