@@ -3,7 +3,7 @@ import sys
 import json
 import random
 import pygame
-
+from copy import deepcopy
 
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
@@ -135,22 +135,16 @@ class GameManager:
             
             self.handle_powerup_creation()
 
-            all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar] 
+            all_items = self.balls + self.shots + self.powerups + [self.countdown_bar] 
 
-            # Run the main logic for each AI, ball, and shot
             for item in all_items:
                 item.update()
             
-
+            # Run the main logic for each AI, ball, and shot
+            for ai in self.ais:
+                ai.update(deepcopy(self.ais), deepcopy(self.activated_powerups))
+                
             for item in self.activated_powerups:
-
-                # Action the freeze powerup on a random ai.
-                if isinstance(item, FreezePowerup):
-                   other_ais = [ai for ai in self.ais if ai != item.player]
-                   # Check that there are still others ais in game.
-                   if other_ais != []:
-                       ai = random.choice(other_ais)
-                       item.player.freeze_player(ai, item)
 
                 item.update()
                 if (not item.active == True):

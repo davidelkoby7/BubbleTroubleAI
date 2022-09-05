@@ -1,4 +1,5 @@
 import pygame
+import random
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.utils.constants import Directions, Events
@@ -16,10 +17,22 @@ class manualAI(BasePlayer):
         #         print (f"On Ball Popped! {ball_id=}, {ball_name=}")
         # )
 
+    def pick_player_to_freeze(self, ais) -> BasePlayer:
+        ai = None
+        other_ais = [ai for ai in self.ais if ai != self]
+        # Check that there are still others ais in game.
+        if other_ais != []:
+            ai = random.choice(other_ais) 
+        return ai
 
-    def pick_direction(self) -> Directions:
+    def pick_direction(self, ais) -> Directions:
         keys = pygame.key.get_pressed()
-        
+
+        if keys[pygame.K_q]:
+            ai = self.pick_player_to_freeze(ais)
+            if ai != None:
+                self.freeze_player(ai)
+
         if keys[pygame.K_DOWN]:
             return Directions.DUCK
         

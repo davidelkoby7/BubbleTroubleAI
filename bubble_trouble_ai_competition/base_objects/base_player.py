@@ -73,12 +73,12 @@ class BasePlayer:
         self._height = new_height
         self.y = DisplayConstants.FLOOR_Y_VALUE - self.position[1] - self.height
 
-    def update(self) -> None:
+    def update(self, ais) -> None:
         """
         Updates the player's attributes.
         """
 
-        self.direction = self.pick_direction()
+        self.direction = self.pick_direction(ais)
 
         if self.direction == Directions.DUCK:
             self.duck()
