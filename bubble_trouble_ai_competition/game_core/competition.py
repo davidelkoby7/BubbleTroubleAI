@@ -6,7 +6,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.game_core.game_manager import GameManager
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.game_core.menu_manager import MenuManager
-from bubble_trouble_ai_competition.utils.constants import Events, GameStates
+from bubble_trouble_ai_competition.utils.constants import Events, GameStates, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 
@@ -40,7 +40,7 @@ class Competition:
 
         if (start == True):
             self.start()
-
+        
 
     def load_observable(self):
         """
@@ -150,4 +150,5 @@ class Competition:
         Generates the game manager.
         """
         self.load_observable()
-        self.game_manager = GameManager(self.ais_dir_path, self.ais, self.event_observable, self.graphics)
+        level_to_run = self.menu_manager.levels[self.menu_manager.curr_active_level_index]["name"]
+        self.game_manager = GameManager(self.ais_dir_path, self.ais, self.event_observable, self.graphics, Settings.LEVELS_DIR + level_to_run + ".json")

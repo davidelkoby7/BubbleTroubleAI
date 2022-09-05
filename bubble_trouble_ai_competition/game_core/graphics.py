@@ -151,7 +151,7 @@ class Graphics:
         # Updating the screen.
         pygame.display.flip()
 
-    def draw_menu(self, ais: list[BasePlayer]) -> None:
+    def draw_menu(self, ais: list[BasePlayer], levels: list[dict]) -> None:
         """
         Draw the menu.
         """
@@ -179,6 +179,17 @@ class Graphics:
             text_surface = DesignConstants.BASE_FONT.render(f'#{i + 1}: {ai.name}', False, color)
             self.screen.blit(text_surface, (MainMenuConstants.AIS_LEFT_MARGIN, curr_y))
             curr_y += MainMenuConstants.AIS_HEIGHT_MARGIN
+
+        # Draw the levels that can be played.
+        curr_y: int = MainMenuConstants.LEVELS_INITIAL_HEIGHT
+        for i, level in enumerate(levels):
+            color = (255, 0, 0)
+            if (level["active"]):
+                color = (0, 255, 0)
+            letter: str = chr(ord('A') + i)
+            text_surface = DesignConstants.BASE_FONT.render(f'{letter}: {level["name"]}', False, color)
+            self.screen.blit(text_surface, (MainMenuConstants.LEVELS_LEFT_MARGIN, curr_y))
+            curr_y += MainMenuConstants.LEVELS_HEIGHT_MARGIN
 
         # Updating the screen.
         pygame.display.flip()
