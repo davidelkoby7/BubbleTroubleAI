@@ -16,6 +16,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup
+from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
 
@@ -48,6 +49,7 @@ class GameManager:
             PunchPowerup(800, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             PlayerSpeedSlowerPowerup(900, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             PlayerDoublePointsPowerup(1050, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
+            FreezePowerup(1100, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
             random.choice(Powerup.__subclasses__())(950, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED, random=True) # pick a random powerup      
         ]
         self.alert: Alert = None
@@ -108,7 +110,16 @@ class GameManager:
             for item in all_items:
                 item.update()
             
+
             for item in self.activated_powerups:
+
+                # this section is POC for freeze player with the freeze powerup -> need to remove it when done.
+                if isinstance(item, FreezePowerup):
+                   other_ais = list(filter(lambda ai: ai if ai != item.player else None, self.ais))
+                   if other_ais:
+                       ai = other_ais[0]
+                       item.player.freeze_player(ai, item)
+
                 item.update()
                 if (not item.active == True):
                     self.activated_powerups.remove(item)
@@ -231,13 +242,19 @@ class GameManager:
         # Kill the AI.
         self.ais.remove(ai)
 
+        # Remove the freezing made by other players.
+        ai.freeze = False
+        
         # Remove all shots made by the AI.
         for shot in self.shots:
             if (shot.shooting_player == ai):
                 self.shots.remove(shot)
         
-        # Remove all powerups of AI.
-        self.activated_powerups = list(filter(lambda powerup: powerup if powerup.player != ai else None, self.activated_powerups))
+        # Deactivate and remove all powerups of AI.
+        for powerup in self.activated_powerups[:]:
+            if powerup.player == ai:
+                powerup.deactivate()
+                self.activated_powerups.remove(powerup)
 
     def on_player_shot(self, ai: BasePlayer) -> None:
         """

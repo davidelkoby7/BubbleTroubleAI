@@ -98,6 +98,17 @@ class PowerupsSettings:
     MUG_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
     MUG_HEIGHT = Settings.PLAYER_HEIGHT * 0.6
     MUG_SPACING = 0.1 # In units of screen bits.
+
+    ICE_CROWN_WIDTH = Settings.HEAD_RADIUS * 3
+    ICE_CROWN_HEIGHT  = Settings.PLAYER_HEIGHT * 0.6
+    ICE_CROWN_SPACING = 0.5 # In units of acreen bits.
+
+    ICE_FREEZE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
+    ICE_FREEZE_HEIGHT = Settings.PLAYER_HEIGHT * 0.8
+
+    ICE_CUBE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
+    ICE_CUBE_HEIGHT = Settings.PLAYER_HEIGHT * 2 + Settings.HEAD_RADIUS*2
+
 powerup_constants_to_update = [x for x in dir(PowerupsSettings) if ("__" not in x)]
 
 class Events:

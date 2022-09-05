@@ -55,6 +55,8 @@ class BasePlayer:
         self.punch_left = False
         self.shield = False
         self.double_points = False
+        self.can_freeze = False
+        self.freeze = False
 
     @property
     def height(self):
@@ -82,7 +84,8 @@ class BasePlayer:
             self.duck()
         else:
             self.stand()
-            self.move()
+            if not self.freeze:
+                self.move()
         self.update_head_center()
 
     def duck(self):
@@ -317,3 +320,10 @@ class BasePlayer:
             int: The player's score.
         """
         return self.score
+    
+    def freeze_player(self, ai, freeze_powerup):
+        """Freeze another ai player with the freeze powerup"""
+        if self.can_freeze:
+            freeze_powerup.freeze_player = ai
+            self.can_freeze = False # make sure player freeze only one player
+    
