@@ -1,6 +1,7 @@
 import pygame
 import random
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
+from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
 
 from bubble_trouble_ai_competition.utils.constants import Directions, Events
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
@@ -18,20 +19,30 @@ class manualAI(BasePlayer):
         # )
 
     def pick_player_to_freeze(self, ais) -> BasePlayer:
-        ai = None
-        other_ais = [ai for ai in self.ais if ai != self]
+       
+        other_ais = [ai for ai in ais if ai != self]
         # Check that there are still others ais in game.
         if other_ais != []:
             ai = random.choice(other_ais) 
-        return ai
+            return ai
+        else:
+            return None
 
-    def pick_direction(self, ais) -> Directions:
+    def get_player_powerup(self, ai, active_powerups, powerup_type):
+        for powerup in active_powerups:
+            if ai == powerup.player and isinstance(powerup, powerup_type):
+                return powerup
+        return None
+
+    def pick_direction(self, ais, active_powerups) -> Directions:
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_q]:
-            ai = self.pick_player_to_freeze(ais)
-            if ai != None:
-                self.freeze_player(ai)
+            if ai.can_freeze:
+                ai = self.pick_player_to_freeze(ais)
+                freeze_powerup = self.get_player_powerup(self, active_powerups, FreezePowerup)
+                if ai != None:
+                    self.freeze_player(ai, freeze_powerup)
 
         if keys[pygame.K_DOWN]:
             return Directions.DUCK
