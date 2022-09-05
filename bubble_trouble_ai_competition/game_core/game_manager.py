@@ -43,15 +43,6 @@ class GameManager:
         self.fps = fps
 
         self.shots: list[ArrowShot] = []
-        self.powerups: list[Powerup] = [
-            PlayerSpeedBoostPowerup(200, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            ShieldPowerup(400, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            PunchPowerup(800, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            PlayerSpeedSlowerPowerup(900, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            PlayerDoublePointsPowerup(1050, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            FreezePowerup(1100, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED),
-            random.choice(Powerup.__subclasses__())(950, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED, random=True) # pick a random powerup      
-        ]
         self.alert: Alert = None
 
         self.activated_powerups = []
