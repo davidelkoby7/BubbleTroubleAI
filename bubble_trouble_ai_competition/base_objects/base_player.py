@@ -47,6 +47,7 @@ class BasePlayer:
         self.body_image_rect = self.body_image.get_rect()
         self.score = 0
         self.is_competing = True
+        self.game_state = {'ais': [], 'balls': [],'shots': [],'powerups': [], 'frame_remaining': Settings.TOTAL_GAME_FRAMES}
 
         # Section for some of the player's active powerups.
         self.punch_powerup = False
@@ -56,7 +57,8 @@ class BasePlayer:
         self.shield = False
         self.double_points = False
         self.can_freeze = False
-        self.freeze = False
+        self.freeze_action = False
+        self.freeze = False # ai flag if freeze.
 
     @property
     def height(self):
@@ -73,12 +75,21 @@ class BasePlayer:
         self._height = new_height
         self.y = DisplayConstants.FLOOR_Y_VALUE - self.position[1] - self.height
 
-    def update(self, ais) -> None:
+    def update_game_state(self, ais, balls, shots, powerups, frames_remaining):
+        self.game_state = {
+                            'ais': ais,
+                            'balls': balls,
+                            'shots': shots,
+                            'powerups': powerups,
+                            'frame_remaining': frames_remaining}
+
+
+    def update(self) -> None:
         """
         Updates the player's attributes.
         """
 
-        self.direction = self.pick_direction(ais)
+        self.direction = self.pick_direction()
 
         if self.direction == Directions.DUCK:
             self.duck()
@@ -102,11 +113,13 @@ class BasePlayer:
         self.height = Settings.PLAYER_DIMENSIONS[1]
         self.body_image = self.stand_body_image
 
+
     def pick_direction(self) -> Directions:
         """
         Function to be implemented by the inheriting class of each ai.
         """
         return random.choice([Directions.LEFT, Directions.RIGHT])
+
 
     def do_right_punch(self):
         """
@@ -115,7 +128,8 @@ class BasePlayer:
         if self.punch_powerup:
             
             self.punch_right = True
-        ...
+        
+
     def do_left_punch(self):
         """
         Player will punch with his left punch.
@@ -207,6 +221,7 @@ class BasePlayer:
         # No collision - return False
         return False
     
+
     def collides_with_punch(self, punch: 'PunchPowerup', punch_left, punch_right):
         """
         Checks if the player collides with other player's punch..
@@ -227,6 +242,7 @@ class BasePlayer:
         # No collision - return False
         return False
     
+
     def get_right_punch_hit(self, punch: 'PunchPowerup'):
         """
         """
@@ -236,6 +252,8 @@ class BasePlayer:
             
         else:
             self.x = self.x + Settings.HIT_RADIUS
+
+
     def get_left_punch_hit(self, punch: 'PunchPowerup'):
         """
         """
@@ -321,9 +339,25 @@ class BasePlayer:
         """
         return self.score
     
-    def freeze_player(self, ai, freeze_powerup):
+
+    def do_freeze(self) -> None:
         """Freeze another ai player with the freeze powerup"""
         if self.can_freeze:
-            freeze_powerup.freeze_player = ai
-            self.can_freeze = False # make sure player freeze only one player
+            self.freeze_action = True # make sure player freeze only one player
+
+    def pick_player_to_freeze(self):
+       
+        other_ais = [ai for ai in self.game_state['ais'] if ai.name != self.name]
+        # Check that there are still others ais in game.
+        if other_ais != []:
+            ai = random.choice(other_ais) 
+            return ai.name
+        else:
+            return None
+
+
+    def copy_object(self):
+        attr_dict = dict(filter(lambda attr: not isinstance(attr[1], pygame.Surface) and not attr[0] == "self.game_state", self.__dict__.items()))
+        return type("PlayerData", (BasePlayer, ), attr_dict)
+
     

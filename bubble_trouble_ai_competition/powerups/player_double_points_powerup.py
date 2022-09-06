@@ -46,3 +46,6 @@ class PlayerDoublePointsPowerup(Powerup):
         """
         self.player.double_points = False
         super().deactivate()
+    
+    def copy_object(self):
+        return type("PlayerDoublePointsPowerupData", (PlayerDoublePointsPowerup, ), self.get_powerup_data())

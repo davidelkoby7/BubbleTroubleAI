@@ -8,6 +8,7 @@
     ],
 
     "powerups": [
+        {"name": "FreezePowerup", "spawn_probability": 0.005},
         {"name": "PunchPowerup", "spawn_probability": 0.001},
         {"name": "ShieldPowerup", "spawn_probability": 0.002}
     ]

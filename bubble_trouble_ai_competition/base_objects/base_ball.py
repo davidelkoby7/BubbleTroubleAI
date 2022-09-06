@@ -124,3 +124,6 @@ class Ball:
     def draw(self, screen: pygame.Surface) -> None:
         screen.blit(self.ball_image, (self.x - self.radius, self.y - self.radius))
 
+    def copy_object(self):
+        attr_dict = dict(filter(lambda attr: not isinstance(attr[1], pygame.Surface), self.__dict__.items()))
+        return type("BallData", (Ball, ), attr_dict)

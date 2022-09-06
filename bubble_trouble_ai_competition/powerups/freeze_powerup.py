@@ -1,4 +1,3 @@
-from tkinter import N
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.utils.constants import DisplayConstants, PowerupsSettings, Settings
@@ -39,6 +38,7 @@ class FreezePowerup(Powerup):
         self._freeze_player = ai
         if ai != None:
             ai.freeze = True
+            self.player.can_freeze = False # player can only freeze one player.
     
 
     def draw(self, screen: pygame.Surface) -> None:
@@ -79,6 +79,9 @@ class FreezePowerup(Powerup):
             self.freeze_player.freeze = False
             self.freeze_player = None
         super().deactivate()
+    
+    def copy_object(self):
+        return type("FreezePowerupData", (FreezePowerup, ), self.get_powerup_data())
 
          
         

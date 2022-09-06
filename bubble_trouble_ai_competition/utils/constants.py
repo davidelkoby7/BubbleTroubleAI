@@ -131,9 +131,11 @@ class Events:
     PLAYER_UPUNCH = "player_up_punch"
     PLAYER_COLLIDES_RPUNCH = "player_collides_left_punch"
     PLAYER_COLLIDES_LPUNCH = "player_collides_right_punch"
+    FREEZE_PLAYER = "freeze_player"
     CHANGE_MENU_TO_GAME = "change_menu_to_game"
     CHANGE_GAME_TO_MENU = "change_game_to_menu"
     QUIT_MENU = "quit_menu"
+
 
 
 ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]

@@ -120,3 +120,7 @@ class PunchPowerup(Powerup):
         self.player.punch = False
         super().deactivate()
     
+
+    def copy_object(self):
+        return type("PunchPowerupData", (PunchPowerup, ), self.get_powerup_data())
+    

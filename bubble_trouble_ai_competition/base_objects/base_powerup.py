@@ -1,4 +1,5 @@
 
+from abc import abstractmethod
 from turtle import width
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
@@ -108,4 +109,17 @@ class Powerup:
         # if powerup is not picked up, draw it.
         if self.player == None:
             screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
+
+    def get_powerup_data(self) -> dict:
+        data = dict(filter(lambda attr: not isinstance(attr[1], pygame.Surface), self.__dict__.items()))
+        #for attr in data.keys():
+        #    if attr.startswith('_'):
+        #        data.pop(attr)
+                
+        #        data[attr[1:]] = self.data[attr[1:]]
+        return data
+
+    @abstractmethod
+    def copy_object(self):
+        return type("PowerupData", (Powerup, ), self.get_powerup_data())
 

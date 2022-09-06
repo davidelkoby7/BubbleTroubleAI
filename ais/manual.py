@@ -18,31 +18,21 @@ class manualAI(BasePlayer):
         #         print (f"On Ball Popped! {ball_id=}, {ball_name=}")
         # )
 
-    def pick_player_to_freeze(self, ais) -> BasePlayer:
+    def pick_player_to_freeze(self) -> BasePlayer:
        
-        other_ais = [ai for ai in ais if ai != self]
+        other_ais = [ai for ai in self.game_state['ais'] if ai.name != self.name]
         # Check that there are still others ais in game.
         if other_ais != []:
             ai = random.choice(other_ais) 
-            return ai
+            return ai.name
         else:
             return None
 
-    def get_player_powerup(self, ai, active_powerups, powerup_type):
-        for powerup in active_powerups:
-            if ai == powerup.player and isinstance(powerup, powerup_type):
-                return powerup
-        return None
-
-    def pick_direction(self, ais, active_powerups) -> Directions:
+    def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_q]:
-            if ai.can_freeze:
-                ai = self.pick_player_to_freeze(ais)
-                freeze_powerup = self.get_player_powerup(self, active_powerups, FreezePowerup)
-                if ai != None:
-                    self.freeze_player(ai, freeze_powerup)
+            self.do_freeze()
 
         if keys[pygame.K_DOWN]:
             return Directions.DUCK

@@ -47,4 +47,9 @@ class ArrowShot:
         """
         self.height = DisplayConstants.FLOOR_Y_VALUE - self.y
         screen.blit(self.arrow_image, (self.x, self.y), area=pygame.Rect(0, 0, self.width, self.height))
+    
+
+    def copy_object(self):
+        attr_dict = dict(filter(lambda attr: not isinstance(attr[1], pygame.Surface), self.__dict__.items()))
+        return type("ArrowShotData", (ArrowShot, ), attr_dict)
 

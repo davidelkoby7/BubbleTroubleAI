@@ -42,3 +42,6 @@ class PlayerSpeedBoostPowerup(Powerup):
         """
         self.player.speed = SpeedTypes.NORMAL
         super().deactivate()
+    
+    def copy_object(self):
+        return type("PlayerSpeedBoostPowerupData", (PlayerSpeedBoostPowerup, ), self.get_powerup_data())
