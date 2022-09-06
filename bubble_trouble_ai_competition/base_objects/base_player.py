@@ -1,6 +1,4 @@
-from cgitb import grey
 import random
-import pygame
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 
@@ -11,7 +9,7 @@ from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings, PowerupsSettings
-from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide, load_and_scale_image
+from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 from bubble_trouble_ai_competition.utils.load_images import get_ai_images
 
@@ -37,7 +35,6 @@ class BasePlayer:
         self.head_radius = Settings.HEAD_RADIUS
         self.dimensions = Settings.PLAYER_DIMENSIONS
         self.update_head_center()
-        self.color = (255, 0, 0)
         self.speed = SpeedTypes.NORMAL
         self.events_observable = events_observable
         self.is_shooting = False
@@ -58,6 +55,7 @@ class BasePlayer:
         self.freeze_action = False
         self.freeze = False # ai flag if freeze.
 
+
     @property
     def height(self):
         """
@@ -73,12 +71,11 @@ class BasePlayer:
         self._height = new_height
         self.y = DisplayConstants.FLOOR_Y_VALUE - self.position[1] - self.height
 
-    def update_game_state(self, ais, balls, shots, powerups, frames_remaining):
+    def update_game_state(self, ais, shots, balls, powerups, frames_remaining):
         """ Update for player the game state. """
-        self.game_state = {
-                            'ais': ais,
-                            'balls': balls,
+        self.game_state = { 'ais': ais,
                             'shots': shots,
+                            'balls': balls,
                             'powerups': powerups,
                             'frame_remaining': frames_remaining}
 
@@ -263,7 +260,7 @@ class BasePlayer:
         else:
             self.x = self.x - Settings.HIT_RADIUS
 
-    def draw(self, screen: pygame.Surface) -> None:
+    def draw(self, screen) -> None:
         """
         Draws the player on the screen.
 
@@ -358,8 +355,5 @@ class BasePlayer:
             return None
 
 
-    def copy_object(self):
-        attr_dict = dict(filter(lambda attr: not isinstance(attr[1], pygame.Surface) and not attr[0] == "self.game_state", self.__dict__.items()))
-        return type("PlayerData", (BasePlayer, ), attr_dict)
 
     

@@ -3,6 +3,7 @@ import sys
 import json
 import random
 import pygame
+from copy import deepcopy
 
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
@@ -150,6 +151,7 @@ class GameManager:
             
             # Update ais of the game state at the current game's frame.
             for ai in self.ais:
+           
                 ai.update_game_state(self.copy_items(self.ais), self.copy_items(self.balls), self.copy_items(self.shots),
                                       self.copy_items(self.powerups), self.countdown_bar.frames_remaining)
                                         
@@ -430,10 +432,10 @@ class GameManager:
                 return ai
         return None
 
-
+    
     @staticmethod
     def copy_items(items):
-        return [item.copy_object() for item in items]
-        
+        return [deepcopy(item) for item in items]
+       
 
     

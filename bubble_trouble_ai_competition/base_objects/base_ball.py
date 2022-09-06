@@ -27,7 +27,7 @@ class Ball:
         self.radius = self.size * Settings.BALL_SIZE_TO_RADIUS_RATIO
         self.color = color
         self.gravity = Settings.DEFAULT_GRAVITY
-        self.last_shot_by = last_shot_by
+        self.last_shot_by = None
     
 
     def get_raw_x(self) -> int:
@@ -122,7 +122,3 @@ class Ball:
 
     def draw(self, screen: pygame.Surface) -> None:
         screen.blit(get_ball_image(self.color, self.size), (self.x - self.radius, self.y - self.radius))
-
-    def copy_object(self):
-        attr_dict = dict(filter(lambda attr: not isinstance(attr[1], pygame.Surface), self.__dict__.items()))
-        return type("BallData", (Ball, ), attr_dict)

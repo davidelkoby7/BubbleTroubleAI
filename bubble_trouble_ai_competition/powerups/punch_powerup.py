@@ -1,6 +1,6 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
-from bubble_trouble_ai_competition.utils.constants import PowerupsSettings, Settings
+from bubble_trouble_ai_competition.utils.constants import Settings
 from bubble_trouble_ai_competition.utils.general_utils import flip_x_image
 from bubble_trouble_ai_competition.utils.load_images import Images
 
@@ -43,26 +43,26 @@ class PunchPowerup(Powerup):
             screen.blit(flip_x_image(Images.powerups_images["left_collision_punch"]), self.get_right_punch_action_coordinates())
             self.collides_right_punch = False
             self.action_right_punch = False
-            self.player.action_right = False
+            self.player.punch_right = False
 
         elif self.collides_left_punch == True:
             # Draw the left punch collision.
             screen.blit(Images.powerups_images["left_collision_punch"], self.get_left_punch_action_coordinates())
             self.collides_left_punch = False
             self.action_left_punch = False
-            self.player.action_left = False
+            self.player.punch_left = False
 
         elif self.action_left_punch == True and self.active == True:
             # Draw the left punch action (without a collision).
             screen.blit(Images.powerups_images["left_action_punch"], self.get_left_punch_action_coordinates())
             self.action_left_punch = False
-            self.player.action_left = False
+            self.player.punch_left = False
         
         elif self.action_right_punch == True and self.active == True:
             # Draw the right punch action (without a collision).
             screen.blit(flip_x_image(Images.powerups_images["left_action_punch"]), self.get_right_punch_action_coordinates())
             self.action_right_punch = False
-            self.player.action_right = False
+            self.player.punch_right = False
 
         elif self.active:
             # Draw the punch powerup abillity of player (without punch action).
@@ -92,6 +92,4 @@ class PunchPowerup(Powerup):
         super().deactivate()
     
 
-    def copy_object(self):
-        return type("PunchPowerupData", (PunchPowerup, ), self.get_powerup_data())
     

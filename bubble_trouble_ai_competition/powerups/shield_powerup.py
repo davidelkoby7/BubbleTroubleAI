@@ -50,8 +50,5 @@ class ShieldPowerup(Powerup):
         self.player.shield = False
         super().deactivate()
     
-
-    def copy_object(self):
-        return type("ShieldPowerupData", (ShieldPowerup, ), self.get_powerup_data())
     
     
