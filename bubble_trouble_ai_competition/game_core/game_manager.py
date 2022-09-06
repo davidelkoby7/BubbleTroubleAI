@@ -3,7 +3,6 @@ import sys
 import json
 import random
 import pygame
-from copy import deepcopy
 
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
