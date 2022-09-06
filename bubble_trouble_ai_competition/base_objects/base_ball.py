@@ -2,7 +2,7 @@
 import pygame
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Settings
 from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collide, load_and_scale_image
-
+from bubble_trouble_ai_competition.utils.load_images import get_ball_image 
 
 class Ball:
     def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: BallColors, last_shot_by = None) -> None:
@@ -26,7 +26,6 @@ class Ball:
         self.size = size
         self.radius = self.size * Settings.BALL_SIZE_TO_RADIUS_RATIO
         self.color = color
-        self.ball_image = load_and_scale_image(Settings.ASSETS_DIR + "/" + self.color + "_ball.png", self.radius * 2, self.radius * 2)
         self.gravity = Settings.DEFAULT_GRAVITY
         self.last_shot_by = last_shot_by
     
@@ -122,5 +121,4 @@ class Ball:
     
 
     def draw(self, screen: pygame.Surface) -> None:
-        screen.blit(self.ball_image, (self.x - self.radius, self.y - self.radius))
-
+        screen.blit(get_ball_image(self.color, self.size), (self.x - self.radius, self.y - self.radius))
