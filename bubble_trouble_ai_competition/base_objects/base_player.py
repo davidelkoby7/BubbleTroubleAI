@@ -1,3 +1,4 @@
+from cgitb import grey
 import random
 import pygame
 from typing import TYPE_CHECKING
@@ -12,6 +13,8 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings, PowerupsSettings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide, load_and_scale_image
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
+from bubble_trouble_ai_competition.utils.load_images import get_ai_images
+
 class BasePlayer:
     """
     Base class to create an AI playing the game.
@@ -38,16 +41,11 @@ class BasePlayer:
         self.speed = SpeedTypes.NORMAL
         self.events_observable = events_observable
         self.is_shooting = False
-        self.head_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head.png", self.head_radius * 2, self.head_radius * 2)
-        self.head_right_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_right.png", self.head_radius * 2, self.head_radius * 2)
-        self.head_left_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_left.png", self.head_radius * 2, self.head_radius * 2)
-        self.duck_body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, Settings.PLAYER_DUCK_HEIGHT)
-        self.stand_body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
-        self.body_image = self.stand_body_image
-        self.body_image_rect = self.body_image.get_rect()
         self.score = 0
         self.is_competing = True
         self.game_state = {'ais': [], 'balls': [],'shots': [],'powerups': [], 'frame_remaining': Settings.TOTAL_GAME_FRAMES}
+        self.is_ducking = False
+        self.arrow_color = "grey"
 
         # Section for some of the player's active powerups.
         self.punch_powerup = False
@@ -106,14 +104,15 @@ class BasePlayer:
 
         #  update player's new height and body image
         self.height = Settings.PLAYER_DUCK_HEIGHT
-        self.body_image = self.duck_body_image
-    
+        self.is_ducking = True
+
+
     def stand(self):
         """Player will stand."""
 
         #  update player's new height and body image
         self.height = Settings.PLAYER_DIMENSIONS[1]
-        self.body_image = self.stand_body_image
+        self.is_ducking = False
 
 
     def pick_direction(self) -> Directions:
@@ -127,8 +126,7 @@ class BasePlayer:
         """
         Player will punch with his right punch.
         """
-        if self.punch_powerup:
-            
+        if self.punch_powerup:            
             self.punch_right = True
         
 
@@ -274,17 +272,19 @@ class BasePlayer:
         """
 
         # Drawing body
-        screen.blit(self.body_image, (self.x, self.y))
+        ai_images = get_ai_images(self.name)
+        body_image = ai_images["duck_body"] if self.is_ducking else ai_images["stand_body"]
+        screen.blit(body_image, (self.x, self.y))
 
         # Drawing head
         head_image_draw_position = (self.head_center[0] - self.head_radius, self.head_center[1] - self.head_radius)
 
         if (self.direction == Directions.STAND or self.direction == Directions.DUCK):
-            screen.blit(self.head_image, head_image_draw_position)
+            screen.blit(ai_images["head"], head_image_draw_position)
         elif (self.direction == Directions.LEFT):
-            screen.blit(self.head_left_image, head_image_draw_position)
+            screen.blit(ai_images["left_head"], head_image_draw_position)
         elif (self.direction == Directions.RIGHT):
-            screen.blit(self.head_right_image, head_image_draw_position)
+            screen.blit(ai_images["right_head"], head_image_draw_position)
 
     def can_shoot(self) -> bool:
         """

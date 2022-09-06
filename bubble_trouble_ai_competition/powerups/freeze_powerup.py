@@ -1,7 +1,7 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.utils.constants import DisplayConstants, PowerupsSettings, Settings
-from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
+from bubble_trouble_ai_competition.utils.load_images import Images
 
 
 class FreezePowerup(Powerup):
@@ -19,13 +19,7 @@ class FreezePowerup(Powerup):
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
-        powerup_image_name =  "freeze_powerup.png" if not random else "random_powerup.png"
-        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  powerup_image_name, self.width, self.height) 
-        self.active_player_powerup = load_and_scale_image(Settings.ASSETS_DIR + "/" + "freeze_powerup.png", PowerupsSettings.ICE_CROWN_WIDTH, PowerupsSettings.ICE_CROWN_HEIGHT)
-        self.freeze_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "ice_freeze_player.png", PowerupsSettings.ICE_FREEZE_WIDTH, PowerupsSettings.ICE_FREEZE_HEIGHT)
-        self._freeze_player = None
-        self.ice_cube_image = load_and_scale_image(Settings.ASSETS_DIR + "/" + "ice_cube.png", PowerupsSettings.ICE_CUBE_WIDTH, PowerupsSettings.ICE_CUBE_HEIGHT)
-        self.ice_cube_image.set_alpha(128)
+        self._freeze_player = None 
 
 
     @property
@@ -49,15 +43,15 @@ class FreezePowerup(Powerup):
         """
         if self.active:
             # Draw the freeze power up on the owning player of this power up.
-            screen.blit(self.active_player_powerup, (self.player.x - Settings.HEAD_RADIUS/2, PowerupsSettings.ICE_CROWN_Y))
+            screen.blit(Images.powerups_images["ice_crown"], (self.player.x - Settings.HEAD_RADIUS/2, PowerupsSettings.ICE_CROWN_Y))
             
             if self.freeze_player and self.freeze_player.freeze:
                 # Draw the frozing player.
-                screen.blit(self.freeze_image, (self.freeze_player.x - Settings.HEAD_RADIUS ,PowerupsSettings.ICE_FREEZE_Y))
-                screen.blit(self.ice_cube_image, (self.freeze_player.x - Settings.HEAD_RADIUS , PowerupsSettings.ICE_CUBE_Y))
-        else:
-            # Draw the unpicked freeze powerup.
-            screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
+                screen.blit(Images.powerups_images["ice_freeze"], (self.freeze_player.x - Settings.HEAD_RADIUS ,PowerupsSettings.ICE_FREEZE_Y))
+                screen.blit(Images.powerups_images["ice_cube"], (self.freeze_player.x - Settings.HEAD_RADIUS , PowerupsSettings.ICE_CUBE_Y))
+
+        super().draw(screen, Images.powerups_images["freeze_powerup"])
+
 
 
     def activate(self, player) -> None:

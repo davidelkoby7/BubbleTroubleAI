@@ -24,6 +24,7 @@ from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import LevelNotFound
+from bubble_trouble_ai_competition.utils.load_images import load_game_images
 
 class GameManager:
     """
@@ -39,7 +40,8 @@ class GameManager:
             ais_dir_path (str): The path to the directory containing the ais.
             level (str): The path of the level to load.
         """
-
+        load_game_images()
+    
         if (self.load_level_data(level) == False):
             raise LevelNotFound(f"{level}")
         
@@ -186,10 +188,10 @@ class GameManager:
         for punch_powerup in self.get_active_powerups_by_type(PunchPowerup):
             # Creates action punch event by punch direction.
             if punch_powerup.player.punch_right:
-                self.event_observable.notify_observers(Events.PLAYER_RPUNCH, punch_powerup, punch_powerup.player)
+                self.event_observable.notify_observers(Events.PLAYER_RPUNCH, punch_powerup)
 
             elif punch_powerup.player.punch_left:
-                self.event_observable.notify_observers(Events.PLAYER_LPUNCH, punch_powerup, punch_powerup.player)
+                self.event_observable.notify_observers(Events.PLAYER_LPUNCH, punch_powerup)
         
         # Handle freeze powerup action.
         for freeze_powerup in self.get_active_powerups_by_type(FreezePowerup):
@@ -392,25 +394,25 @@ class GameManager:
         self.game_over = alert.end_game
     
 
-    def on_player_right_punch(self, punch: PunchPowerup, ai: BasePlayer):
+    def on_player_right_punch(self, punch: PunchPowerup):
         """ Player's right punch action. """
-        punch.action_right_punch()
+        punch.action_right_punch = True
     
 
-    def on_player_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
+    def on_player_left_punch(self, punch: PunchPowerup):
         """ Player's left punch action. """
-        punch.action_left_punch()
+        punch.action_left_punch = True
     
 
     def on_player_collides_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
         """ Player's left punch action collides. """
-        punch.collides_left_punch()
+        punch.collides_left_punch = True
         ai.get_left_punch_hit(punch)
     
     
     def on_player_collides_right_punch(self, punch: PunchPowerup, ai:BasePlayer):
         """ Player's right punch action collides. """
-        punch.collides_right_punch()
+        punch.collides_right_punch = True
         ai.get_right_punch_hit(punch)
     
 
