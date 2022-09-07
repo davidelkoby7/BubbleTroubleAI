@@ -223,7 +223,11 @@ class BasePlayer:
         """
 
         # Check if the player's body collides with the powerup
-        (punch_x, punch_y) = punch.action_punch_coordinates
+        if punch_left == True:
+            (punch_x, punch_y) = punch.get_left_punch_action_coordinates()
+        else:
+            (punch_x, punch_y) = punch.get_right_punch_action_coordinates()
+            
         if (punch_right and self.x > punch_x) or (punch_left and self.x-PowerupsSettings.PUNCH_ACTION_WIDTH < punch_x):
             if rect_collide(self.x, self.y, self.width, self.height, punch_x, punch_y, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT):
                 return True      
