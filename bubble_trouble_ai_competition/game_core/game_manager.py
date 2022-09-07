@@ -25,6 +25,7 @@ from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import LevelNotFound
+from bubble_trouble_ai_competition.utils.load_images import load_game_images
 
 class GameManager:
     """
@@ -40,6 +41,8 @@ class GameManager:
             ais_dir_path (str): The path to the directory containing the ais.
             level (str): The path of the level to load.
         """
+        
+        load_game_images()
 
         if (self.load_level_data(level) == False):
             raise LevelNotFound(f"{level}")
