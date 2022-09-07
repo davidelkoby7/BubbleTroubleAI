@@ -29,9 +29,9 @@ class PlayerSpeedSlowerPowerup(Powerup):
             screen (pygame.Surface): The screen to draw on.
         """
         if self.active:
-            screen.blit(Images.powerups_images["mud"], (self.player.get_player_left_hand_coordinates()[0], self.player.get_player_top_left_corner()[1] + self.player.height - PowerupsSettings.MUD_SPACING))
+            screen.blit(Images.powerups_images[PowerupsSettings.MUD], (self.player.get_player_left_hand_coordinates()[0], self.player.get_player_top_left_corner()[1] + self.player.height - PowerupsSettings.MUD_SPACING))
         
-        super().draw(screen, Images.powerups_images["speed_slower_powerup"])
+        super().draw(screen, Images.powerups_images[PowerupsSettings.SPEED_SLOWER_POWERUP])
     
     def activate(self, player: BasePlayer) -> None:
         """

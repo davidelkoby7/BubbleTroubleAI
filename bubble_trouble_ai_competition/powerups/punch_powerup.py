@@ -1,6 +1,6 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
-from bubble_trouble_ai_competition.utils.constants import Settings
+from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings
 from bubble_trouble_ai_competition.utils.general_utils import flip_x_image
 from bubble_trouble_ai_competition.utils.load_display import Images
 
@@ -40,36 +40,36 @@ class PunchPowerup(Powerup):
 
         if self.collides_right_punch == True:
             # Draw the right punch collision.
-            screen.blit(flip_x_image(Images.powerups_images["left_collision_punch"]), self.get_right_punch_action_coordinates())
+            screen.blit(flip_x_image(Images.powerups_images[PowerupsSettings.LEFT_COLLISION_PUNCH]), self.get_right_punch_action_coordinates())
             self.collides_right_punch = False
             self.action_right_punch = False
             self.player.punch_right = False
 
         elif self.collides_left_punch == True:
             # Draw the left punch collision.
-            screen.blit(Images.powerups_images["left_collision_punch"], self.get_left_punch_action_coordinates())
+            screen.blit(Images.powerups_images[PowerupsSettings.LEFT_COLLISION_PUNCH], self.get_left_punch_action_coordinates())
             self.collides_left_punch = False
             self.action_left_punch = False
             self.player.punch_left = False
 
         elif self.action_left_punch == True and self.active == True:
             # Draw the left punch action (without a collision).
-            screen.blit(Images.powerups_images["left_action_punch"], self.get_left_punch_action_coordinates())
+            screen.blit(Images.powerups_images[PowerupsSettings.LEFT_ACTION_PUNCH], self.get_left_punch_action_coordinates())
             self.action_left_punch = False
             self.player.punch_left = False
         
         elif self.action_right_punch == True and self.active == True:
             # Draw the right punch action (without a collision).
-            screen.blit(flip_x_image(Images.powerups_images["left_action_punch"]), self.get_right_punch_action_coordinates())
+            screen.blit(flip_x_image(Images.powerups_images[PowerupsSettings.LEFT_ACTION_PUNCH]), self.get_right_punch_action_coordinates())
             self.action_right_punch = False
             self.player.punch_right = False
 
         elif self.active:
             # Draw the punch powerup abillity of player (without punch action).
-            screen.blit(Images.powerups_images["active_left_punch"], self.player.get_player_left_hand_coordinates())
-            screen.blit(flip_x_image(Images.powerups_images["active_left_punch"]), self.player.get_player_right_hand_coordinates())
+            screen.blit(Images.powerups_images[PowerupsSettings.ACTIVE_LEFT_PUNCH], self.player.get_player_left_hand_coordinates())
+            screen.blit(flip_x_image(Images.powerups_images[PowerupsSettings.ACTIVE_LEFT_PUNCH]), self.player.get_player_right_hand_coordinates())
 
-        super().draw(screen, Images.powerups_images["punch_powerup"])
+        super().draw(screen, Images.powerups_images[PowerupsSettings.PUNCH_POWERUP])
 
 
     def activate(self, player) -> None:

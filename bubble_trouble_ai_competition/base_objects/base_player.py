@@ -227,7 +227,7 @@ class BasePlayer:
             (punch_x, punch_y) = punch.get_left_punch_action_coordinates()
         else:
             (punch_x, punch_y) = punch.get_right_punch_action_coordinates()
-            
+
         if (punch_right and self.x > punch_x) or (punch_left and self.x-PowerupsSettings.PUNCH_ACTION_WIDTH < punch_x):
             if rect_collide(self.x, self.y, self.width, self.height, punch_x, punch_y, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT):
                 return True      
@@ -266,18 +266,18 @@ class BasePlayer:
 
         # Drawing body
         ai_images = get_ai_images(self.name)
-        body_image = ai_images["duck_body"] if self.is_ducking else ai_images["stand_body"]
+        body_image = ai_images[Settings.PLAYER_DUCK_BODY] if self.is_ducking else ai_images[Settings.PLAYER_STAND_BODY]
         screen.blit(body_image, (self.x, self.y))
 
         # Drawing head
         head_image_draw_position = (self.head_center[0] - self.head_radius, self.head_center[1] - self.head_radius)
 
         if (self.direction == Directions.STAND or self.direction == Directions.DUCK):
-            screen.blit(ai_images["head"], head_image_draw_position)
+            screen.blit(ai_images[Settings.PLAYER_HEAD], head_image_draw_position)
         elif (self.direction == Directions.LEFT):
-            screen.blit(ai_images["left_head"], head_image_draw_position)
+            screen.blit(ai_images[Settings.PLAYER_LEFT_HEAD], head_image_draw_position)
         elif (self.direction == Directions.RIGHT):
-            screen.blit(ai_images["right_head"], head_image_draw_position)
+            screen.blit(ai_images[Settings.PLAYER_RIGHT_HEAD], head_image_draw_position)
 
     def can_shoot(self) -> bool:
         """

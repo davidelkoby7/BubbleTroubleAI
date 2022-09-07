@@ -3,6 +3,7 @@ from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 from bubble_trouble_ai_competition.utils.load_display import Images
+from bubble_trouble_ai_competition.utils.constants import PowerupsSettings
 
 
 class PlayerSpeedBoostPowerup(Powerup):
@@ -25,7 +26,7 @@ class PlayerSpeedBoostPowerup(Powerup):
             # draw flash suit
             pass
 
-        super().draw(screen, Images.powerups_images["speed_booster_powerup"])
+        super().draw(screen, Images.powerups_images[PowerupsSettings.SPEED_BOOSTER_POWERUP])
 
     def activate(self, player: BasePlayer) -> None:
         """
@@ -49,5 +50,3 @@ class PlayerSpeedBoostPowerup(Powerup):
         self.player.speed = SpeedTypes.NORMAL
         super().deactivate()
     
-    def copy_object(self):
-        return type("PlayerSpeedBoostPowerupData", (PlayerSpeedBoostPowerup, ), self.get_powerup_data())

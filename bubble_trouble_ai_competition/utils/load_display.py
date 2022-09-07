@@ -12,8 +12,8 @@ class DisplayObjects:
     alerts: dict = {}
 
 def load_alerts_surfaces():
-    return {AlertConstants.GAME_TIMEOUT_KEY: AlertConstants.ALERT_FONT.render(AlertConstants.GAME_TIMEOUT_TEXT, False, AlertConstants.ALERT_COLOR),
-            AlertConstants.GAME_OVER_KEY:  AlertConstants.ALERT_FONT.render(AlertConstants.GAME_OVER_TEXT, False, AlertConstants.ALERT_COLOR)}
+    return {AlertConstants.ALERT_GAME_TIMEOUT: AlertConstants.ALERT_FONT.render(AlertConstants.GAME_TIMEOUT_TEXT, False, AlertConstants.ALERT_COLOR),
+            AlertConstants.ALERT_GAME_OVER:  AlertConstants.ALERT_FONT.render(AlertConstants.GAME_OVER_TEXT, False, AlertConstants.ALERT_COLOR)}
 
 
 def load_display_objects():
@@ -36,6 +36,8 @@ def load_game_images():
     """Called once from game manager, load all game images."""
 
     Images.powerups_images = load_all_powerups_images()
+    Images.powerups_images[PowerupsSettings.ICE_CUBE].set_alpha(128)
+
     Images.balls_images = load_balls_images()
     Images.arrows_images = load_arrows_images()
     Images.players_images = load_all_players_images()
@@ -54,48 +56,47 @@ def load_and_scale_all_ball_sizes(ball_image_path) -> list[pygame.Surface]:
 
 def load_general_images():
     """ Load games general images (like background and main menu images) """
-
-    return {"background_image": load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, *DisplayConstants.GAME_AREA_SIZE),
-            "menu_background_image": load_and_scale_image(Settings.MENU_BACKGROUND_IMAGE_PATH, *DisplayObjects.screen_size)}
+    return {Settings.BACKGROUND_IMAGE_KEY: load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, *DisplayConstants.GAME_AREA_SIZE),
+            Settings.MENU_BACKGROUND_IMAGE_KEY: load_and_scale_image(Settings.MENU_BACKGROUND_IMAGE_PATH, *DisplayObjects.screen_size)}
 
 
 def load_balls_images() -> dict[str, list[pygame.Surface]]:
     """ Load all balls images."""
-    
+
     return {
-        "blue_ball": load_and_scale_all_ball_sizes(Settings.BLUE_BALL_IMAGE_PATH),
-        "green_ball": load_and_scale_all_ball_sizes(Settings.GREEN_BALL_IMAGE_PATH),
-        "yellow_ball": load_and_scale_all_ball_sizes(Settings.YELLOW_BALL_IMAGE_PATH),
-        "red_ball": load_and_scale_all_ball_sizes(Settings.RED_BALL_IMAGE_PATH),
-        "purple_ball": load_and_scale_all_ball_sizes(Settings.PURPLE_BALL_IMAGE_PATH)
+        Settings.BLUE_BALL: load_and_scale_all_ball_sizes(Settings.BLUE_BALL_IMAGE_PATH),
+        Settings.GREEN_BALL: load_and_scale_all_ball_sizes(Settings.GREEN_BALL_IMAGE_PATH),
+        Settings.YELLOW_BALL: load_and_scale_all_ball_sizes(Settings.YELLOW_BALL_IMAGE_PATH),
+        Settings.RED_BALL: load_and_scale_all_ball_sizes(Settings.RED_BALL_IMAGE_PATH),
+        Settings.PURPLE_BALL: load_and_scale_all_ball_sizes(Settings.PURPLE_BALL_IMAGE_PATH)
         }
 
 
 def load_arrows_images() -> dict[str, pygame.Surface]:
     """ Load all arrows images."""
-    return {"grey_arrow" : load_image_and_keep_aspect_ratio(Settings.GREY_ARROW_IMAGE_PATH, Settings.ARROW_WIDTH)}
+    return {Settings.GREY_ARROW: load_image_and_keep_aspect_ratio(Settings.GREY_ARROW_IMAGE_PATH, Settings.ARROW_WIDTH)}
 
 
 def load_all_powerups_images() -> dict[str, pygame.Surface]:
     """ Load all powerups icons and actions."""
-
-    return {"random_powerup": load_and_scale_powerup_image(PowerupsSettings.RANDOM_POWERUP_IMAGE_PATH),
-            "freeze_powerup": load_and_scale_powerup_image(PowerupsSettings.ICE_CROWN_IMAGE_PATH),
-            "ice_crown": load_and_scale_image(PowerupsSettings.ICE_CROWN_IMAGE_PATH, PowerupsSettings.ICE_CROWN_WIDTH, PowerupsSettings.ICE_CROWN_HEIGHT),
-            "ice_cube": load_and_scale_image(PowerupsSettings.ICE_CUBE_IMAGE_PATH, PowerupsSettings.ICE_CUBE_WIDTH, PowerupsSettings.ICE_CUBE_HEIGHT),
-            "ice_freeze": load_and_scale_image(PowerupsSettings.ICE_FREEZE_IMAGE_PATH, PowerupsSettings.ICE_FREEZE_WIDTH, PowerupsSettings.ICE_FREEZE_HEIGHT),
-            "speed_slower_powerup": load_and_scale_powerup_image(PowerupsSettings.SPEED_SLOWER_POWERUP_IMAGE_PATH),
-            "mud": load_and_scale_image(PowerupsSettings.MUD_IMAGE_PATH, PowerupsSettings.MUD_WIDTH, PowerupsSettings.MUD_HEIGHT),
-            "speed_booster_powerup": load_and_scale_powerup_image(PowerupsSettings.SPEED_BOOSTER_POWERUP_IMAGE_PATH),
-            "flash_suit": load_and_scale_image(PowerupsSettings.FLASH_SUIT_IMAGE_PATH, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT),
-            "punch_powerup": pygame.transform.rotate(load_and_scale_powerup_image(PowerupsSettings.PUNCH_POWERUP_IMAGE_PATH), 270),
-            "active_left_punch": load_and_scale_image(PowerupsSettings.PUNCH_ACTION_IMAGE_PATH, PowerupsSettings.PUNCH_WIDTH, PowerupsSettings.PUNCH_HEIGHT),
-            "left_action_punch": load_and_scale_image(PowerupsSettings.PUNCH_ACTION_IMAGE_PATH, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT),
-            "left_collision_punch": load_and_scale_image(PowerupsSettings.PUNCH_POWERUP_IMAGE_PATH, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT),
-            "shield_powerup": load_and_scale_powerup_image(PowerupsSettings.SHIELD_POWERUP_IMAGE_PATH),
-            "shield": load_and_scale_image(PowerupsSettings.SHIELD_IMAGE_PATH, PowerupsSettings.SHIELD_WIDTH, PowerupsSettings.SHIELD_HEIGHT),
-            "double_points_powerup": load_and_scale_powerup_image(PowerupsSettings.DOUBLE_POINTS_POWERUP_IMAGE_PATH),
-            "double_points_arrow": load_image_and_keep_aspect_ratio(PowerupsSettings.DOUBLE_POINTS_ARROW_IMAGE_PATH, Settings.ARROW_WIDTH)
+    
+    return {PowerupsSettings.RANDOM_POWERUP: load_and_scale_powerup_image(PowerupsSettings.RANDOM_POWERUP_IMAGE_PATH),
+            PowerupsSettings.FREEZE_POWERUP: load_and_scale_powerup_image(PowerupsSettings.ICE_CROWN_IMAGE_PATH),
+            PowerupsSettings.ICE_CROWN: load_and_scale_image(PowerupsSettings.ICE_CROWN_IMAGE_PATH, PowerupsSettings.ICE_CROWN_WIDTH, PowerupsSettings.ICE_CROWN_HEIGHT),
+            PowerupsSettings.ICE_CUBE: load_and_scale_image(PowerupsSettings.ICE_CUBE_IMAGE_PATH, PowerupsSettings.ICE_CUBE_WIDTH, PowerupsSettings.ICE_CUBE_HEIGHT),
+            PowerupsSettings.ICE_FREEZE: load_and_scale_image(PowerupsSettings.ICE_FREEZE_IMAGE_PATH, PowerupsSettings.ICE_FREEZE_WIDTH, PowerupsSettings.ICE_FREEZE_HEIGHT),
+            PowerupsSettings.SPEED_SLOWER_POWERUP: load_and_scale_powerup_image(PowerupsSettings.SPEED_SLOWER_POWERUP_IMAGE_PATH),
+            PowerupsSettings.MUD: load_and_scale_image(PowerupsSettings.MUD_IMAGE_PATH, PowerupsSettings.MUD_WIDTH, PowerupsSettings.MUD_HEIGHT),
+            PowerupsSettings.SPEED_BOOSTER_POWERUP: load_and_scale_powerup_image(PowerupsSettings.SPEED_BOOSTER_POWERUP_IMAGE_PATH),
+            PowerupsSettings.FLASH_SUIT: load_and_scale_image(PowerupsSettings.FLASH_SUIT_IMAGE_PATH, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT),
+            PowerupsSettings.PUNCH_POWERUP: pygame.transform.rotate(load_and_scale_powerup_image(PowerupsSettings.PUNCH_POWERUP_IMAGE_PATH), 270),
+            PowerupsSettings.ACTIVE_LEFT_PUNCH: load_and_scale_image(PowerupsSettings.PUNCH_ACTION_IMAGE_PATH, PowerupsSettings.PUNCH_WIDTH, PowerupsSettings.PUNCH_HEIGHT),
+            PowerupsSettings.LEFT_ACTION_PUNCH: load_and_scale_image(PowerupsSettings.PUNCH_ACTION_IMAGE_PATH, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT),
+            PowerupsSettings.LEFT_COLLISION_PUNCH: load_and_scale_image(PowerupsSettings.PUNCH_POWERUP_IMAGE_PATH, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT),
+            PowerupsSettings.SHIELD_POWERUP: load_and_scale_powerup_image(PowerupsSettings.SHIELD_POWERUP_IMAGE_PATH),
+            PowerupsSettings.SHIELD: load_and_scale_image(PowerupsSettings.SHIELD_IMAGE_PATH, PowerupsSettings.SHIELD_WIDTH, PowerupsSettings.SHIELD_HEIGHT),
+            PowerupsSettings.DOUBLE_POINTS_POWERUP: load_and_scale_powerup_image(PowerupsSettings.DOUBLE_POINTS_POWERUP_IMAGE_PATH),
+            PowerupsSettings.DOUBLE_POINTS_ARROW: load_image_and_keep_aspect_ratio(PowerupsSettings.DOUBLE_POINTS_ARROW_IMAGE_PATH, Settings.ARROW_WIDTH)
             }
 
 
@@ -109,15 +110,15 @@ def load_all_players_images() -> None:
         player_duck_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_dir + "\\" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_DUCK_HEIGHT)
         player_stand_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_dir + "\\" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT)
         ai_name = ai_dir.replace("_images", "")
-        players_images[ai_name] = {"head": player_head_image,
-                                        "right_head": player_right_head_image,
-                                        "left_head": player_left_head_image,
-                                        "duck_body": player_duck_body_image,
-                                        "stand_body": player_stand_body_image}
+        players_images[ai_name] = {Settings.PLAYER_HEAD: player_head_image,
+                                        Settings.PLAYER_RIGHT_HEAD: player_right_head_image,
+                                        Settings.PLAYER_LEFT_HEAD: player_left_head_image,
+                                        Settings.PLAYER_DUCK_BODY: player_duck_body_image,
+                                        Settings.PLAYER_STAND_BODY: player_stand_body_image}
     return players_images
 
 
-def get_ball_image(ball_color, ball_size):
+def get_ball_image(ball_color, ball_size: int):
     return Images.balls_images[ball_color + "_ball"][ball_size-1]
 
 def get_arrow_image(arrow_color):

@@ -2,6 +2,7 @@ import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.utils.load_display import Images
+from bubble_trouble_ai_competition.utils.constants import PowerupsSettings
 
 class PlayerDoublePointsPowerup(Powerup):
     """
@@ -24,7 +25,7 @@ class PlayerDoublePointsPowerup(Powerup):
         Args:
             screen (pygame.Surface): The screen to draw on.
         """
-        super().draw(screen, Images.powerups_images["double_points_powerup"])
+        super().draw(screen, Images.powerups_images[PowerupsSettings.DOUBLE_POINTS_POWERUP])
     
     def activate(self, player: BasePlayer) -> None:
         """

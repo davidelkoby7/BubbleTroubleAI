@@ -43,15 +43,14 @@ class FreezePowerup(Powerup):
         """
         if self.active:
             # Draw the freeze power up on the owning player of this power up.
-            screen.blit(Images.powerups_images["ice_crown"], (self.player.x - Settings.HEAD_RADIUS/2, PowerupsSettings.ICE_CROWN_Y))
+            screen.blit(Images.powerups_images[PowerupsSettings.ICE_CROWN], (self.player.x - Settings.HEAD_RADIUS/2, PowerupsSettings.ICE_CROWN_Y))
             
             if self.freeze_player and self.freeze_player.freeze:
                 # Draw the frozing player.
-                Images.powerups_images["ice_cube"].set_alpha(128)
-                screen.blit(Images.powerups_images["ice_freeze"], (self.freeze_player.x - Settings.HEAD_RADIUS ,PowerupsSettings.ICE_FREEZE_Y))
-                screen.blit(Images.powerups_images["ice_cube"], (self.freeze_player.x - Settings.HEAD_RADIUS , PowerupsSettings.ICE_CUBE_Y))
+                screen.blit(Images.powerups_images[PowerupsSettings.ICE_FREEZE], (self.freeze_player.x - Settings.HEAD_RADIUS ,PowerupsSettings.ICE_FREEZE_Y))
+                screen.blit(Images.powerups_images[PowerupsSettings.ICE_CUBE], (self.freeze_player.x - Settings.HEAD_RADIUS , PowerupsSettings.ICE_CUBE_Y))
 
-        super().draw(screen, Images.powerups_images["freeze_powerup"])
+        super().draw(screen, Images.powerups_images[PowerupsSettings.FREEZE_POWERUP])
 
 
 
@@ -75,8 +74,6 @@ class FreezePowerup(Powerup):
             self.freeze_player = None
         super().deactivate()
     
-    def copy_object(self):
-        return type("FreezePowerupData", (FreezePowerup, ), self.get_powerup_data())
 
          
         

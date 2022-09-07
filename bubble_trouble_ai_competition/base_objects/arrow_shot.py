@@ -2,7 +2,7 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
-from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, Settings
+from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, Settings, PowerupsSettings
 from bubble_trouble_ai_competition.utils.load_display import get_arrow_image, Images
 
 
@@ -43,7 +43,7 @@ class ArrowShot:
         Draws the arrow on the screen.
         """
         self.height = DisplayConstants.FLOOR_Y_VALUE - self.y
-        arrow_image = get_arrow_image(self.color) if not self.shooting_player.double_points else Images.powerups_images["double_points_arrow"]
+        arrow_image = get_arrow_image(self.color) if not self.shooting_player.double_points else Images.powerups_images[PowerupsSettings.DOUBLE_POINTS_ARROW]
         screen.blit(arrow_image, (self.x, self.y), area=pygame.Rect(0, 0, self.width, self.height))
     
 

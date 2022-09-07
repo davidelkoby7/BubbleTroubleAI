@@ -388,7 +388,7 @@ class GameManager:
         Called when game time is up.
         Creates and Alert object to notice and end game.
         """
-        self.alert = Alert(alert_type=AlertConstants.GAME_TIMEOUT_KEY, end_game=True, events_observable=self.event_observable)
+        self.alert = Alert(alert_type=AlertConstants.ALERT_GAME_TIMEOUT, end_game=True, events_observable=self.event_observable)
 
 
     def on_showed_alert(self, alert: Alert) -> None:
