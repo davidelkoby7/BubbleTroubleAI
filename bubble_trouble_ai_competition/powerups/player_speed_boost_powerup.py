@@ -20,7 +20,7 @@ class PlayerSpeedBoostPowerup(Powerup):
         """
         super().__init__(x, y, speed_y, gravity)
     
-    def draw(screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface):
         if self.active:
             # draw flash suit
             pass
