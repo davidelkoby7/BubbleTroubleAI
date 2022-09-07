@@ -1,8 +1,22 @@
 import os
 import pygame
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image, load_image_and_keep_aspect_ratio
-from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings
+from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings, DisplayConstants, CountdownBarConstants
 
+class DisplayObjects:
+
+    screen: pygame.Surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    screen_size = screen.get_size()
+    rect_countdown_image = None       
+    countdown_rect = None
+
+def load_display_objects():
+
+    DisplayObjects.rect_countdown_image = pygame.Surface((CountdownBarConstants.BAR_WIDTH,
+                        CountdownBarConstants.BAR_HEIGHT))
+    DisplayObjects.rect_countdown_image.fill(CountdownBarConstants.LOADING_COLOR)
+    DisplayObjects.countdown_rect = DisplayObjects.rect_countdown_image.get_rect(topleft=(CountdownBarConstants.BAR_POSITION))
+    
 class Images:
     players_images: dict = {}
     powerups_images: dict = {}
@@ -33,8 +47,9 @@ def load_and_scale_all_ball_sizes(ball_image_path) -> list[pygame.Surface]:
 
 def load_general_images():
     """ Load games general images (like background and main menu images) """
-    return {}
-    ... # TODO: later because I AM LAZY DAVID. I AM LAZY.
+
+    return {"background_image": load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, *DisplayConstants.GAME_AREA_SIZE),
+            "menu_background_image": load_and_scale_image(Settings.MENU_BACKGROUND_IMAGE_PATH, *DisplayObjects.screen_size)}
 
 
 def load_balls_images() -> dict[str, list[pygame.Surface]]:

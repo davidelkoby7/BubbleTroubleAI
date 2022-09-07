@@ -27,11 +27,10 @@ class Button:
         self.width = width
         self.height = height
         self.text = text
-        self.font = DesignConstants.BASE_FONT
         self.text_color = text_color
         self.background_color = background_color
         self.on_click = on_click
-    
+        
 
     def draw(self, screen: pygame.Surface):
         """
@@ -41,7 +40,7 @@ class Button:
             screen (pygame.Surface): The surface to draw the button on.
         """
         pygame.draw.rect(screen, self.background_color, pygame.Rect(self.x, self.y, self.width, self.height))
-        text_surface = self.font.render(self.text, False, self.text_color)
+        text_surface = DesignConstants.BASE_FONT.render(self.text, False, self.text_color)
         text_rect = text_surface.get_rect()
         text_rect.center = (self.x + self.width / 2, self.y + self.height / 2)
         screen.blit(text_surface, text_rect)

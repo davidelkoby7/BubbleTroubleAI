@@ -111,7 +111,4 @@ class Powerup:
    
         return data
 
-    @abstractmethod
-    def copy_object(self):
-        return type("PowerupData", (Powerup, ), self.get_powerup_data())
 
