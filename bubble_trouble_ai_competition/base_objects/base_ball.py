@@ -5,7 +5,7 @@ from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collid
 from bubble_trouble_ai_competition.utils.load_display import get_ball_image 
 
 class Ball:
-    def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: BallColors, last_shot_by = None) -> None:
+    def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: BallColors, last_shot_by= None) -> None:
         """
         Initializes a ball object
 
@@ -27,7 +27,7 @@ class Ball:
         self.radius = self.size * Settings.BALL_SIZE_TO_RADIUS_RATIO
         self.color = color
         self.gravity = Settings.DEFAULT_GRAVITY
-        self.last_shot_by = None
+        self.last_shot_by = last_shot_by
     
 
     def get_raw_x(self) -> int:
