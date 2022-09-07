@@ -1,5 +1,4 @@
 import random
-import pygame
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 
@@ -10,8 +9,10 @@ from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings, PowerupsSettings
-from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide, load_and_scale_image
+from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
+from bubble_trouble_ai_competition.utils.load_images import get_ai_images
+
 class BasePlayer:
     """
     Base class to create an AI playing the game.
@@ -34,19 +35,14 @@ class BasePlayer:
         self.head_radius = Settings.HEAD_RADIUS
         self.dimensions = Settings.PLAYER_DIMENSIONS
         self.update_head_center()
-        self.color = (255, 0, 0)
         self.speed = SpeedTypes.NORMAL
         self.events_observable = events_observable
         self.is_shooting = False
-        self.head_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head.png", self.head_radius * 2, self.head_radius * 2)
-        self.head_right_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_right.png", self.head_radius * 2, self.head_radius * 2)
-        self.head_left_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//head_left.png", self.head_radius * 2, self.head_radius * 2)
-        self.duck_body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, Settings.PLAYER_DUCK_HEIGHT)
-        self.stand_body_image = load_and_scale_image(ais_dir_path + "/" + name + "_images//body.png", self.width, self.height)
-        self.body_image = self.stand_body_image
-        self.body_image_rect = self.body_image.get_rect()
         self.score = 0
         self.is_competing = True
+        self.game_state = {'ais': [], 'balls': [],'shots': [],'powerups': [], 'frame_remaining': Settings.TOTAL_GAME_FRAMES}
+        self.is_ducking = False
+        self.arrow_color = "grey"
 
         # Section for some of the player's active powerups.
         self.punch_powerup = False
@@ -56,7 +52,9 @@ class BasePlayer:
         self.shield = False
         self.double_points = False
         self.can_freeze = False
-        self.freeze = False
+        self.freeze_action = False
+        self.freeze = False # ai flag if freeze.
+
 
     @property
     def height(self):
@@ -73,6 +71,15 @@ class BasePlayer:
         self._height = new_height
         self.y = DisplayConstants.FLOOR_Y_VALUE - self.position[1] - self.height
 
+    def update_game_state(self, ais, shots, balls, powerups, frames_remaining):
+        """ Update for player the game state. """
+        self.game_state = { 'ais': ais,
+                            'shots': shots,
+                            'balls': balls,
+                            'powerups': powerups,
+                            'frame_remaining': frames_remaining}
+
+
     def update(self) -> None:
         """
         Updates the player's attributes.
@@ -88,19 +95,22 @@ class BasePlayer:
                 self.move()
         self.update_head_center()
 
+
     def duck(self):
         """Player will duck."""
 
         #  update player's new height and body image
         self.height = Settings.PLAYER_DUCK_HEIGHT
-        self.body_image = self.duck_body_image
-    
+        self.is_ducking = True
+
+
     def stand(self):
         """Player will stand."""
 
         #  update player's new height and body image
         self.height = Settings.PLAYER_DIMENSIONS[1]
-        self.body_image = self.stand_body_image
+        self.is_ducking = False
+
 
     def pick_direction(self) -> Directions:
         """
@@ -108,14 +118,15 @@ class BasePlayer:
         """
         return random.choice([Directions.LEFT, Directions.RIGHT])
 
+
     def do_right_punch(self):
         """
         Player will punch with his right punch.
         """
-        if self.punch_powerup:
-            
+        if self.punch_powerup:            
             self.punch_right = True
-        ...
+        
+
     def do_left_punch(self):
         """
         Player will punch with his left punch.
@@ -207,6 +218,7 @@ class BasePlayer:
         # No collision - return False
         return False
     
+
     def collides_with_punch(self, punch: 'PunchPowerup', punch_left, punch_right):
         """
         Checks if the player collides with other player's punch..
@@ -227,6 +239,7 @@ class BasePlayer:
         # No collision - return False
         return False
     
+
     def get_right_punch_hit(self, punch: 'PunchPowerup'):
         """
         """
@@ -236,6 +249,8 @@ class BasePlayer:
             
         else:
             self.x = self.x + Settings.HIT_RADIUS
+
+
     def get_left_punch_hit(self, punch: 'PunchPowerup'):
         """
         """
@@ -245,7 +260,7 @@ class BasePlayer:
         else:
             self.x = self.x - Settings.HIT_RADIUS
 
-    def draw(self, screen: pygame.Surface) -> None:
+    def draw(self, screen) -> None:
         """
         Draws the player on the screen.
 
@@ -254,17 +269,19 @@ class BasePlayer:
         """
 
         # Drawing body
-        screen.blit(self.body_image, (self.x, self.y))
+        ai_images = get_ai_images(self.name)
+        body_image = ai_images["duck_body"] if self.is_ducking else ai_images["stand_body"]
+        screen.blit(body_image, (self.x, self.y))
 
         # Drawing head
         head_image_draw_position = (self.head_center[0] - self.head_radius, self.head_center[1] - self.head_radius)
 
         if (self.direction == Directions.STAND or self.direction == Directions.DUCK):
-            screen.blit(self.head_image, head_image_draw_position)
+            screen.blit(ai_images["head"], head_image_draw_position)
         elif (self.direction == Directions.LEFT):
-            screen.blit(self.head_left_image, head_image_draw_position)
+            screen.blit(ai_images["left_head"], head_image_draw_position)
         elif (self.direction == Directions.RIGHT):
-            screen.blit(self.head_right_image, head_image_draw_position)
+            screen.blit(ai_images["right_head"], head_image_draw_position)
 
     def can_shoot(self) -> bool:
         """
@@ -321,9 +338,22 @@ class BasePlayer:
         """
         return self.score
     
-    def freeze_player(self, ai, freeze_powerup):
+
+    def do_freeze(self) -> None:
         """Freeze another ai player with the freeze powerup"""
         if self.can_freeze:
-            freeze_powerup.freeze_player = ai
-            self.can_freeze = False # make sure player freeze only one player
+            self.freeze_action = True # make sure player freeze only one player
+
+    def pick_player_to_freeze(self):
+        """ Returns the name of the ai that player chose to freeze."""
+        other_ais = [ai for ai in self.game_state['ais'] if ai.name != self.name]
+        # Check that there are still others ais in game.
+        if other_ais != []:
+            ai = random.choice(other_ais) 
+            return ai.name
+        else:
+            return None
+
+
+
     

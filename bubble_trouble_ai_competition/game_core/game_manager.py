@@ -3,7 +3,7 @@ import sys
 import json
 import random
 import pygame
-
+from copy import deepcopy
 
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
@@ -41,9 +41,8 @@ class GameManager:
             ais_dir_path (str): The path to the directory containing the ais.
             level (str): The path of the level to load.
         """
-        
         load_game_images()
-
+    
         if (self.load_level_data(level) == False):
             raise LevelNotFound(f"{level}")
         
@@ -72,6 +71,7 @@ class GameManager:
         self.event_observable.add_observer(Events.PLAYER_RPUNCH, self.on_player_right_punch)
         self.event_observable.add_observer(Events.PLAYER_COLLIDES_LPUNCH, self.on_player_collides_left_punch)
         self.event_observable.add_observer(Events.PLAYER_COLLIDES_RPUNCH, self.on_player_collides_right_punch)
+        self.event_observable.add_observer(Events.FREEZE_PLAYER, self.on_freeze_player)
         
         # Initializing scoreboards.
         self.scoreboards = []
@@ -138,27 +138,23 @@ class GameManager:
             
             self.handle_powerup_creation()
 
-            all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar] 
+            all_items = self.balls + self.shots + self.ais + self.powerups + [self.countdown_bar] 
 
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
                 item.update()
             
-
             for item in self.activated_powerups:
-
-                # Action the freeze powerup on a random ai.
-                if isinstance(item, FreezePowerup):
-                   other_ais = [ai for ai in self.ais if ai != item.player]
-                   # Check that there are still others ais in game.
-                   if other_ais != []:
-                       ai = random.choice(other_ais)
-                       item.player.freeze_player(ai, item)
-
                 item.update()
                 if (not item.active == True):
                     self.activated_powerups.remove(item)
             
+            # Update ais of the game state at the current game's frame.
+            for ai in self.ais:
+           
+                ai.update_game_state(self.copy_items(self.ais), self.copy_items(self.balls), self.copy_items(self.shots),
+                                      self.copy_items(self.powerups), self.countdown_bar.frames_remaining)
+                                        
             # Handle powerups actions
             self.handle_powerup_actions()
 
@@ -185,19 +181,27 @@ class GameManager:
                 self.powerups.append(powerup["class"](rand_x, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED))
 
 
-    def get_active_punch_powerups(self) -> list[PunchPowerup]:
-        return list(filter(lambda powerup: powerup if isinstance(powerup, PunchPowerup) else None, self.activated_powerups))
+    def get_active_powerups_by_type(self, powerup_type) -> list[Powerup]:
+        return list(filter(lambda powerup: powerup if isinstance(powerup, powerup_type) else None, self.activated_powerups))
 
 
     def handle_powerup_actions(self) -> None:
         # Handle punch powerup actions.
-        for punch_powerup in self.get_active_punch_powerups():
+        for punch_powerup in self.get_active_powerups_by_type(PunchPowerup):
             # Creates action punch event by punch direction.
             if punch_powerup.player.punch_right:
-                self.event_observable.notify_observers(Events.PLAYER_RPUNCH, punch_powerup, punch_powerup.player)
+                self.event_observable.notify_observers(Events.PLAYER_RPUNCH, punch_powerup)
 
             elif punch_powerup.player.punch_left:
-                self.event_observable.notify_observers(Events.PLAYER_LPUNCH, punch_powerup, punch_powerup.player)
+                self.event_observable.notify_observers(Events.PLAYER_LPUNCH, punch_powerup)
+        
+        # Handle freeze powerup action.
+        for freeze_powerup in self.get_active_powerups_by_type(FreezePowerup):
+            # Creates freeze player event.
+            if freeze_powerup.player.freeze_action:
+
+                self.event_observable.notify_observers(Events.FREEZE_PLAYER, freeze_powerup,
+                                                        freeze_powerup.player.pick_player_to_freeze())
     
 
     def get_player_powerup(self, ai, powerup_instance):
@@ -211,7 +215,7 @@ class GameManager:
     def handle_punch_collision(self) -> None:
 
          # Check if ai punched by other ai's punch.
-        for powerup_punch in self.get_active_punch_powerups():
+        for powerup_punch in self.get_active_powerups_by_type(PunchPowerup):
 
             # Get all ais that are not the player with the powerup punch.
             for ai in list(filter(lambda ai: ai if ai != powerup_punch.player else None, self.ais)):
@@ -392,25 +396,46 @@ class GameManager:
         self.game_over = alert.end_game
     
 
-    def on_player_right_punch(self, punch: PunchPowerup, ai: BasePlayer):
+    def on_player_right_punch(self, punch: PunchPowerup):
         """ Player's right punch action. """
-        punch.action_right_punch()
+        punch.action_right_punch = True
     
 
-    def on_player_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
+    def on_player_left_punch(self, punch: PunchPowerup):
         """ Player's left punch action. """
-        punch.action_left_punch()
+        punch.action_left_punch = True
     
 
     def on_player_collides_left_punch(self, punch: PunchPowerup, ai: BasePlayer):
         """ Player's left punch action collides. """
-        punch.collides_left_punch()
+        punch.collides_left_punch = True
         ai.get_left_punch_hit(punch)
     
     
     def on_player_collides_right_punch(self, punch: PunchPowerup, ai:BasePlayer):
         """ Player's right punch action collides. """
-        punch.collides_right_punch()
+        punch.collides_right_punch = True
         ai.get_right_punch_hit(punch)
-        ...
+    
+
+    def on_freeze_player(self, freeze_powerup: FreezePowerup, player_name: BasePlayer):
+        """ Freeze player. """
+        ai = self.get_ai_by_name(player_name)
+        freeze_powerup.freeze_player = ai
+        freeze_powerup.player.freeze_action = False
+
+
+    def get_ai_by_name(self, ai_name) -> BasePlayer:
+        """ Returns the ai object by his name. """
+        for ai in self.ais:
+            if ai.name == ai_name:
+                return ai
+        return None
+
+    
+    @staticmethod
+    def copy_items(items):
+        return [deepcopy(item) for item in items]
+       
+
     
