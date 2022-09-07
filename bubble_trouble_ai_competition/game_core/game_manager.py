@@ -435,6 +435,9 @@ class GameManager:
     
     @staticmethod
     def copy_items(items):
+        for item in items:
+            print(item)
+        
         return [deepcopy(item) for item in items]
        
 

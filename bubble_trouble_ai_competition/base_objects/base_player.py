@@ -73,7 +73,8 @@ class BasePlayer:
 
     def update_game_state(self, ais, shots, balls, powerups, frames_remaining):
         """ Update for player the game state. """
-        self.game_state = { 'ais': ais,
+        self.game_state = {
+                            'ais': ais,
                             'shots': shots,
                             'balls': balls,
                             'powerups': powerups,
