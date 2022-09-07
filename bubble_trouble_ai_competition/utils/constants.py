@@ -159,8 +159,7 @@ class PowerupsSettings:
     ICE_CROWN_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "freeze_powerup.png"
     ICE_CROWN_WIDTH = Settings.HEAD_RADIUS * 3
     ICE_CROWN_HEIGHT  = Settings.PLAYER_HEIGHT * 0.6
-    ICE_CROWN_SPACING = 0.5 # In units of screen bits.
-    ICE_CROWN_Y = DisplayConstants.FLOOR_Y_VALUE - Settings.PLAYER_HEIGHT - Settings.HEAD_RADIUS*2 - ICE_CROWN_HEIGHT + ICE_CROWN_SPACING
+    ICE_CROWN_SPACING = 0.3 # In units of screen bits.
     ICE_FREEZE_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "ice_freeze_player.png"
     ICE_FREEZE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
     ICE_FREEZE_HEIGHT = Settings.PLAYER_HEIGHT * 0.8
@@ -181,7 +180,7 @@ class PowerupsSettings:
 
 powerup_constants_to_update = ['FLASH_SUIT_WIDTH', 'FLASH_SUIT_SHIFT_X', 'FLASH_SUIT_HEIGHT', 'FLASH_SUIT_SHIFT_Y', 'ICE_CUBE_Y',
                                 'ICE_CUBE_SPACING', 'ICE_CUBE_HEIGHT', 'ICE_CUBE_WIDTH','ICE_FREEZE_HEIGHT', 'ICE_FREEZE_WIDTH',
-                                'ICE_FREEZE_Y', 'ICE_CROWN_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT', 'ICE_CROWN_WIDTH',
+                                'ICE_FREEZE_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT', 'ICE_CROWN_WIDTH',
                                 'MUD_WIDTH', 'MUD_HEIGHT', 'MUD_SPACING', 'PUNCH_ACTION_WIDTH', 'PUNCH_ACTION_HEIGHT',
                                 'PUNCH_HEIGHT', 'PUNCH_WIDTH', 'PUNCH_SPACING', 'SHIELD_HEIGHT', 'SHIELD_WIDTH',
                                 'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT']
