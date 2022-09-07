@@ -4,7 +4,7 @@ from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_ima
 from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings, DisplayConstants, CountdownBarConstants
 
 class DisplayObjects:
-
+    """Loads all game generals objects. """
     screen: pygame.Surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     screen_size = screen.get_size()
     rect_countdown_image = None       
@@ -75,7 +75,7 @@ def load_all_powerups_images() -> dict[str, pygame.Surface]:
     return {"random_powerup": load_and_scale_powerup_image(PowerupsSettings.RANDOM_POWERUP_IMAGE_PATH),
             "freeze_powerup": load_and_scale_powerup_image(PowerupsSettings.ICE_CROWN_IMAGE_PATH),
             "ice_crown": load_and_scale_image(PowerupsSettings.ICE_CROWN_IMAGE_PATH, PowerupsSettings.ICE_CROWN_WIDTH, PowerupsSettings.ICE_CROWN_HEIGHT),
-            "ice_cube": load_and_scale_image(PowerupsSettings.ICE_CUBE_IMAGE_PATH, PowerupsSettings.ICE_CUBE_WIDTH, PowerupsSettings.ICE_CUBE_HEIGHT).set_alpha(128),
+            "ice_cube": load_and_scale_image(PowerupsSettings.ICE_CUBE_IMAGE_PATH, PowerupsSettings.ICE_CUBE_WIDTH, PowerupsSettings.ICE_CUBE_HEIGHT),
             "ice_freeze": load_and_scale_image(PowerupsSettings.ICE_FREEZE_IMAGE_PATH, PowerupsSettings.ICE_FREEZE_WIDTH, PowerupsSettings.ICE_FREEZE_HEIGHT),
             "speed_slower_powerup": load_and_scale_powerup_image(PowerupsSettings.SPEED_SLOWER_POWERUP_IMAGE_PATH),
             "mud": load_and_scale_image(PowerupsSettings.MUD_IMAGE_PATH, PowerupsSettings.MUD_WIDTH, PowerupsSettings.MUD_HEIGHT),

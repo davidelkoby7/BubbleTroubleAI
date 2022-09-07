@@ -5,6 +5,7 @@ import random
 import pygame
 from copy import deepcopy
 
+# Base objects class
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
@@ -17,15 +18,18 @@ from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import Pl
 from bubble_trouble_ai_competition.powerups.player_speed_slower_powerup import PlayerSpeedSlowerPowerup
 from bubble_trouble_ai_competition.powerups.player_double_points_powerup import PlayerDoublePointsPowerup
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
-
-from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup
 from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
+
+# Games utils and graphics
+from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
+from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import LevelNotFound
 from bubble_trouble_ai_competition.utils.load_display import load_game_images, load_display_objects
+from bubble_trouble_ai_competition.game_core.game_state import GameState, update_game_state
+
 
 class GameManager:
     """
@@ -122,6 +126,12 @@ class GameManager:
         """
         # Main game loop.
         while (self.game_over != True):
+
+            # Update the game state at the current game's frame.
+            update_game_state(self.copy_items(self.ais), self.copy_items(self.shots), self.copy_items(self.balls),
+                                self.copy_items(self.powerups), self.countdown_bar.frames_remaining)
+
+
             # Keeping the start time of the frame.
             start_time = pygame.time.get_ticks()
 
@@ -150,11 +160,6 @@ class GameManager:
                 if (not item.active == True):
                     self.activated_powerups.remove(item)
             
-            # Update ais of the game state at the current game's frame.
-            for ai in self.ais:
-           
-                ai.update_game_state(self.copy_items(self.ais), self.copy_items(self.balls), self.copy_items(self.shots),
-                                      self.copy_items(self.powerups), self.countdown_bar.frames_remaining)
                                         
             # Handle powerups actions
             self.handle_powerup_actions()
@@ -437,8 +442,8 @@ class GameManager:
     @staticmethod
     def copy_items(items):
     
-        [deepcopy(item) for item in items]
-        return []
+        return [deepcopy(item) for item in items]
+     
        
 
     

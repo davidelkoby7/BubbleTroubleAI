@@ -12,6 +12,7 @@ from bubble_trouble_ai_competition.utils.constants import Directions, DisplayCon
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 from bubble_trouble_ai_competition.utils.load_display import get_ai_images
+from bubble_trouble_ai_competition.game_core.game_state import game_ais
 
 class BasePlayer:
     """
@@ -40,7 +41,6 @@ class BasePlayer:
         self.is_shooting = False
         self.score = 0
         self.is_competing = True
-        self.game_state = {'ais': [], 'balls': [],'shots': [],'powerups': [], 'frame_remaining': Settings.TOTAL_GAME_FRAMES}
         self.is_ducking = False
         self.arrow_color = "grey"
 
@@ -70,14 +70,6 @@ class BasePlayer:
         """
         self._height = new_height
         self.y = DisplayConstants.FLOOR_Y_VALUE - self.position[1] - self.height
-
-    def update_game_state(self, ais, shots, balls, powerups, frames_remaining):
-        """ Update for player the game state. """
-        self.game_state = { 'ais': ais,
-                            'shots': shots,
-                            'balls': balls,
-                            'powerups': powerups,
-                            'frame_remaining': frames_remaining}
 
 
     def update(self) -> None:
@@ -345,8 +337,8 @@ class BasePlayer:
             self.freeze_action = True # make sure player freeze only one player
 
     def pick_player_to_freeze(self):
-        """ Returns the name of the ai that player chose to freeze."""
-        other_ais = [ai for ai in self.game_state['ais'] if ai.name != self.name]
+        """ Returns the name of the ai that player chose to freeze, randomly."""
+        other_ais = [ai for ai in game_ais() if ai.name != self.name]
         # Check that there are still others ais in game.
         if other_ais != []:
             ai = random.choice(other_ais) 

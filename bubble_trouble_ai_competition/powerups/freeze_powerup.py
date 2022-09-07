@@ -47,6 +47,7 @@ class FreezePowerup(Powerup):
             
             if self.freeze_player and self.freeze_player.freeze:
                 # Draw the frozing player.
+                Images.powerups_images["ice_cube"].set_alpha(128)
                 screen.blit(Images.powerups_images["ice_freeze"], (self.freeze_player.x - Settings.HEAD_RADIUS ,PowerupsSettings.ICE_FREEZE_Y))
                 screen.blit(Images.powerups_images["ice_cube"], (self.freeze_player.x - Settings.HEAD_RADIUS , PowerupsSettings.ICE_CUBE_Y))
 
