@@ -2,7 +2,7 @@
 import pygame
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 from bubble_trouble_ai_competition.utils.constants import Events, CountdownBarConstants
-from bubble_trouble_ai_competition.utils.load_images import DisplayObjects
+from bubble_trouble_ai_competition.utils.load_display import DisplayObjects
 
 
 

@@ -2,7 +2,7 @@ import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.utils.constants import Settings
 from bubble_trouble_ai_competition.utils.general_utils import flip_x_image
-from bubble_trouble_ai_competition.utils.load_images import Images
+from bubble_trouble_ai_competition.utils.load_display import Images
 
 class PunchPowerup(Powerup):
     """

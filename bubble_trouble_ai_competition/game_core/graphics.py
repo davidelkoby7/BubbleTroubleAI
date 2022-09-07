@@ -9,7 +9,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.ui_elements.button import Button
 from bubble_trouble_ai_competition.utils.constants import AlertConstants, CountdownBarConstants, DesignConstants, DisplayConstants, Events, MainMenuConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update, countdown_bar_constants_to_update, alert_constants_to_update, main_menu_constants_to_update
-from bubble_trouble_ai_competition.utils.load_images import Images, DisplayObjects
+from bubble_trouble_ai_competition.utils.load_display import Images, DisplayObjects
 
 class Graphics:
     """

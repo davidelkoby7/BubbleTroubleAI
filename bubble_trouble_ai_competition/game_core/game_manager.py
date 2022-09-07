@@ -25,7 +25,7 @@ from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import LevelNotFound
-from bubble_trouble_ai_competition.utils.load_images import load_game_images, load_display_objects
+from bubble_trouble_ai_competition.utils.load_display import load_game_images, load_display_objects
 
 class GameManager:
     """
@@ -436,7 +436,7 @@ class GameManager:
     
     @staticmethod
     def copy_items(items):
-        return []
+    
         return [deepcopy(item) for item in items]
        
 

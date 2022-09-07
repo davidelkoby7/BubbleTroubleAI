@@ -3,7 +3,7 @@ import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, Settings
-from bubble_trouble_ai_competition.utils.load_images import get_arrow_image, Images
+from bubble_trouble_ai_competition.utils.load_display import get_arrow_image, Images
 
 
 class ArrowShot:

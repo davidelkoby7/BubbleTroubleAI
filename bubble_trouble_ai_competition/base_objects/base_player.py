@@ -11,7 +11,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings, PowerupsSettings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
-from bubble_trouble_ai_competition.utils.load_images import get_ai_images
+from bubble_trouble_ai_competition.utils.load_display import get_ai_images
 
 class BasePlayer:
     """

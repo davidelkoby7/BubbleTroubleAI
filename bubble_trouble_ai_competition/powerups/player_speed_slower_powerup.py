@@ -3,7 +3,7 @@ from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
-from bubble_trouble_ai_competition.utils.load_images import Images
+from bubble_trouble_ai_competition.utils.load_display import Images
 
 
 class PlayerSpeedSlowerPowerup(Powerup):
@@ -56,5 +56,3 @@ class PlayerSpeedSlowerPowerup(Powerup):
         super().deactivate()
     
 
-    def copy_object(self):
-        return type("PlayerSpeedSlowerPowerupData", (PlayerSpeedSlowerPowerup, ), self.get_powerup_data())

@@ -2,7 +2,7 @@
 import pygame
 from bubble_trouble_ai_competition.utils.constants import BallColors, DisplayConstants, Settings
 from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collide, load_and_scale_image
-from bubble_trouble_ai_competition.utils.load_images import get_ball_image 
+from bubble_trouble_ai_competition.utils.load_display import get_ball_image 
 
 class Ball:
     def __init__(self, x: int, y: int, speed_x: float, speed_y: float, size: int, color: BallColors, last_shot_by = None) -> None:
