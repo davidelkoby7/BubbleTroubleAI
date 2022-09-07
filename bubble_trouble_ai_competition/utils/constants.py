@@ -48,7 +48,7 @@ class Settings:
     PLAYER_LEFT_HEAD = "left_head"
     PLAYER_RIGHT_HEAD = "right_head"
     PLAYER_STAND_BODY = "stand_body"
-    PLATER_DUCK_BODY = "duck_body"
+    PLAYER_DUCK_BODY = "duck_body"
     PLAYER_BODY_IMAGE_NAME = "body.png"
     PLAYER_HEAD_IMAGE_NAME = "head.png"
     PLAYER_HEAD_LEFT_IMAGE_NAME = "head_left.png"
@@ -173,7 +173,11 @@ class PowerupsSettings:
     DOUBLE_POINTS_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "double_points_powerup.png"
     DOUBLE_POINTS_ARROW_IMAGE_PATH = Settings.ASSETS_DIR + "\\" +"double_points_arrow.png"
 
-powerup_constants_to_update = [x for x in dir(PowerupsSettings) if (not x.endswith("IMAGE_PATH") and "__" not in x)]
+powerup_constants_to_update = ['ICE_CUBE_Y', 'ICE_CUBE_SPACING', 'ICE_CUBE_HEIGHT', 'ICE_CUBE_WIDTH','ICE_FREEZE_HEIGHT',
+                                'ICE_FREEZE_WIDTH', 'ICE_FREEZE_Y', 'ICE_CROWN_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT',
+                                'ICE_CROWN_WIDTH', 'MUD_WIDTH', 'MUD_HEIGHT', 'MUD_SPACING', 'PUNCH_ACTION_WIDTH',
+                                'PUNCH_ACTION_HEIGHT', 'PUNCH_HEIGHT', 'PUNCH_WIDTH', 'PUNCH_SPACING', 'SHIELD_HEIGHT',
+                                 'SHIELD_WIDTH','SHIELD_SIZE_INCREASE']
 class Events:
     """
     All events that can be triggered in the game.
