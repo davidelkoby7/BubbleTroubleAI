@@ -3,7 +3,8 @@ import sys
 import json
 import random
 import pygame
-from copy import deepcopy
+import time
+import pickle
 
 # Base objects class
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
@@ -128,9 +129,9 @@ class GameManager:
         while (self.game_over != True):
 
             # Update the game state at the current game's frame.
-            update_game_state(self.copy_items(self.ais), self.copy_items(self.shots), self.copy_items(self.balls),
-                                self.copy_items(self.powerups), self.countdown_bar.frames_remaining)
-
+            update_game_state(pickle.loads(pickle.dumps(self.ais)), pickle.loads(pickle.dumps(self.shots)),
+                              pickle.loads(pickle.dumps(self.balls)), pickle.loads(pickle.dumps(self.powerups)),
+                              self.countdown_bar.frames_remaining)
 
             # Keeping the start time of the frame.
             start_time = pygame.time.get_ticks()
@@ -439,10 +440,6 @@ class GameManager:
         return None
 
     
-    @staticmethod
-    def copy_items(items):
-    
-        return [deepcopy(item) for item in items]
      
        
 
