@@ -96,6 +96,7 @@ def load_all_powerups_images() -> dict[str, pygame.Surface]:
             PowerupsSettings.LEFT_COLLISION_PUNCH: load_and_scale_image(PowerupsSettings.PUNCH_POWERUP_IMAGE_PATH, PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT),
             PowerupsSettings.SHIELD_POWERUP: load_and_scale_powerup_image(PowerupsSettings.SHIELD_POWERUP_IMAGE_PATH),
             PowerupsSettings.SHIELD: load_and_scale_image(PowerupsSettings.SHIELD_IMAGE_PATH, PowerupsSettings.SHIELD_WIDTH, PowerupsSettings.SHIELD_HEIGHT),
+            PowerupsSettings.DUCK_SHIELD: load_and_scale_image(PowerupsSettings.SHIELD_IMAGE_PATH, PowerupsSettings.SHIELD_WIDTH, PowerupsSettings.SHIELD_DUCKING_HEIGHT),
             PowerupsSettings.DOUBLE_POINTS_POWERUP: load_and_scale_powerup_image(PowerupsSettings.DOUBLE_POINTS_POWERUP_IMAGE_PATH),
             PowerupsSettings.DOUBLE_POINTS_ARROW: load_image_and_keep_aspect_ratio(PowerupsSettings.DOUBLE_POINTS_ARROW_IMAGE_PATH, Settings.ARROW_WIDTH)
             }

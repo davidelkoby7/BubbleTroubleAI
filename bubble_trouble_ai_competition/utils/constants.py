@@ -126,11 +126,14 @@ class PowerupsSettings:
 
     SHIELD_POWERUP = "shield_powerup"
     SHIELD = "shield"
+    DUCK_SHIELD = "duck_shield"
     SHIELD_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "shield_powerup.png"
     SHIELD_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "shield.png"
     SHIELD_SIZE_INCREASE = 1.5 # In units of screen bits.
     SHIELD_WIDTH = Settings.PLAYER_WIDTH + SHIELD_SIZE_INCREASE
     SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS * 2 + SHIELD_SIZE_INCREASE
+    SHIELD_DUCKING_HEIGHT = Settings.PLAYER_DUCK_HEIGHT + Settings.HEAD_RADIUS * 2 + SHIELD_SIZE_INCREASE
+
 
     PUNCH_POWERUP = "punch_powerup"
     ACTIVE_LEFT_PUNCH = "active_left_punch"
@@ -180,7 +183,7 @@ class PowerupsSettings:
 
 powerup_constants_to_update = ['FLASH_SUIT_WIDTH', 'FLASH_SUIT_SHIFT_X', 'FLASH_SUIT_HEIGHT', 'FLASH_SUIT_SHIFT_Y', 'ICE_CUBE_Y',
                                 'ICE_CUBE_SPACING', 'ICE_CUBE_HEIGHT', 'ICE_CUBE_WIDTH','ICE_FREEZE_HEIGHT', 'ICE_FREEZE_WIDTH',
-                                'ICE_FREEZE_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT', 'ICE_CROWN_WIDTH',
+                                'ICE_FREEZE_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT', 'ICE_CROWN_WIDTH', 'SHIELD_DUCKING_HEIGHT',
                                 'MUD_WIDTH', 'MUD_HEIGHT', 'MUD_SPACING', 'PUNCH_ACTION_WIDTH', 'PUNCH_ACTION_HEIGHT',
                                 'PUNCH_HEIGHT', 'PUNCH_WIDTH', 'PUNCH_SPACING', 'SHIELD_HEIGHT', 'SHIELD_WIDTH',
                                 'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT']
