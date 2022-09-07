@@ -1,23 +1,21 @@
+
 from bubble_trouble_ai_competition.utils.constants import Settings
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 
 
 class GameState:
     """ Save the current frame's game state."""
 
-    __ais__ : list['BasePlayer'] = []
+    __ais__ : list[object] = []
     __shoots__: list[ArrowShot] = []
     __balls__: list[Ball] = []
     __powerups__:list[Powerup] = []
     __frames_remaining__ : int = Settings.TOTAL_GAME_FRAMES
 
 
-def update_game_state(ais: list['BasePlayer'], shoots:list[ArrowShot], balls: list[Ball], powerups: list[Powerup], frames_remaining: int) -> None:
+def update_game_state(ais: list[object], shoots:list[ArrowShot], balls: list[Ball], powerups: list[Powerup], frames_remaining: int) -> None:
     GameState.__ais__ = ais
     GameState.__shoots__ = shoots
     GameState.__balls__ = balls
@@ -25,7 +23,7 @@ def update_game_state(ais: list['BasePlayer'], shoots:list[ArrowShot], balls: li
     GameState.__frames_remaining__ = frames_remaining
 
 
-def game_ais() -> list['BasePlayer']:
+def game_ais() -> list[object]:
     """returns list of ais playing at the current game frame."""
     return GameState.__ais__
 
