@@ -25,7 +25,7 @@ from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
 # Games utils and graphics
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, ScoreboardConstants, Settings
+from bubble_trouble_ai_competition.utils.constants import AlertConstants, DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import LevelNotFound
 from bubble_trouble_ai_competition.utils.load_display import load_game_images, load_display_objects
 from bubble_trouble_ai_competition.game_core.game_state import GameState, update_game_state
@@ -388,7 +388,7 @@ class GameManager:
         Called when game time is up.
         Creates and Alert object to notice and end game.
         """
-        self.alert = Alert(msg="Game Timeout", end_game=True, events_observable=self.event_observable)
+        self.alert = Alert(alert_type=AlertConstants.GAME_TIMEOUT_KEY, end_game=True, events_observable=self.event_observable)
 
 
     def on_showed_alert(self, alert: Alert) -> None:

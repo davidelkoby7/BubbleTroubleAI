@@ -1,7 +1,7 @@
 import os
 import pygame
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image, load_image_and_keep_aspect_ratio
-from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings, DisplayConstants, CountdownBarConstants
+from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings, DisplayConstants, CountdownBarConstants, AlertConstants
 
 class DisplayObjects:
     """Loads all game generals objects. """
@@ -9,6 +9,12 @@ class DisplayObjects:
     screen_size = screen.get_size()
     rect_countdown_image = None       
     countdown_rect = None
+    alerts: dict = {}
+
+def load_alerts_surfaces():
+    return {AlertConstants.GAME_TIMEOUT_KEY: AlertConstants.ALERT_FONT.render(AlertConstants.GAME_TIMEOUT_TEXT, False, AlertConstants.ALERT_COLOR),
+            AlertConstants.GAME_OVER_KEY:  AlertConstants.ALERT_FONT.render(AlertConstants.GAME_OVER_TEXT, False, AlertConstants.ALERT_COLOR)}
+
 
 def load_display_objects():
 
@@ -16,7 +22,8 @@ def load_display_objects():
                         CountdownBarConstants.BAR_HEIGHT))
     DisplayObjects.rect_countdown_image.fill(CountdownBarConstants.LOADING_COLOR)
     DisplayObjects.countdown_rect = DisplayObjects.rect_countdown_image.get_rect(topleft=(CountdownBarConstants.BAR_POSITION))
-    
+    DisplayObjects.alerts = load_alerts_surfaces()
+
 class Images:
     players_images: dict = {}
     powerups_images: dict = {}

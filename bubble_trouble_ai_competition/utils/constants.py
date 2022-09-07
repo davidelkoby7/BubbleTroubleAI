@@ -74,6 +74,7 @@ class Settings:
     POWERUP_WIDTH = 50
     POWERUP_HEIGHT = 50
 
+
 settings_properties_to_scale = [
     'PLAYER_DIMENSIONS', 'PLAYER_WIDTH', 'PLAYER_HEIGHT', 'PLAYER_HANDS_SPACING', 'HIT_RADIUS', 'PLAYER_DUCK_HEIGHT', 'HEAD_RADIUS', 'ARROW_WIDTH',
     'ARROW_SPEED', 'PLAYER_SPEED', 'BALL_SPEED', 'BALL_POPPED_UP_SPEED_DEC',
@@ -214,15 +215,20 @@ countdown_bar_constants_to_update = [
 ]
 
 class AlertConstants:
+
     ALERT_FONT_NAME = "freesansbold.ttf"
     ALERT_FONT_SIZE = 5 # In units of screen bits
     ALERT_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
-
 
     AlERT_POSITION = ((DisplayConstants.LEFT_BORDER_X_VALUE + DisplayConstants.RIGHT_BORDER_X_VALUE)/DisplayConstants.SCREEN_BIT*2,
                     (DisplayConstants.CIELING_Y_VALUE + DisplayConstants.FLOOR_Y_VALUE)/DisplayConstants.SCREEN_BIT*2)
 
     ALERT_COLOR = (255,48,48)
+    GAME_OVER_TEXT = "Game Over"
+    GAME_OVER_KEY = "game_over"
+    GAME_TIMEOUT_TEXT = "Game Timeout"
+    GAME_TIMEOUT_KEY = "game_timeout"
+
 
 alert_constants_to_update = [
     'ALERT_FONT_SIZE'
