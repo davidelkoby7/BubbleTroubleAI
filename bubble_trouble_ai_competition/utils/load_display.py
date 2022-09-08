@@ -38,9 +38,6 @@ def load_game_images():
 
     Images.powerups_images = load_all_powerups_images()
     Images.powerups_images[PowerupsSettings.ICE_CUBE].set_alpha(128)
-
-    Images.balls_images = load_balls_images()
-    Images.arrows_images = load_arrows_images()
     Images.players_images = load_all_players_images()
     Images.general_images = load_general_images()
 
@@ -49,33 +46,21 @@ def load_and_scale_powerup_image(powerup_image_path) -> pygame.Surface:
     return load_and_scale_image(powerup_image_path, Settings.POWERUP_WIDTH, Settings.POWERUP_HEIGHT) 
 
 
-def load_and_scale_all_ball_sizes(ball_image_path) -> list[pygame.Surface]:
-    """Return list of ball images from the biggest ball image to the smallest ball image."""
-    radius_sizes = [size* Settings.BALL_SIZE_TO_RADIUS_RATIO for size in Settings.BALL_SIZES]
-    return [load_and_scale_image(ball_image_path, radius * 2, radius * 2) for radius in radius_sizes] 
-
-
 def load_general_images():
     """ Load games general images (like background and main menu images) """
     return {Settings.BACKGROUND_IMAGE_KEY: load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, *DisplayConstants.GAME_AREA_SIZE),
             Settings.MENU_BACKGROUND_IMAGE_KEY: load_and_scale_image(Settings.MENU_BACKGROUND_IMAGE_PATH, *DisplayObjects.screen_size)}
 
 
-def load_balls_images() -> dict[str, list[pygame.Surface]]:
-    """ Load all balls images."""
-
-    return {
-        Settings.BLUE_BALL: load_and_scale_all_ball_sizes(Settings.BLUE_BALL_IMAGE_PATH),
-        Settings.GREEN_BALL: load_and_scale_all_ball_sizes(Settings.GREEN_BALL_IMAGE_PATH),
-        Settings.YELLOW_BALL: load_and_scale_all_ball_sizes(Settings.YELLOW_BALL_IMAGE_PATH),
-        Settings.RED_BALL: load_and_scale_all_ball_sizes(Settings.RED_BALL_IMAGE_PATH),
-        Settings.PURPLE_BALL: load_and_scale_all_ball_sizes(Settings.PURPLE_BALL_IMAGE_PATH)
-        }
+def load_ball_image(color, size):
+    ball_image_path = Settings.ASSETS_DIR + "\\" + color + "_ball.png"
+    ball_radius = size * Settings.BALL_SIZE_TO_RADIUS_RATIO
+    Images.balls_images[color + "_ball"].update({size: load_and_scale_image(ball_image_path, ball_radius * 2, ball_radius * 2)})
 
 
-def load_arrows_images() -> dict[str, pygame.Surface]:
-    """ Load all arrows images."""
-    return {Settings.GREY_ARROW: load_image_and_keep_aspect_ratio(Settings.GREY_ARROW_IMAGE_PATH, Settings.ARROW_WIDTH)}
+def load_arrow_image(color) -> dict[str, pygame.Surface]:
+    """ Load the arrow image by color."""
+    Images.arrows_images.update({color + "_arrow": load_image_and_keep_aspect_ratio(Settings.ASSETS_DIR + "\\" + color + "_arrow.png", Settings.ARROW_WIDTH)})
 
 
 def load_all_powerups_images() -> dict[str, pygame.Surface]:
@@ -123,11 +108,32 @@ def load_all_players_images() -> None:
     return players_images
 
 
-def get_ball_image(ball_color, ball_size: int):
-    return Images.balls_images[ball_color + "_ball"][ball_size-1]
+def get_ball_image(ball_color: str, ball_size: int):
+    """ Returns the ball image by color and size.
+        If ball image not created yet, load it."""
+    
+    if ball_color + "_ball" not in Images.balls_images.keys():
+        # Create the initial record of the ball color image at ball's dictionary.
+        Images.balls_images[ball_color + "_ball"] = {}
+    
+    # Check if image of the colored ball size already loaded.
+    if ball_size not in Images.balls_images[ball_color + "_ball"].keys():
+        # Load the ball image by color and size.
+        load_ball_image(ball_color, ball_size)
+
+    return Images.balls_images[ball_color + "_ball"][ball_size]
+
 
 def get_arrow_image(arrow_color):
+    """Returns the arrow image by color.
+       If arrow image not created yet, load it."""
+
+    if arrow_color + "_arrow" not in Images.arrows_images.keys():
+        # Load the arrow image by color.
+        load_arrow_image(arrow_color)
     return Images.arrows_images[arrow_color + "_arrow"]
 
+
 def get_ai_images(ai_name):
+    """Returns the ai's images."""
     return Images.players_images[ai_name]

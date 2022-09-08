@@ -62,25 +62,12 @@ class Settings:
     PLAYER_SPEED = 20 # In units of screen bits per second.
     HIT_RADIUS = 3 # In units of screen bits.
 
-    BALL_SIZES = [1, 2, 3, 4, 5]
     BALL_SPEED = 10 # In units of screen bits per second.
     DEFAULT_GRAVITY = 25 # In units of screen bits per second^2.
     BALL_SIZE_TO_RADIUS_RATIO = 0.6
     BALL_POPPED_DOWN_SPEED = -20 # In units of screen bits per second.
     BALL_POPPED_UP_SPEED_DEC = 2 # In units of screen bits per second.
-    GREEN_BALL_IMAGE_PATH = ASSETS_DIR + "\\" + "green_ball.png"
-    BLUE_BALL_IMAGE_PATH = ASSETS_DIR + "\\" + "blue_ball.png"
-    RED_BALL_IMAGE_PATH = ASSETS_DIR + "\\" + "red_ball.png"
-    YELLOW_BALL_IMAGE_PATH = ASSETS_DIR + "\\" + "yellow_ball.png"
-    PURPLE_BALL_IMAGE_PATH = ASSETS_DIR + "\\" + "purple_ball.png"
-    BLUE_BALL = "blue_ball"
-    GREEN_BALL = "green_ball"
-    YELLOW_BALL = "yellow_ball"
-    RED_BALL = "red_ball"
-    PURPLE_BALL = "purple_ball"
 
-    GREY_ARROW_IMAGE_PATH = ASSETS_DIR + "\\" + "arrow.png"
-    GREY_ARROW = "grey_arrow"
     ARROW_WIDTH = 0.7 # In units of screen bits.
     ARROW_SPEED = 25 # In units of screen bits per second.
 
