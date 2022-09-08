@@ -31,15 +31,16 @@ class TeleportPowerup(Powerup):
             screen (pygame.Surface): The screen to draw on.
         """
         if self.active and self.action == True:
-
              # Draw the teleport on player.
             screen.blit(Images.powerups_images[PowerupsSettings.TELEPORT], (self.player.x - self.player.width - self.player.head_radius*2, PowerupsSettings.TELEPORT_Y))
             self.was_teleported = True # teleport player complete.
 
         elif self.active and self.player.is_ducking:
+            # Draw the player abillity to teleport when player is ducking.
             screen.blit(Images.powerups_images[PowerupsSettings.DUCK_ACTIVE_TELEPORT], (self.player.x - PowerupsSettings.ACTIVE_TELEPORT_WIDTH/4, self.player.y))
 
         elif self.active:
+            # Draw the player abillity to teleport when player is standing.
             screen.blit(Images.powerups_images[PowerupsSettings.ACTIVE_TELEPORT], (self.player.x - PowerupsSettings.ACTIVE_TELEPORT_WIDTH/4, self.player.y))
 
         super().draw(screen)
