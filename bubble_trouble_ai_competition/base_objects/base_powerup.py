@@ -20,8 +20,8 @@ class Powerup:
         self.x = x
         self.y = y
         self.speed_y = speed_y
-        self.width = 50
-        self.height = 50
+        self.width = Settings.POWERUP_WIDTH
+        self.height = Settings.POWERUP_HEIGHT
         self.gravity = 0
         self.player = None
         
