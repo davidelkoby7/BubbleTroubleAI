@@ -18,6 +18,7 @@ class PlayerDoublePointsPowerup(Powerup):
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
+        self.powerup_image_key = PowerupsSettings.DOUBLE_POINTS_POWERUP
     
     def draw(self, screen: pygame.Surface) -> None:
         """
@@ -25,7 +26,7 @@ class PlayerDoublePointsPowerup(Powerup):
         Args:
             screen (pygame.Surface): The screen to draw on.
         """
-        super().draw(screen, Images.powerups_images[PowerupsSettings.DOUBLE_POINTS_POWERUP])
+        super().draw(screen)
     
     def activate(self, player: BasePlayer) -> None:
         """

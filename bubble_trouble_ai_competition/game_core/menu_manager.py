@@ -23,7 +23,6 @@ class MenuManager:
         self.events_observable = events_observable
         self.load_levels_from_dir()
     
-    
     def load_levels_from_dir(self) -> None:
         """
         Loads the levels from the given directory.

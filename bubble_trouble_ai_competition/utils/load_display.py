@@ -65,7 +65,9 @@ def load_arrow_image(color) -> dict[str, pygame.Surface]:
 def load_all_powerups_images() -> dict[str, pygame.Surface]:
     """ Load all powerups icons and actions."""
     
-    return {PowerupsSettings.RANDOM_POWERUP: load_and_scale_powerup_image(PowerupsSettings.RANDOM_POWERUP_IMAGE_PATH),
+    return {
+            PowerupsSettings.DEFAULT_POWERUP: load_and_scale_powerup_image(PowerupsSettings.DEFAULT_POWERUP_IMAGE_PATH),
+            PowerupsSettings.RANDOM_POWERUP: load_and_scale_powerup_image(PowerupsSettings.RANDOM_POWERUP_IMAGE_PATH),
             PowerupsSettings.FREEZE_POWERUP: load_and_scale_powerup_image(PowerupsSettings.ICE_CROWN_IMAGE_PATH),
             PowerupsSettings.ICE_CROWN: load_and_scale_image(PowerupsSettings.ICE_CROWN_IMAGE_PATH, PowerupsSettings.ICE_CROWN_WIDTH, PowerupsSettings.ICE_CROWN_HEIGHT),
             PowerupsSettings.ICE_CUBE: load_and_scale_image(PowerupsSettings.ICE_CUBE_IMAGE_PATH, PowerupsSettings.ICE_CUBE_WIDTH, PowerupsSettings.ICE_CUBE_HEIGHT),
@@ -90,18 +92,25 @@ def load_all_powerups_images() -> dict[str, pygame.Surface]:
 def load_all_players_images() -> None:
     # Player constant images
     players_images = {}
-    for ai_dir in [ai_dir for ai_dir in next(os.walk(Settings.BASE_AI_DIR))[1] if "__" not in ai_dir]:
-        player_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_dir + "\\" + Settings.PLAYER_HEAD_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
-        player_right_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_dir + "\\" + Settings.PLAYER_HEAD_RIGHT_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
-        player_left_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_dir + "\\" + Settings.PLAYER_HEAD_LEFT_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
-        player_duck_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_dir + "\\" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_DUCK_HEIGHT)
-        player_stand_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_dir + "\\" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT)
-        ai_name = ai_dir.replace("_images", "")
-        players_images[ai_name] = {Settings.PLAYER_HEAD: player_head_image,
-                                        Settings.PLAYER_RIGHT_HEAD: player_right_head_image,
-                                        Settings.PLAYER_LEFT_HEAD: player_left_head_image,
-                                        Settings.PLAYER_DUCK_BODY: player_duck_body_image,
-                                        Settings.PLAYER_STAND_BODY: player_stand_body_image}
+    
+    for file_name in os.listdir(Settings.BASE_AI_DIR):
+        # Skipping irrelevant files
+        if (not file_name.endswith(".py") or file_name == "__init__.py"):
+            continue
+
+        ai_name = file_name[:-3] # The minus 3 => Removing the .py ending
+        ai_folder_name = ai_name + "_images"
+        player_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_HEAD_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
+        player_right_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_HEAD_RIGHT_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
+        player_left_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_HEAD_LEFT_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
+        player_duck_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_DUCK_HEIGHT)
+        player_stand_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT)
+        players_images[ai_name] = {
+                                    Settings.PLAYER_HEAD: player_head_image,
+                                    Settings.PLAYER_RIGHT_HEAD: player_right_head_image,
+                                    Settings.PLAYER_LEFT_HEAD: player_left_head_image,
+                                    Settings.PLAYER_DUCK_BODY: player_duck_body_image,
+                                    Settings.PLAYER_STAND_BODY: player_stand_body_image}
     return players_images
 
 
