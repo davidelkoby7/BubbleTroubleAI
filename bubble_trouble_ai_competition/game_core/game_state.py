@@ -1,3 +1,5 @@
+
+import pickle
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -23,31 +25,31 @@ class GameState:
 
 
 def update_game_state(ais: list['BasePlayer'], shoots:list['ArrowShot'], balls: list['Ball'], powerups: list['Powerup'], frames_remaining: int) -> None:
-    GameState.__ais__ = ais
-    GameState.__shoots__ = shoots
-    GameState.__balls__ = balls
-    GameState.__powerups__ = powerups
+    GameState.__ais__ = pickle.loads(pickle.dumps(ais))
+    GameState.__shoots__ = pickle.loads(pickle.dumps(shoots))
+    GameState.__balls__ = pickle.loads(pickle.dumps(balls))
+    GameState.__powerups__ = pickle.loads(pickle.dumps(powerups))
     GameState.__frames_remaining__ = frames_remaining
 
 
 def game_ais() -> list['BasePlayer']:
     """returns list of ais playing at the current game frame."""
-    return GameState.__ais__
+    return pickle.loads(pickle.dumps(GameState.__ais__))
 
 
 def game_powerups() -> list['Powerup']:
     """returns list of the all powerups in game at the current game frame."""
-    return GameState.__powerups__
+    return pickle.loads(pickle.dumps(GameState.__powerups__))
 
 
 def game_shoots() -> list['ArrowShot']:
     """returns list of the active shoots at the current game frame."""
-    return GameState.__shoots__
+    return pickle.loads(pickle.dumps(GameState.__shoots__))
 
 
 def game_balls() -> list['Ball']:
     """returns list of the active balls at the current game frame."""
-    return GameState.__balls__
+    return pickle.loads(pickle.dumps(GameState.__balls__))
 
 
 def game_frames_remaining() -> int:
