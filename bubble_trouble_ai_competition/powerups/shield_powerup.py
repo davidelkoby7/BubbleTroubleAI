@@ -49,6 +49,4 @@ class ShieldPowerup(Powerup):
         """
         self.player.shield = False
         super().deactivate()
-    
-    
-    
+        

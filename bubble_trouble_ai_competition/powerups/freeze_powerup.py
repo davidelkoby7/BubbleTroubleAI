@@ -73,7 +73,4 @@ class FreezePowerup(Powerup):
             self.freeze_player.freeze = False
             self.freeze_player = None
         super().deactivate()
-    
-
-         
         

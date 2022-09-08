@@ -55,4 +55,3 @@ class PlayerSpeedSlowerPowerup(Powerup):
         self.player.speed = SpeedTypes.NORMAL
         super().deactivate()
     
-

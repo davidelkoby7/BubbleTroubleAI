@@ -90,6 +90,4 @@ class PunchPowerup(Powerup):
         """
         self.player.punch = False
         super().deactivate()
-    
-
-    
+        
