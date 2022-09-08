@@ -26,6 +26,7 @@ class manualAI(BasePlayer):
     def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()
 
+
         if keys[pygame.K_q]:
             self.do_freeze()
 
@@ -47,6 +48,9 @@ class manualAI(BasePlayer):
         if keys[pygame.K_RIGHT]:
             return Directions.RIGHT
         
+        if keys[pygame.K_1]:
+            self.do_teleport()
+
         return Directions.STAND
 
     

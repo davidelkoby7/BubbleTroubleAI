@@ -164,14 +164,23 @@ class PowerupsSettings:
     ICE_CROWN_HEIGHT  = Settings.PLAYER_HEIGHT * 0.6
     ICE_CROWN_SPACING = 0.3 # In units of screen bits.
     ICE_FREEZE_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "ice_freeze_player.png"
-    ICE_FREEZE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
-    ICE_FREEZE_HEIGHT = Settings.PLAYER_HEIGHT * 0.8
-    ICE_FREEZE_Y = DisplayConstants.FLOOR_Y_VALUE - ICE_FREEZE_HEIGHT
+    ICE_FREEZE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS * 2 # In units of screen bits.
+    ICE_FREEZE_HEIGHT = Settings.PLAYER_HEIGHT * 0.8 # In units of screen bits.
+    ICE_FREEZE_Y = DisplayConstants.FLOOR_Y_VALUE - ICE_FREEZE_HEIGHT # In units of screen bits.
     ICE_CUBE_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "ice_cube.png"
-    ICE_CUBE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
-    ICE_CUBE_HEIGHT = (Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2) * 1.3
+    ICE_CUBE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS * 2 # In units of screen bits.
+    ICE_CUBE_HEIGHT = (Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2) * 1.3 # In units of screen bits.
     ICE_CUBE_SPACING = 0.7 # In units of screen bits.
-    ICE_CUBE_Y = DisplayConstants.FLOOR_Y_VALUE - ICE_CUBE_HEIGHT + ICE_CUBE_SPACING
+    ICE_CUBE_Y = DisplayConstants.FLOOR_Y_VALUE - ICE_CUBE_HEIGHT + ICE_CUBE_SPACING # In units of screen bits.
+
+    TELEPORT_POWERUP = "teleport_powerup"
+    TELEPORT = "teleport"
+    TELEPORT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "teleport_powerup.png"
+    TELEPORT_HEIGHT = (Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2) * 1.3 # In units of screen bits.
+    TELEPORT_WIDTH_INCREASE = 5 # In units of screen bits.
+    TELEPORT_WIDTH = (Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2) + TELEPORT_WIDTH_INCREASE # In units of screen bits.
+    TELEPORT_Y_INCREASE = ICE_CROWN_HEIGHT * 1.1 # In units of screen bits.
+    TELEPORT_Y = DisplayConstants.FLOOR_Y_VALUE - TELEPORT_HEIGHT + TELEPORT_Y_INCREASE # In units of screen bits.
 
     RANDOM_POWERUP = "random_power"
     RANDOM_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "random_powerup.png"
@@ -186,7 +195,8 @@ powerup_constants_to_update = ['FLASH_SUIT_WIDTH', 'FLASH_SUIT_SHIFT_X', 'FLASH_
                                 'ICE_FREEZE_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT', 'ICE_CROWN_WIDTH', 'SHIELD_DUCKING_HEIGHT',
                                 'MUD_WIDTH', 'MUD_HEIGHT', 'MUD_SPACING', 'PUNCH_ACTION_WIDTH', 'PUNCH_ACTION_HEIGHT',
                                 'PUNCH_HEIGHT', 'PUNCH_WIDTH', 'PUNCH_SPACING', 'SHIELD_HEIGHT', 'SHIELD_WIDTH',
-                                'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT']
+                                'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT', 'TELEPORT_HEIGHT', 'TELEPORT_WIDTH',
+                                 'TELEPORT_WIDTH_INCREASE', 'TELEPORT_Y_INCREASE', 'TELEPORT_Y']
 class Events:
     """
     All events that can be triggered in the game.
@@ -203,6 +213,7 @@ class Events:
     PLAYER_COLLIDES_RPUNCH = "player_collides_left_punch"
     PLAYER_COLLIDES_LPUNCH = "player_collides_right_punch"
     FREEZE_PLAYER = "freeze_player"
+    TELEPORTING_PLAYER = "teleporting player"
     CHANGE_MENU_TO_GAME = "change_menu_to_game"
     CHANGE_GAME_TO_MENU = "change_game_to_menu"
     QUIT_MENU = "quit_menu"

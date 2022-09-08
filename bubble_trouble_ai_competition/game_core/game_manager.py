@@ -1,3 +1,4 @@
+import imp
 import os
 import sys
 import json
@@ -18,12 +19,13 @@ from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.powerups.player_speed_boost_powerup import PlayerSpeedBoostPowerup
 from bubble_trouble_ai_competition.powerups.player_speed_slower_powerup import PlayerSpeedSlowerPowerup
 from bubble_trouble_ai_competition.powerups.player_double_points_powerup import PlayerDoublePointsPowerup
-from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
+from bubble_trouble_ai_competition.powerups.teleport_powerup import TeleportPowerup
 from bubble_trouble_ai_competition.powerups.shield_powerup import ShieldPowerup
 from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup
 from bubble_trouble_ai_competition.powerups.freeze_powerup import FreezePowerup
 
 # Games utils and graphics
+from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import AlertConstants, DisplayConstants, Events, ScoreboardConstants, Settings
@@ -78,6 +80,7 @@ class GameManager:
         self.event_observable.add_observer(Events.PLAYER_COLLIDES_LPUNCH, self.on_player_collides_left_punch)
         self.event_observable.add_observer(Events.PLAYER_COLLIDES_RPUNCH, self.on_player_collides_right_punch)
         self.event_observable.add_observer(Events.FREEZE_PLAYER, self.on_freeze_player)
+        self.event_observable.add_observer(Events.TELEPORTING_PLAYER, self.on_teleporting_player)
         
         # Initializing scoreboards.
         self.scoreboards = []
@@ -209,6 +212,12 @@ class GameManager:
 
                 self.event_observable.notify_observers(Events.FREEZE_PLAYER, freeze_powerup,
                                                         freeze_powerup.player.pick_player_to_freeze())
+        
+        # Handle teleport powerup action.
+        for teleport_powerup in self.get_active_powerups_by_type(TeleportPowerup):
+            # Creates teleporting player event.
+            if teleport_powerup.player.is_teleporting:
+                self.event_observable.notify_observers(Events.TELEPORTING_PLAYER, teleport_powerup)
     
 
     def get_player_powerup(self, ai, powerup_instance):
@@ -439,7 +448,15 @@ class GameManager:
                 return ai
         return None
 
-    
+
+    def on_teleporting_player(self, teleport_powerup: TeleportPowerup):
+        """ Teleporting player """
+        teleport_powerup.action = True
+        teleport_powerup.player.teleport()
+        if teleport_powerup.was_teleported:
+            teleport_powerup.deactivate()
+
+        #teleport_powerup.deactivate()
      
        
 

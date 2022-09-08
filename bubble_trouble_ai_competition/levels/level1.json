@@ -8,9 +8,13 @@
     ],
 
     "powerups": [
-        {"name": "FreezePowerup", "spawn_probability": 0.005},
+        {"name": "FreezePowerup", "spawn_probability": 0.002},
         {"name": "PunchPowerup", "spawn_probability": 0.001},
         {"name": "ShieldPowerup", "spawn_probability": 0.002},
-        {"name": "PlayerSpeedBoostPowerup", "spawn_probability": 0.006}
+        {"name": "PlayerSpeedBoostPowerup", "spawn_probability": 0.0001},
+        {"name": "TeleportPowerup", "spawn_probability": 0.005}
+
+        
+
     ]
 }

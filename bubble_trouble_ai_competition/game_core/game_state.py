@@ -40,6 +40,10 @@ def game_powerups() -> list['Powerup']:
     return GameState.__powerups__
 
 
+def game_active_powerups() -> list['Powerup']:
+    return [powerup for powerup in game_powerups() if powerup.player]
+
+
 def game_shoots() -> list['ArrowShot']:
     """returns list of the active shoots at the current game frame."""
     return GameState.__shoots__
