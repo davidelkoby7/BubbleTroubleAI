@@ -106,9 +106,5 @@ class Powerup:
         if self.player == None:
             screen.blit(powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
 
-    def get_powerup_data(self) -> dict:
-        data = dict(filter(lambda attr: not isinstance(attr[1], pygame.Surface), self.__dict__.items()))
-   
-        return data
 
 

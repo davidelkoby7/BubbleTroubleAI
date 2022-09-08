@@ -189,7 +189,7 @@ class GameManager:
 
 
     def get_active_powerups_by_type(self, powerup_type) -> list[Powerup]:
-        return list(filter(lambda powerup: powerup if isinstance(powerup, powerup_type) else None, self.activated_powerups))
+        return [powerup for powerup in self.activated_powerups if isinstance(powerup, powerup_type)]
 
 
     def handle_powerup_actions(self) -> None:
@@ -225,7 +225,7 @@ class GameManager:
         for powerup_punch in self.get_active_powerups_by_type(PunchPowerup):
 
             # Get all ais that are not the player with the powerup punch.
-            for ai in list(filter(lambda ai: ai if ai != powerup_punch.player else None, self.ais)):
+            for ai in [ai for ai in self.ais if ai != powerup_punch.player]:
 
                 # Check if ai collides with punch.
                 if ai.collides_with_punch(powerup_punch, powerup_punch.player.punch_left, powerup_punch.player.punch_right):
