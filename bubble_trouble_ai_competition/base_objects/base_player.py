@@ -149,7 +149,7 @@ class BasePlayer:
         self.keep_player_in_borders()
 
     def teleport(self) -> None:
-        self.x = self.pick_x_to_teleport_to()
+        self.x = self.pick_x_to_teleport()
         self.keep_player_in_borders()
 
     def keep_player_in_borders(self):
@@ -211,12 +211,9 @@ class BasePlayer:
         Returns:
             bool: True if the player collides with the power up, False otherwise.
         """
-        # Check if player already have an active powerup.
-        if str(type(powerup).__name__) in ['TeleportPowerup', 'FreezePowerup', 'PlayerSpeedBoostPowerup']:
-            for active_powerup in game_activated_powerups():
-                if type(powerup) == type(active_powerup) and self.name == active_powerup.player.name:
-                    # Player already have this strong powerup active.
-                    return False
+        # Check if player already have the same limited active powerup.
+        if self.does_player_have_limited_active_powerup(powerup) == True:
+            return False
 
 
         # Check if the player's head collides with the powerup
@@ -325,6 +322,16 @@ class BasePlayer:
         
         return body_image, body_image_coordinates
     
+
+    def does_player_have_limited_active_powerup(self, powerup: 'Powerup'):
+        """Check if player already have limited active powerups."""
+        if str(type(powerup).__name__) in ['TeleportPowerup', 'FreezePowerup', 'PlayerSpeedBoostPowerup']:
+            for active_powerup in game_activated_powerups():
+                if type(powerup) == type(active_powerup) and self.name == active_powerup.player.name:
+                    # Player already have this limited powerup active.
+                    return True
+        return False
+
      
     def can_shoot(self) -> bool:
         """
@@ -405,5 +412,5 @@ class BasePlayer:
             self.is_teleporting = True
 
 
-    def pick_x_to_teleport_to(self):
-        return self.x + 100
+    def pick_x_to_teleport(self):
+        return random.choice(range(DisplayConstants.LEFT_BORDER_X_VALUE, DisplayConstants.RIGHT_BORDER_X_VALUE))

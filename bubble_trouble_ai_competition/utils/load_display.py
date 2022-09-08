@@ -1,4 +1,3 @@
-from http.client import IM_USED
 import os
 import pygame
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image, load_image_and_keep_aspect_ratio
@@ -38,8 +37,8 @@ def load_game_images():
 
     Images.powerups_images = load_all_powerups_images()
     Images.powerups_images[PowerupsSettings.ICE_CUBE].set_alpha(128)
-    # didnt decied yet if transparent or not..
-    #Images.powerups_images[PowerupsSettings.ACTIVE_TELEPORT].set_alpha(128)
+    Images.powerups_images[PowerupsSettings.ACTIVE_TELEPORT].set_alpha(128)
+    Images.powerups_images[PowerupsSettings.DUCK_ACTIVE_TELEPORT].set_alpha(128)
 
     Images.players_images = load_all_players_images()
     Images.general_images = load_general_images()
