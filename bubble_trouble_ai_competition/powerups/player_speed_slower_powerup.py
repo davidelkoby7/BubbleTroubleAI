@@ -19,6 +19,7 @@ class PlayerSpeedSlowerPowerup(Powerup):
             y (int): The y coordinate of the power up.
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
+        self.powerup_image_key = PowerupsSettings.SPEED_SLOWER_POWERUP
         super().__init__(x, y, speed_y, gravity)
 
 
@@ -31,7 +32,7 @@ class PlayerSpeedSlowerPowerup(Powerup):
         if self.active:
             screen.blit(Images.powerups_images[PowerupsSettings.MUD], (self.player.get_player_left_hand_coordinates()[0], self.player.get_player_top_left_corner()[1] + self.player.height - PowerupsSettings.MUD_SPACING))
         
-        super().draw(screen, Images.powerups_images[PowerupsSettings.SPEED_SLOWER_POWERUP])
+        super().draw(screen)
     
     def activate(self, player: BasePlayer) -> None:
         """

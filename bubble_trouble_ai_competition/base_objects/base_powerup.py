@@ -1,8 +1,8 @@
 
-from abc import abstractmethod
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.utils.constants import DisplayConstants, PowerupsSettings, Settings
+from bubble_trouble_ai_competition.utils.load_display import Images
 
 
 
@@ -34,6 +34,8 @@ class Powerup:
         self.pickable_duration = 10 * 60
         self.pickable_timer = 0
         self.has_pickable_timer = True
+
+        self.powerup_image_key = None
 
 
     def update(self) -> None:
@@ -101,10 +103,10 @@ class Powerup:
             self.speed_y = 0
 
 
-    def draw(self, screen: pygame.Surface, powerup_image) -> None:
+    def draw(self, screen: pygame.Surface) -> None:
         # if powerup is not picked up, draw it.
         if self.player == None:
-            screen.blit(powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
+            screen.blit(Images.powerups_images[self.powerup_image_key], pygame.Rect(self.x, self.y, self.width, self.height))
 
 
 
