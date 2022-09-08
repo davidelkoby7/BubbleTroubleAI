@@ -104,17 +104,26 @@ class PowerupsSettings:
     DEFAULT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "powerup.png"
 
     SPEED_BOOSTER_POWERUP = "speed_booster_powerup"
-    FLASH_SUIT = "flash_suit"
+    STAND_FLASH_SUIT = "flash_suit"
     SPEED_BOOSTER_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "player_speed_boost_powerup.png"
     FLASH_SUIT_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "flash_suit.png"
+    FLASH_SUIT_SHIFT_X = 0.5 # In units of screen bits.
+    FLASH_SUIT_SHIFT_Y = 0.2 # In units of screen bits.
+    FLASH_SUIT_WIDTH = Settings.PLAYER_WIDTH * 1.5 # In units of screen bits.
+    FLASH_SUIT_HEIGHT = Settings.PLAYER_HEIGHT * 1.2 # In units of screen bits.
+    DUCK_FLASH_SUIT = "duck_flash_suit"
+    DUCK_FLASH_SUIT_HEIGHT = Settings.PLAYER_DUCK_HEIGHT * 1.2
 
     SHIELD_POWERUP = "shield_powerup"
     SHIELD = "shield"
+    DUCK_SHIELD = "duck_shield"
     SHIELD_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "shield_powerup.png"
     SHIELD_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "shield.png"
     SHIELD_SIZE_INCREASE = 1.5 # In units of screen bits.
     SHIELD_WIDTH = Settings.PLAYER_WIDTH + SHIELD_SIZE_INCREASE
-    SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2 + SHIELD_SIZE_INCREASE
+    SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS * 2 + SHIELD_SIZE_INCREASE
+    SHIELD_DUCKING_HEIGHT = Settings.PLAYER_DUCK_HEIGHT + Settings.HEAD_RADIUS * 2 + SHIELD_SIZE_INCREASE
+
 
     PUNCH_POWERUP = "punch_powerup"
     ACTIVE_LEFT_PUNCH = "active_left_punch"
@@ -143,8 +152,7 @@ class PowerupsSettings:
     ICE_CROWN_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "freeze_powerup.png"
     ICE_CROWN_WIDTH = Settings.HEAD_RADIUS * 3
     ICE_CROWN_HEIGHT  = Settings.PLAYER_HEIGHT * 0.6
-    ICE_CROWN_SPACING = 0.5 # In units of screen bits.
-    ICE_CROWN_Y = DisplayConstants.FLOOR_Y_VALUE - Settings.PLAYER_HEIGHT - Settings.HEAD_RADIUS*2 - ICE_CROWN_HEIGHT + ICE_CROWN_SPACING
+    ICE_CROWN_SPACING = 0.3 # In units of screen bits.
     ICE_FREEZE_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "ice_freeze_player.png"
     ICE_FREEZE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
     ICE_FREEZE_HEIGHT = Settings.PLAYER_HEIGHT * 0.8
@@ -163,11 +171,12 @@ class PowerupsSettings:
     DOUBLE_POINTS_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "double_points_powerup.png"
     DOUBLE_POINTS_ARROW_IMAGE_PATH = Settings.ASSETS_DIR + "\\" +"double_points_arrow.png"
 
-powerup_constants_to_update = ['ICE_CUBE_Y', 'ICE_CUBE_SPACING', 'ICE_CUBE_HEIGHT', 'ICE_CUBE_WIDTH','ICE_FREEZE_HEIGHT',
-                                'ICE_FREEZE_WIDTH', 'ICE_FREEZE_Y', 'ICE_CROWN_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT',
-                                'ICE_CROWN_WIDTH', 'MUD_WIDTH', 'MUD_HEIGHT', 'MUD_SPACING', 'PUNCH_ACTION_WIDTH',
-                                'PUNCH_ACTION_HEIGHT', 'PUNCH_HEIGHT', 'PUNCH_WIDTH', 'PUNCH_SPACING', 'SHIELD_HEIGHT',
-                                 'SHIELD_WIDTH','SHIELD_SIZE_INCREASE']
+powerup_constants_to_update = ['FLASH_SUIT_WIDTH', 'FLASH_SUIT_SHIFT_X', 'FLASH_SUIT_HEIGHT', 'FLASH_SUIT_SHIFT_Y', 'ICE_CUBE_Y',
+                                'ICE_CUBE_SPACING', 'ICE_CUBE_HEIGHT', 'ICE_CUBE_WIDTH','ICE_FREEZE_HEIGHT', 'ICE_FREEZE_WIDTH',
+                                'ICE_FREEZE_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT', 'ICE_CROWN_WIDTH', 'SHIELD_DUCKING_HEIGHT',
+                                'MUD_WIDTH', 'MUD_HEIGHT', 'MUD_SPACING', 'PUNCH_ACTION_WIDTH', 'PUNCH_ACTION_HEIGHT',
+                                'PUNCH_HEIGHT', 'PUNCH_WIDTH', 'PUNCH_SPACING', 'SHIELD_HEIGHT', 'SHIELD_WIDTH',
+                                'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT']
 class Events:
     """
     All events that can be triggered in the game.

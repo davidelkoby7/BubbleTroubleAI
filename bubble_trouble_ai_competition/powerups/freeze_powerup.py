@@ -44,7 +44,7 @@ class FreezePowerup(Powerup):
         """
         if self.active:
             # Draw the freeze power up on the owning player of this power up.
-            screen.blit(Images.powerups_images[PowerupsSettings.ICE_CROWN], (self.player.x - Settings.HEAD_RADIUS/2, PowerupsSettings.ICE_CROWN_Y))
+            screen.blit(Images.powerups_images[PowerupsSettings.ICE_CROWN], (self.player.x - Settings.HEAD_RADIUS/2, self.player.get_player_top_left_corner()[1] - self.player.head_radius*2 + PowerupsSettings.ICE_CROWN_SPACING))
             
             if self.freeze_player and self.freeze_player.freeze:
                 # Draw the frozing player.

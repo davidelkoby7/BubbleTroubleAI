@@ -29,7 +29,11 @@ class ShieldPowerup(Powerup):
             screen (pygame.Surface): The screen to draw on.
         """
         if self.active:
-            screen.blit(Images.powerups_images[PowerupsSettings.SHIELD], (self.player.get_player_top_left_corner()[0] - PowerupsSettings.SHIELD_SIZE_INCREASE / 2, self.player.get_player_top_left_corner()[1] - PowerupsSettings.SHIELD_SIZE_INCREASE / 2))
+            if self.player.is_ducking == True:
+                screen.blit(Images.powerups_images[PowerupsSettings.DUCK_SHIELD], (self.player.get_player_top_left_corner()[0] - PowerupsSettings.SHIELD_SIZE_INCREASE / 2, self.player.get_player_top_left_corner()[1] - PowerupsSettings.SHIELD_SIZE_INCREASE / 2))
+
+            else:
+                screen.blit(Images.powerups_images[PowerupsSettings.SHIELD], (self.player.get_player_top_left_corner()[0] - PowerupsSettings.SHIELD_SIZE_INCREASE / 2, self.player.get_player_top_left_corner()[1] - PowerupsSettings.SHIELD_SIZE_INCREASE / 2))
         
         super().draw(screen)
 

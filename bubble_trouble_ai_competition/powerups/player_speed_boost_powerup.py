@@ -22,12 +22,11 @@ class PlayerSpeedBoostPowerup(Powerup):
         super().__init__(x, y, speed_y, gravity)
         self.powerup_image_key = PowerupsSettings.SPEED_BOOSTER_POWERUP
 
+
     def draw(self, screen: pygame.Surface):
-        if self.active:
-            # TODO: draw flash suit
-            pass
 
         super().draw(screen)
+
 
     def activate(self, player: BasePlayer) -> None:
         """

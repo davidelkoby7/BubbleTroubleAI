@@ -12,7 +12,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings, PowerupsSettings
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
-from bubble_trouble_ai_competition.utils.load_display import get_ai_images
+from bubble_trouble_ai_competition.utils.load_display import Images, get_ai_images
 from bubble_trouble_ai_competition.game_core.game_state import game_ais
 
 class BasePlayer:
@@ -264,11 +264,11 @@ class BasePlayer:
         Args:
             screen (pygame.Surface): The screen to draw the player on.
         """
+        ai_images = get_ai_images(self.name)
 
         # Drawing body
-        ai_images = get_ai_images(self.name)
-        body_image = ai_images[Settings.PLAYER_DUCK_BODY] if self.is_ducking else ai_images[Settings.PLAYER_STAND_BODY]
-        screen.blit(body_image, (self.x, self.y))
+        body_image, body_image_coordinates = self.get_body_image_and_coordinates(ai_images)        
+        screen.blit(body_image, body_image_coordinates)
 
         # Drawing head
         head_image_draw_position = (self.head_center[0] - self.head_radius, self.head_center[1] - self.head_radius)
@@ -280,6 +280,33 @@ class BasePlayer:
         elif (self.direction == Directions.RIGHT):
             screen.blit(ai_images[Settings.PLAYER_RIGHT_HEAD], head_image_draw_position)
 
+
+    def get_body_image_and_coordinates(self, ai_images) -> tuple:
+        """Return the body image and body image coordinates of player."""
+
+        # Set the regular player body image and coordinates.
+        body_image = ai_images[Settings.PLAYER_STAND_BODY]
+        body_image_coordinates = (self.x, self.y)
+
+        # Check if player have active speed boost powerup.
+        if self.speed == SpeedTypes.FAST:
+            # Set flash suit body coordinates.
+            body_image_coordinates = (self.x - PowerupsSettings.FLASH_SUIT_SHIFT_X, self.y - PowerupsSettings.FLASH_SUIT_SHIFT_Y)
+            if self.is_ducking == True:
+                # Set the duck flash suit body image.
+                body_image = Images.powerups_images[PowerupsSettings.DUCK_FLASH_SUIT]
+            else:
+                # Set the stand flash suit body image.
+                body_image = Images.powerups_images[PowerupsSettings.STAND_FLASH_SUIT]
+
+        else:
+            if self.is_ducking == True:
+                # Set the regular duck body image.
+                body_image = ai_images[Settings.PLAYER_DUCK_BODY]
+        
+        return body_image, body_image_coordinates
+    
+     
     def can_shoot(self) -> bool:
         """
         Checks if the player can shoot.
