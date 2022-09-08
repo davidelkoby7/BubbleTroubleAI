@@ -22,7 +22,9 @@ class PlayerSpeedBoostPowerup(Powerup):
         super().__init__(x, y, speed_y, gravity)
         self.powerup_image_key = PowerupsSettings.SPEED_BOOSTER_POWERUP
 
+
     def draw(self, screen: pygame.Surface):
+    
         super().draw(screen)
 
 

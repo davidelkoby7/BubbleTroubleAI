@@ -16,6 +16,7 @@ from bubble_trouble_ai_competition.utils.types import SpeedTypes
 from bubble_trouble_ai_competition.utils.load_display import Images, get_ai_images
 from bubble_trouble_ai_competition.game_core.game_state import game_ais, game_activated_powerups
 
+
 class BasePlayer:
     """
     Base class to create an AI playing the game.

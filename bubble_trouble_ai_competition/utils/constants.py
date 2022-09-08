@@ -192,7 +192,9 @@ powerup_constants_to_update = ['FLASH_SUIT_WIDTH', 'FLASH_SUIT_SHIFT_X', 'FLASH_
                                 'MUD_WIDTH', 'MUD_HEIGHT', 'MUD_SPACING', 'PUNCH_ACTION_WIDTH', 'PUNCH_ACTION_HEIGHT',
                                 'PUNCH_HEIGHT', 'PUNCH_WIDTH', 'PUNCH_SPACING', 'SHIELD_HEIGHT', 'SHIELD_WIDTH',
                                 'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT', 'TELEPORT_HEIGHT', 'TELEPORT_WIDTH', 'TELEPORT_WIDTH_INCREASE',
-                                'TELEPORT_Y_INCREASE', 'TELEPORT_Y', 'ACTIVE_TELEPORT_WIDTH', 'ACTIVE_TELEPORT_HEIGHT', 'ACTIVE_TELEPORT_DUCK_HEIGHT']
+                                'TELEPORT_Y_INCREASE', 'TELEPORT_Y', 'ACTIVE_TELEPORT_WIDTH', 'ACTIVE_TELEPORT_HEIGHT', 'ACTIVE_TELEPORT_DUCK_HEIGHT',
+                                'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT']
+
 class Events:
     """
     All events that can be triggered in the game.
