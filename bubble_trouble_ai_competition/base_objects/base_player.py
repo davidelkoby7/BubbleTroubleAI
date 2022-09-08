@@ -1,3 +1,4 @@
+import pygame
 import random
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -275,7 +276,7 @@ class BasePlayer:
         else:
             self.x = self.x - Settings.HIT_RADIUS
 
-    def draw(self, screen) -> None:
+    def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the player on the screen.
 
@@ -384,15 +385,8 @@ class BasePlayer:
     def do_freeze(self) -> None:
         """Freeze another ai player with the freeze powerup"""
         if self.can_freeze:
-            self.freeze_action = True # make sure player freeze only one player
+            self.freeze_action = True # make sure player freeze only one player.
 
-    def do_teleport(self) -> None:
-        """Teleport to another place in game with the teleport powerup"""
-        if self.can_teleport:
-            self.is_teleporting = True
-
-    def pick_x_to_teleport_to(self):
-        return self.x + 100
 
     def pick_player_to_freeze(self):
         """ Returns the name of the ai that player chose to freeze, randomly."""
@@ -403,7 +397,13 @@ class BasePlayer:
             return ai.name
         else:
             return None
-
-
-
     
+
+    def do_teleport(self) -> None:
+        """Teleport to another place in game with the teleport powerup"""
+        if self.can_teleport:
+            self.is_teleporting = True
+
+
+    def pick_x_to_teleport_to(self):
+        return self.x + 100

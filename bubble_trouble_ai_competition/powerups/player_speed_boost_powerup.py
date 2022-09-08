@@ -20,9 +20,11 @@ class PlayerSpeedBoostPowerup(Powerup):
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
-    
+        self.powerup_image_key = PowerupsSettings.SPEED_BOOSTER_POWERUP
+
     def draw(self, screen: pygame.Surface):
-        super().draw(screen, Images.powerups_images[PowerupsSettings.SPEED_BOOSTER_POWERUP])
+        super().draw(screen)
+
 
     def activate(self, player: BasePlayer) -> None:
         """

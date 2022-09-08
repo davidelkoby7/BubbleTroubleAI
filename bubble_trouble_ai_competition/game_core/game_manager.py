@@ -4,8 +4,6 @@ import sys
 import json
 import random
 import pygame
-import time
-import pickle
 
 # Base objects class
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
@@ -132,9 +130,7 @@ class GameManager:
         while (self.game_over != True):
 
             # Update the game state at the current game's frame.
-            update_game_state(pickle.loads(pickle.dumps(self.ais)), pickle.loads(pickle.dumps(self.shots)),
-                              pickle.loads(pickle.dumps(self.balls)), pickle.loads(pickle.dumps(self.powerups)),
-                              pickle.loads(pickle.dumps(self.activated_powerups)), self.countdown_bar.frames_remaining)
+            update_game_state(self.ais, self.shots, self.balls, self.powerups, self.activated_powerups, self.countdown_bar.frames_remaining)
 
             # Keeping the start time of the frame.
             start_time = pygame.time.get_ticks()
@@ -153,7 +149,7 @@ class GameManager:
             
             self.handle_powerup_creation()
 
-            all_items = self.balls + self.shots + self.ais + self.powerups + [self.countdown_bar] 
+            all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar] 
 
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
@@ -192,7 +188,7 @@ class GameManager:
 
 
     def get_active_powerups_by_type(self, powerup_type) -> list[Powerup]:
-        return list(filter(lambda powerup: powerup if isinstance(powerup, powerup_type) else None, self.activated_powerups))
+        return [powerup for powerup in self.activated_powerups if isinstance(powerup, powerup_type)]
 
 
     def handle_powerup_actions(self) -> None:
@@ -209,7 +205,6 @@ class GameManager:
         for freeze_powerup in self.get_active_powerups_by_type(FreezePowerup):
             # Creates freeze player event.
             if freeze_powerup.player.freeze_action:
-
                 self.event_observable.notify_observers(Events.FREEZE_PLAYER, freeze_powerup,
                                                         freeze_powerup.player.pick_player_to_freeze())
         
@@ -234,7 +229,7 @@ class GameManager:
         for powerup_punch in self.get_active_powerups_by_type(PunchPowerup):
 
             # Get all ais that are not the player with the powerup punch.
-            for ai in list(filter(lambda ai: ai if ai != powerup_punch.player else None, self.ais)):
+            for ai in [ai for ai in self.ais if ai != powerup_punch.player]:
 
                 # Check if ai collides with punch.
                 if ai.collides_with_punch(powerup_punch, powerup_punch.player.punch_left, powerup_punch.player.punch_right):
@@ -443,10 +438,10 @@ class GameManager:
 
     def get_ai_by_name(self, ai_name) -> BasePlayer:
         """ Returns the ai object by his name. """
-        for ai in self.ais:
-            if ai.name == ai_name:
-                return ai
-        return None
+        searched_ai = [ai for ai in self.ais if ai.name == ai_name]
+        if (searched_ai == []):
+            return None
+        return searched_ai[0]
 
 
     def on_teleporting_player(self, teleport_powerup: TeleportPowerup):
@@ -455,9 +450,4 @@ class GameManager:
         teleport_powerup.player.teleport()
         if teleport_powerup.was_teleported:
             teleport_powerup.deactivate()
-
-        #teleport_powerup.deactivate()
-     
-       
-
-    
+            

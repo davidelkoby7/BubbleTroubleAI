@@ -68,11 +68,10 @@ class Competition:
             CantLoadBotException: If a bot can't be loaded.
         """
         self.ai_classes = []
-
         # Dynamically load the ais from their files.
-        for file in os.listdir(self.ais_dir_path):
-            if (file.endswith(".py") and file != "__init__.py"):
-                ai_name = file[:-3] # The minus 3 => Removing the .py ending
+        for file_name in os.listdir(self.ais_dir_path):
+            if (file_name.endswith(".py") and file_name != "__init__.py"):
+                ai_name = file_name[:-3] # The minus 3 => Removing the .py ending
                 imported_module = importlib.import_module("ais." + ai_name)
                 try:
                     self.ai_classes.append(getattr(imported_module, ai_name + "AI"))

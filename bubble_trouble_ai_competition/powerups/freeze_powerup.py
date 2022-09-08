@@ -19,6 +19,7 @@ class FreezePowerup(Powerup):
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
+        self.powerup_image_key = PowerupsSettings.FREEZE_POWERUP
         self._freeze_player = None 
 
 
@@ -50,7 +51,7 @@ class FreezePowerup(Powerup):
                 screen.blit(Images.powerups_images[PowerupsSettings.ICE_FREEZE], (self.freeze_player.x - Settings.HEAD_RADIUS ,PowerupsSettings.ICE_FREEZE_Y))
                 screen.blit(Images.powerups_images[PowerupsSettings.ICE_CUBE], (self.freeze_player.x - Settings.HEAD_RADIUS , PowerupsSettings.ICE_CUBE_Y))
 
-        super().draw(screen, Images.powerups_images[PowerupsSettings.FREEZE_POWERUP])
+        super().draw(screen)
 
 
 
@@ -73,7 +74,3 @@ class FreezePowerup(Powerup):
             self.freeze_player.freeze = False
             self.freeze_player = None
         super().deactivate()
-    
-
-         
-        
