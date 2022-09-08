@@ -2,8 +2,8 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
-from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, Settings
-from bubble_trouble_ai_competition.utils.general_utils import load_image_and_keep_aspect_ratio
+from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, Settings, PowerupsSettings
+from bubble_trouble_ai_competition.utils.load_display import get_arrow_image, Images
 
 
 class ArrowShot:
@@ -25,11 +25,8 @@ class ArrowShot:
         self.height = 0
         self.speed_y = speed_y
         self.shooting_player = shooting_player
+        self.color = shooting_player.arrow_color
         self.events_observable = events_observable
-
-        # Get the arrow image type (basic arrow or double points arrow).
-        arrow_type = "/arrow.png" if not shooting_player.double_points else "/double_points_arrow.png" 
-        self.arrow_image = load_image_and_keep_aspect_ratio(Settings.ASSETS_DIR + arrow_type, self.width)
 
 
     def update(self) -> None:
@@ -46,5 +43,8 @@ class ArrowShot:
         Draws the arrow on the screen.
         """
         self.height = DisplayConstants.FLOOR_Y_VALUE - self.y
-        screen.blit(self.arrow_image, (self.x, self.y), area=pygame.Rect(0, 0, self.width, self.height))
+        arrow_image = get_arrow_image(self.color) if not self.shooting_player.double_points else Images.powerups_images[PowerupsSettings.DOUBLE_POINTS_ARROW]
+        screen.blit(arrow_image, (self.x, self.y), area=pygame.Rect(0, 0, self.width, self.height))
+    
+
 

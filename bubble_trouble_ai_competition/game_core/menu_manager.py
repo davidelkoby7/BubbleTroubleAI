@@ -22,7 +22,6 @@ class MenuManager:
         self.ais = ais
         self.events_observable = events_observable
         self.load_levels_from_dir()
-
     
     def load_levels_from_dir(self) -> None:
         """

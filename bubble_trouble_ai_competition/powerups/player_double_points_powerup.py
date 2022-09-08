@@ -1,8 +1,8 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
-from bubble_trouble_ai_competition.utils.constants import Settings
-from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
+from bubble_trouble_ai_competition.utils.load_display import Images
+from bubble_trouble_ai_competition.utils.constants import PowerupsSettings
 
 class PlayerDoublePointsPowerup(Powerup):
     """
@@ -18,8 +18,7 @@ class PlayerDoublePointsPowerup(Powerup):
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
-        powerup_image_name =  "double_points_powerup.png" if not random else "random_powerup.png"
-        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  powerup_image_name, self.width, self.height)
+        self.powerup_image_key = PowerupsSettings.DOUBLE_POINTS_POWERUP
     
     def draw(self, screen: pygame.Surface) -> None:
         """
@@ -27,8 +26,7 @@ class PlayerDoublePointsPowerup(Powerup):
         Args:
             screen (pygame.Surface): The screen to draw on.
         """
-        if not self.active:
-            screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
+        super().draw(screen)
     
     def activate(self, player: BasePlayer) -> None:
         """
@@ -46,3 +44,4 @@ class PlayerDoublePointsPowerup(Powerup):
         """
         self.player.double_points = False
         super().deactivate()
+    

@@ -1,5 +1,4 @@
-from typing import Type
-
+import pygame
 from bubble_trouble_ai_competition.utils.constants import Events, ALL_EVENTS_LIST
 
 class EventsObservable:

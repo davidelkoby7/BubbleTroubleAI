@@ -1,10 +1,8 @@
 
-from turtle import width
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.utils.constants import DisplayConstants, PowerupsSettings, Settings
-from bubble_trouble_ai_competition.utils.general_utils import circle_rect_collide
-from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
+from bubble_trouble_ai_competition.utils.load_display import Images
 
 
 
@@ -22,10 +20,9 @@ class Powerup:
         self.x = x
         self.y = y
         self.speed_y = speed_y
-        self.width = 50
-        self.height = 50
+        self.width = Settings.POWERUP_WIDTH
+        self.height = Settings.POWERUP_HEIGHT
         self.gravity = 0
-        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "powerup.png", self.width, self.height)
         self.player = None
         
         self.active = False
@@ -37,6 +34,8 @@ class Powerup:
         self.pickable_duration = 10 * 60
         self.pickable_timer = 0
         self.has_pickable_timer = True
+
+        self.powerup_image_key = PowerupsSettings.DEFAULT_POWERUP
 
 
     def update(self) -> None:
@@ -107,5 +106,4 @@ class Powerup:
     def draw(self, screen: pygame.Surface) -> None:
         # if powerup is not picked up, draw it.
         if self.player == None:
-            screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
-
+            screen.blit(Images.powerups_images[self.powerup_image_key], pygame.Rect(self.x, self.y, self.width, self.height))

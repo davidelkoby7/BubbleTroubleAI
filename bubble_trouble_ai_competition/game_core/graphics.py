@@ -9,7 +9,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.ui_elements.button import Button
 from bubble_trouble_ai_competition.utils.constants import AlertConstants, CountdownBarConstants, DesignConstants, DisplayConstants, Events, MainMenuConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update, countdown_bar_constants_to_update, alert_constants_to_update, main_menu_constants_to_update
-from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
+from bubble_trouble_ai_competition.utils.load_display import Images, DisplayObjects
 
 class Graphics:
     """
@@ -24,15 +24,8 @@ class Graphics:
             screen_size (tuple): The size of the screen.
             background_color (tuple): The background color.
         """
-
         # Initialize the pygame module.
         pygame.init()
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-
-        self.screen_size = self.screen.get_size()
-        self.screen_width = self.screen_size[0]
-        self.screen_height = self.screen_size[1]
-
         self.handle_display_constants()
 
         # Store initial values.
@@ -45,9 +38,6 @@ class Graphics:
 
         self.game_area_position = DisplayConstants.GAME_AREA_POSITION
 
-        # Loading the background image. 
-        self.background_image = load_and_scale_image(Settings.BACKGROUND_IMAGE_PATH, self.game_area_width, self.game_area_height)
-        self.menu_background_image = load_and_scale_image(Settings.MENU_BACKGROUND_IMAGE_PATH, self.screen_width, self.screen_height)
 
         # Initializing buttons
         buttons_to_create = [("Play!", self.start_playing), ("Exit", self.quit_menu)]
@@ -80,9 +70,9 @@ class Graphics:
 
         
     def handle_display_constants(self):
-        DisplayConstants.SCREEN_SIZE = self.screen_size
-        DisplayConstants.SCREEN_WIDTH = self.screen_width
-        DisplayConstants.SCREEN_HEIGHT = self.screen_height
+        DisplayConstants.SCREEN_SIZE = DisplayObjects.screen_size
+        DisplayConstants.SCREEN_WIDTH = DisplayObjects.screen_size[0]
+        DisplayConstants.SCREEN_HEIGHT = DisplayObjects.screen_size[1]
         DisplayConstants.SCREEN_BIT = int(DisplayConstants.SCREEN_WIDTH * DisplayConstants.SCREEN_BIT)
 
         # Scale everything relative to the screen bits.
@@ -134,19 +124,19 @@ class Graphics:
             countdown_bar (CountdownBar): The countdown bar to draw.
         """
         # Clear the screen.
-        self.screen.fill((0, 0, 0))
+        DisplayObjects.screen.fill((0, 0, 0))
 
         # Draw background.
-        self.screen.blit(self.background_image, DisplayConstants.GAME_AREA_POSITION)
+        DisplayObjects.screen.blit(Images.general_images["background_image"], DisplayConstants.GAME_AREA_POSITION)
        
         all_items = scoreboards + shots + ais + balls + powerups + [countdown_bar]
 
         # Draw the ais.
         for item in all_items:
-            item.draw(self.screen)
+            item.draw(DisplayObjects.screen)
 
         if alert:
-            alert.draw(self.screen)
+            alert.draw(DisplayObjects.screen)
             
         # Updating the screen.
         pygame.display.flip()
@@ -157,18 +147,18 @@ class Graphics:
         """
 
         # Clear the screen.
-        self.screen.fill((0, 0, 0))
+        DisplayObjects.screen.fill((0, 0, 0))
 
         # Draw background.
-        self.screen.blit(self.menu_background_image, (0,0))
+        DisplayObjects.screen.blit(Images.general_images["menu_background_image"], (0,0))
 
         # Draw title.
         text_surface = MainMenuConstants.TITLE_FONT.render(Settings.TITLE, False, MainMenuConstants.TITLE_COLOR)
-        self.screen.blit(text_surface, MainMenuConstants.TITLE_POSITION)
+        DisplayObjects.screen.blit(text_surface, MainMenuConstants.TITLE_POSITION)
 
         # Drawing buttons.
         for button in self.menu_buttons:
-            button.draw(self.screen)
+            button.draw(DisplayObjects.screen)
 
         # Draw the ais that can be played.
         curr_y: int = MainMenuConstants.AIS_INITIAL_HEIGHT
@@ -177,7 +167,7 @@ class Graphics:
             if (ai.is_competing):
                 color = (0, 255, 0)
             text_surface = DesignConstants.BASE_FONT.render(f'#{i + 1}: {ai.name}', False, color)
-            self.screen.blit(text_surface, (MainMenuConstants.AIS_LEFT_MARGIN, curr_y))
+            DisplayObjects.screen.blit(text_surface, (MainMenuConstants.AIS_LEFT_MARGIN, curr_y))
             curr_y += MainMenuConstants.AIS_HEIGHT_MARGIN
 
         # Draw the levels that can be played.
@@ -188,7 +178,7 @@ class Graphics:
                 color = (0, 255, 0)
             letter: str = chr(ord('A') + i)
             text_surface = DesignConstants.BASE_FONT.render(f'{letter}: {level["name"]}', False, color)
-            self.screen.blit(text_surface, (MainMenuConstants.LEVELS_LEFT_MARGIN, curr_y))
+            DisplayObjects.screen.blit(text_surface, (MainMenuConstants.LEVELS_LEFT_MARGIN, curr_y))
             curr_y += MainMenuConstants.LEVELS_HEIGHT_MARGIN
 
         # Updating the screen.

@@ -1,8 +1,8 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
-from bubble_trouble_ai_competition.utils.constants import PowerupsSettings, Settings
-from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
-
+from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings
+from bubble_trouble_ai_competition.utils.general_utils import flip_x_image
+from bubble_trouble_ai_competition.utils.load_display import Images
 
 class PunchPowerup(Powerup):
     """
@@ -19,19 +19,12 @@ class PunchPowerup(Powerup):
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
         super().__init__(x, y, speed_y, gravity)
-        self.action = False
-        self.collides = False
-        powerup_image_name =  "punch_collision_powerup.png" if not random else "random_powerup.png"
-        self.powerup_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  powerup_image_name, self.width, self.height) 
-        self.powerup_image = pygame.transform.rotate(self.powerup_image, 270) if not random else self.powerup_image # rotate the original powerup image
-        self.left_punch_collision_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_collision_powerup.png", PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT)
-        self.right_punch_collision_image = pygame.transform.flip(self.left_punch_collision_image, flip_x=True, flip_y=False)
-        self.left_action_punch_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_powerup.png", PowerupsSettings.PUNCH_ACTION_WIDTH, PowerupsSettings.PUNCH_ACTION_HEIGHT)
-        self.right_action_punch_image = pygame.transform.flip(self.left_action_punch_image, flip_x=True, flip_y=False)
-        self.left_punch_image = load_and_scale_image(Settings.ASSETS_DIR + "/" +  "punch_powerup.png", PowerupsSettings.PUNCH_WIDTH, PowerupsSettings.PUNCH_HEIGHT)
-        self.right_punch_image = pygame.transform.flip(self.left_punch_image, flip_x=True, flip_y=False)
-        self.punch_image = self.powerup_image # Initialize value
-        self.action_punch_coordinates = (0,0) # Initialize value
+        self.powerup_image_key = PowerupsSettings.PUNCH_POWERUP
+        self.action_left_punch = False 
+        self.action_right_punch = False
+        self.collides_right_punch = False
+        self.collides_left_punch = False 
+
 
     def draw(self, screen: pygame.Surface) -> None:
         """
@@ -40,66 +33,48 @@ class PunchPowerup(Powerup):
             screen (pygame.Surface): The screen to draw on.
         
         """
-        if self.collides:
 
-            # Draw the collision of punch.
-            screen.blit(self.punch_image, self.action_punch_coordinates)
-            self.collides = False
-            self.action = False
-
-        elif self.action and self.active:
-
-            # Draw the punch action (without a collision).
-            screen.blit(self.punch_image, self.action_punch_coordinates)
-            self.action = False
-
-        elif self.active:
-            
-            # Draw the punch powerup abillity of player (without punch action).
-            screen.blit(self.left_punch_image, (self.player.get_player_left_hand_coordinates()[0], self.player.get_player_left_hand_coordinates()[1]))
-            screen.blit(self.right_punch_image, (self.player.get_player_right_hand_coordinates()[0], self.player.get_player_right_hand_coordinates()[1]))
-        else:
-
-            # Draw the unpicked punch powerup
-            screen.blit(self.powerup_image, pygame.Rect(self.x, self.y, self.width, self.height))
-
-        if self.player:
-
-            # update and remove player's punch action if have any.
-            self.player.punch_left = False
+        if self.collides_right_punch == True:
+            # Draw the right punch collision.
+            screen.blit(flip_x_image(Images.powerups_images[PowerupsSettings.LEFT_COLLISION_PUNCH]), self.get_right_punch_action_coordinates())
+            self.collides_right_punch = False
+            self.action_right_punch = False
             self.player.punch_right = False
 
-    def collides_left_punch(self):
-        """
-        Set the left punch collision attribute, image and coordinates.
-        """
-        self.collides = True
-        self.punch_image = self.left_punch_collision_image
-        self.action_punch_coordinates = (self.player.get_player_left_hand_coordinates()[0] - self.player.width, self.player.get_player_left_hand_coordinates()[1])
+        elif self.collides_left_punch == True:
+            # Draw the left punch collision.
+            screen.blit(Images.powerups_images[PowerupsSettings.LEFT_COLLISION_PUNCH], self.get_left_punch_action_coordinates())
+            self.collides_left_punch = False
+            self.action_left_punch = False
+            self.player.punch_left = False
 
-    def collides_right_punch(self):
-        """
-        Set the right punch collision attribute, image and coordinates.
-        """
-        self.collides = True
-        self.punch_image = self.right_punch_collision_image
-        self.action_punch_coordinates = (self.player.get_player_right_hand_coordinates()[0] - Settings.PLAYER_HANDS_SPACING, self.player.get_player_right_hand_coordinates()[1])
+        elif self.action_left_punch == True and self.active == True:
+            # Draw the left punch action (without a collision).
+            screen.blit(Images.powerups_images[PowerupsSettings.LEFT_ACTION_PUNCH], self.get_left_punch_action_coordinates())
+            self.action_left_punch = False
+            self.player.punch_left = False
+        
+        elif self.action_right_punch == True and self.active == True:
+            # Draw the right punch action (without a collision).
+            screen.blit(flip_x_image(Images.powerups_images[PowerupsSettings.LEFT_ACTION_PUNCH]), self.get_right_punch_action_coordinates())
+            self.action_right_punch = False
+            self.player.punch_right = False
 
-    def action_left_punch(self):
-        """
-        Set the left punch action attribute, image and coordinates.
-        """
-        self.action = True
-        self.punch_image = self.left_action_punch_image
-        self.action_punch_coordinates = (self.player.get_player_left_hand_coordinates()[0] - self.player.width, self.player.get_player_left_hand_coordinates()[1])
-    
-    def action_right_punch(self):
-        """
-        Set the right punch action attribute, image and coordinates
-        """
-        self.action = True
-        self.punch_image = self.right_action_punch_image
-        self.action_punch_coordinates = (self.player.get_player_right_hand_coordinates()[0] - Settings.PLAYER_HANDS_SPACING*2, self.player.get_player_right_hand_coordinates()[1])
+        elif self.active:
+            # Draw the punch powerup abillity of player (without punch action).
+            screen.blit(Images.powerups_images[PowerupsSettings.ACTIVE_LEFT_PUNCH], self.player.get_player_left_hand_coordinates())
+            screen.blit(flip_x_image(Images.powerups_images[PowerupsSettings.ACTIVE_LEFT_PUNCH]), self.player.get_player_right_hand_coordinates())
+
+        super().draw(screen)
+
+
+    def get_right_punch_action_coordinates(self):
+        return (self.player.get_player_right_hand_coordinates()[0] - Settings.PLAYER_HANDS_SPACING, self.player.get_player_right_hand_coordinates()[1])
+
+
+    def get_left_punch_action_coordinates(self):
+        return (self.player.get_player_left_hand_coordinates()[0] - self.player.width, self.player.get_player_left_hand_coordinates()[1])
+
 
     def activate(self, player) -> None:
         """
@@ -111,7 +86,8 @@ class PunchPowerup(Powerup):
         player.punch_powerup = True
         player.punch = True
         super().activate(player)
-    
+
+
     def deactivate(self) -> None:
         """
         Deactivates the power up.
@@ -119,4 +95,3 @@ class PunchPowerup(Powerup):
         """
         self.player.punch = False
         super().deactivate()
-    
