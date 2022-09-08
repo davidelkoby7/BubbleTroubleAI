@@ -18,9 +18,10 @@ class TeleportPowerup(Powerup):
             gravity (float): The gravity which will affect the power up.
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
-        self.action = False
-        self.was_teleported = False
         super().__init__(x, y, speed_y, gravity)
+        self.powerup_image_key = PowerupsSettings.TELEPORT_POWERUP
+        self.action = False # teleport player.
+        self.was_teleported = False 
     
 
     def draw(self, screen: pygame.Surface) -> None:
@@ -32,17 +33,16 @@ class TeleportPowerup(Powerup):
         if self.active and self.action == True:
 
              # Draw the teleport on player.
-            screen.blit(Images.powerups_images[PowerupsSettings.TELEPORT], (self.player.x - self.player.width - self.player.head_radius*2, PowerupsSettings.TELEPORT_Y - self.player.head_radius*2))
-            self.was_teleported = True
+            screen.blit(Images.powerups_images[PowerupsSettings.TELEPORT], (self.player.x - self.player.width - self.player.head_radius*2, PowerupsSettings.TELEPORT_Y))
+            self.was_teleported = True # teleport player complete.
 
+        elif self.active and self.player.is_ducking:
+            screen.blit(Images.powerups_images[PowerupsSettings.DUCK_ACTIVE_TELEPORT], (self.player.x - PowerupsSettings.ACTIVE_TELEPORT_WIDTH/4, self.player.y))
 
         elif self.active:
-            pass
-            # Draw the teleport on player.
-            #screen.blit(Images.powerups_images[PowerupsSettings.TELEPORT], (self.player.x - self.player.width - self.player.head_radius*2, PowerupsSettings.TELEPORT_Y - self.player.head_radius*2))
-            #screen.blit(Images.powerups_images[PowerupsSettings.TELEPORT], (self.player.x - self.player.width - self.player.head_radius*2, PowerupsSettings.TELEPORT_Y - self.player.head_radius*2))
-        
-        super().draw(screen, Images.powerups_images[PowerupsSettings.TELEPORT_POWERUP])
+            screen.blit(Images.powerups_images[PowerupsSettings.ACTIVE_TELEPORT], (self.player.x - PowerupsSettings.ACTIVE_TELEPORT_WIDTH/4, self.player.y))
+
+        super().draw(screen)
 
 
 

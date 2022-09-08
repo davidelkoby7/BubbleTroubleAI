@@ -165,8 +165,14 @@ class PowerupsSettings:
 
     TELEPORT_POWERUP = "teleport_powerup"
     TELEPORT = "teleport"
+    ACTIVE_TELEPORT = "active_teleport"
+    DUCK_ACTIVE_TELEPORT = "duck_active_teleport"
     TELEPORT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "teleport_powerup.png"
-    TELEPORT_HEIGHT = (Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2) * 1.3 # In units of screen bits.
+    ACTIVE_TELEPORT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "active_teleport.png"
+    ACTIVE_TELEPORT_WIDTH = (Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS * 2) * 1.2 # In units of screen bits.
+    ACTIVE_TELEPORT_HEIGHT = Settings.PLAYER_HEIGHT
+    ACTIVE_TELEPORT_DUCK_HEIGHT = Settings.PLAYER_DUCK_HEIGHT
+    TELEPORT_HEIGHT = (Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2) * 1.4 # In units of screen bits.
     TELEPORT_WIDTH_INCREASE = 5 # In units of screen bits.
     TELEPORT_WIDTH = (Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2) + TELEPORT_WIDTH_INCREASE # In units of screen bits.
     TELEPORT_Y_INCREASE = ICE_CROWN_HEIGHT * 1.1 # In units of screen bits.
@@ -185,8 +191,8 @@ powerup_constants_to_update = ['FLASH_SUIT_WIDTH', 'FLASH_SUIT_SHIFT_X', 'FLASH_
                                 'ICE_FREEZE_Y', 'ICE_CROWN_SPACING', 'ICE_CROWN_HEIGHT', 'ICE_CROWN_WIDTH', 'SHIELD_DUCKING_HEIGHT',
                                 'MUD_WIDTH', 'MUD_HEIGHT', 'MUD_SPACING', 'PUNCH_ACTION_WIDTH', 'PUNCH_ACTION_HEIGHT',
                                 'PUNCH_HEIGHT', 'PUNCH_WIDTH', 'PUNCH_SPACING', 'SHIELD_HEIGHT', 'SHIELD_WIDTH',
-                                'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT', 'TELEPORT_HEIGHT', 'TELEPORT_WIDTH',
-                                 'TELEPORT_WIDTH_INCREASE', 'TELEPORT_Y_INCREASE', 'TELEPORT_Y']
+                                'SHIELD_SIZE_INCREASE', 'DUCK_FLASH_SUIT_HEIGHT', 'TELEPORT_HEIGHT', 'TELEPORT_WIDTH', 'TELEPORT_WIDTH_INCREASE',
+                                'TELEPORT_Y_INCREASE', 'TELEPORT_Y', 'ACTIVE_TELEPORT_WIDTH', 'ACTIVE_TELEPORT_HEIGHT', 'ACTIVE_TELEPORT_DUCK_HEIGHT']
 class Events:
     """
     All events that can be triggered in the game.
