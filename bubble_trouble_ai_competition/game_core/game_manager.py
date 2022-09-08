@@ -134,7 +134,7 @@ class GameManager:
             # Update the game state at the current game's frame.
             update_game_state(pickle.loads(pickle.dumps(self.ais)), pickle.loads(pickle.dumps(self.shots)),
                               pickle.loads(pickle.dumps(self.balls)), pickle.loads(pickle.dumps(self.powerups)),
-                              self.countdown_bar.frames_remaining)
+                              pickle.loads(pickle.dumps(self.activated_powerups)), self.countdown_bar.frames_remaining)
 
             # Keeping the start time of the frame.
             start_time = pygame.time.get_ticks()

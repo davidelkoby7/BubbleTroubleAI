@@ -13,7 +13,7 @@ from bubble_trouble_ai_competition.utils.constants import Directions, DisplayCon
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 from bubble_trouble_ai_competition.utils.load_display import Images, get_ai_images
-from bubble_trouble_ai_competition.game_core.game_state import game_ais, game_active_powerups
+from bubble_trouble_ai_competition.game_core.game_state import game_ais, game_activated_powerups
 
 class BasePlayer:
     """
@@ -212,9 +212,9 @@ class BasePlayer:
         """
         # Check if player already have an active powerup.
         if str(type(powerup).__name__) in ['TeleportPowerup', 'FreezePowerup', 'PlayerSpeedBoostPowerup']:
-            for active_powerup in game_active_powerups():
-                print(active_powerup)
+            for active_powerup in game_activated_powerups():
                 if type(powerup) == type(active_powerup) and self.name == active_powerup.player.name:
+                    # Player already have this strong powerup active.
                     return False
 
 

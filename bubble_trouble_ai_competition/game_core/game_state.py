@@ -22,11 +22,12 @@ class GameState:
     __frames_remaining__ : int = Settings.TOTAL_GAME_FRAMES
 
 
-def update_game_state(ais: list['BasePlayer'], shoots:list['ArrowShot'], balls: list['Ball'], powerups: list['Powerup'], frames_remaining: int) -> None:
+def update_game_state(ais: list['BasePlayer'], shoots:list['ArrowShot'], balls: list['Ball'], powerups: list['Powerup'], activated_powerups: list['Powerup'], frames_remaining: int) -> None:
     GameState.__ais__ = ais
     GameState.__shoots__ = shoots
     GameState.__balls__ = balls
     GameState.__powerups__ = powerups
+    GameState.__activated_powerups__ = activated_powerups
     GameState.__frames_remaining__ = frames_remaining
 
 
@@ -38,6 +39,13 @@ def game_ais() -> list['BasePlayer']:
 def game_powerups() -> list['Powerup']:
     """returns list of the all powerups in game at the current game frame."""
     return GameState.__powerups__
+
+
+def game_activated_powerups() -> list['Powerup']:
+    """returns list of the all activated powerups in game at the current game frame."""
+    return GameState.__activated_powerups__
+
+
 
 
 def game_active_powerups() -> list['Powerup']:
