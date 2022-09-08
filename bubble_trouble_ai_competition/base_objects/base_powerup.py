@@ -107,6 +107,3 @@ class Powerup:
         # if powerup is not picked up, draw it.
         if self.player == None:
             screen.blit(Images.powerups_images[self.powerup_image_key], pygame.Rect(self.x, self.y, self.width, self.height))
-
-
-
