@@ -1,3 +1,4 @@
+import pygame
 import random
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -256,7 +257,7 @@ class BasePlayer:
         else:
             self.x = self.x - Settings.HIT_RADIUS
 
-    def draw(self, screen) -> None:
+    def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the player on the screen.
 
@@ -367,6 +368,7 @@ class BasePlayer:
         if self.can_freeze:
             self.freeze_action = True # make sure player freeze only one player
 
+
     def pick_player_to_freeze(self):
         """ Returns the name of the ai that player chose to freeze, randomly."""
         other_ais = [ai for ai in game_ais() if ai.name != self.name]
@@ -376,7 +378,3 @@ class BasePlayer:
             return ai.name
         else:
             return None
-
-
-
-    

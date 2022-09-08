@@ -3,8 +3,6 @@ import sys
 import json
 import random
 import pygame
-import time
-import pickle
 
 # Base objects class
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
@@ -129,9 +127,7 @@ class GameManager:
         while (self.game_over != True):
 
             # Update the game state at the current game's frame.
-            update_game_state(pickle.loads(pickle.dumps(self.ais)), pickle.loads(pickle.dumps(self.shots)),
-                              pickle.loads(pickle.dumps(self.balls)), pickle.loads(pickle.dumps(self.powerups)),
-                              self.countdown_bar.frames_remaining)
+            update_game_state(self.ais, self.shots, self.balls, self.powerups, self.countdown_bar.frames_remaining)
 
             # Keeping the start time of the frame.
             start_time = pygame.time.get_ticks()
@@ -150,7 +146,7 @@ class GameManager:
             
             self.handle_powerup_creation()
 
-            all_items = self.balls + self.shots + self.ais + self.powerups + [self.countdown_bar] 
+            all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar] 
 
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
@@ -206,7 +202,6 @@ class GameManager:
         for freeze_powerup in self.get_active_powerups_by_type(FreezePowerup):
             # Creates freeze player event.
             if freeze_powerup.player.freeze_action:
-
                 self.event_observable.notify_observers(Events.FREEZE_PLAYER, freeze_powerup,
                                                         freeze_powerup.player.pick_player_to_freeze())
     
@@ -434,13 +429,7 @@ class GameManager:
 
     def get_ai_by_name(self, ai_name) -> BasePlayer:
         """ Returns the ai object by his name. """
-        for ai in self.ais:
-            if ai.name == ai_name:
-                return ai
-        return None
-
-    
-     
-       
-
-    
+        searched_ai = [ai for ai in self.ais if ai.name == ai_name]
+        if (searched_ai == []):
+            return None
+        return searched_ai[0]

@@ -14,7 +14,7 @@ class Alert:
         Initializes the Alert message.
         
         Args:
-            msg (str): the message that will appear to screen as alert.
+            alert_type (str): the alert message that will appear to screen as alert, must be alert_<alert_type>_key from AlertConstants.
             events_observable (EventsObservable): The events observable.
             showed (bool): indicates if the alert already showed to the screen one
             frames_freeze (int): the number of frames to freeze when alert is shown.
@@ -46,9 +46,4 @@ class Alert:
         # Writing the alert message
         screen.blit(DisplayObjects.alerts[self.alert_type], (self.x, self.y))
         self.showed = True
-
-
-     
-
-        
         

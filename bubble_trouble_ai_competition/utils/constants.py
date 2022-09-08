@@ -71,14 +71,14 @@ class Settings:
     ARROW_WIDTH = 0.7 # In units of screen bits.
     ARROW_SPEED = 25 # In units of screen bits per second.
 
-    POWERUP_WIDTH = 50
-    POWERUP_HEIGHT = 50
+    POWERUP_WIDTH = 3
+    POWERUP_HEIGHT = 3
 
 
 settings_properties_to_scale = [
     'PLAYER_DIMENSIONS', 'PLAYER_WIDTH', 'PLAYER_HEIGHT', 'PLAYER_HANDS_SPACING', 'HIT_RADIUS', 'PLAYER_DUCK_HEIGHT', 'HEAD_RADIUS', 'ARROW_WIDTH',
-    'ARROW_SPEED', 'PLAYER_SPEED', 'BALL_SPEED', 'BALL_POPPED_UP_SPEED_DEC',
-    'BALL_POPPED_DOWN_SPEED', 'DEFAULT_GRAVITY', 'BALL_SIZE_TO_RADIUS_RATIO'
+    'ARROW_SPEED', 'PLAYER_SPEED', 'BALL_SPEED', 'BALL_POPPED_UP_SPEED_DEC', 'BALL_POPPED_DOWN_SPEED', 'DEFAULT_GRAVITY', 'BALL_SIZE_TO_RADIUS_RATIO',
+    'POWERUP_WIDTH', 'POWERUP_HEIGHT'
     ]
 
 class DisplayConstants:
@@ -99,7 +99,10 @@ class DisplayConstants:
 
 
 class PowerupsSettings:
-    
+
+    DEFAULT_POWERUP = "powerup"
+    DEFAULT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "powerup.png"
+
     SPEED_BOOSTER_POWERUP = "speed_booster_powerup"
     STAND_FLASH_SUIT = "flash_suit"
     SPEED_BOOSTER_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "player_speed_boost_powerup.png"
