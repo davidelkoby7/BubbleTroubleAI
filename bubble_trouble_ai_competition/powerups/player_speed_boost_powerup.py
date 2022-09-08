@@ -24,7 +24,7 @@ class PlayerSpeedBoostPowerup(Powerup):
 
 
     def draw(self, screen: pygame.Surface):
-
+    
         super().draw(screen)
 
 

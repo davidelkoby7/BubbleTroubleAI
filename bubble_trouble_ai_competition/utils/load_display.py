@@ -37,6 +37,9 @@ def load_game_images():
 
     Images.powerups_images = load_all_powerups_images()
     Images.powerups_images[PowerupsSettings.ICE_CUBE].set_alpha(128)
+    Images.powerups_images[PowerupsSettings.ACTIVE_TELEPORT].set_alpha(128)
+    Images.powerups_images[PowerupsSettings.DUCK_ACTIVE_TELEPORT].set_alpha(128)
+
     Images.players_images = load_all_players_images()
     Images.general_images = load_general_images()
 
@@ -85,7 +88,11 @@ def load_all_powerups_images() -> dict[str, pygame.Surface]:
             PowerupsSettings.SHIELD: load_and_scale_image(PowerupsSettings.SHIELD_IMAGE_PATH, PowerupsSettings.SHIELD_WIDTH, PowerupsSettings.SHIELD_HEIGHT),
             PowerupsSettings.DUCK_SHIELD: load_and_scale_image(PowerupsSettings.SHIELD_IMAGE_PATH, PowerupsSettings.SHIELD_WIDTH, PowerupsSettings.SHIELD_DUCKING_HEIGHT),
             PowerupsSettings.DOUBLE_POINTS_POWERUP: load_and_scale_powerup_image(PowerupsSettings.DOUBLE_POINTS_POWERUP_IMAGE_PATH),
-            PowerupsSettings.DOUBLE_POINTS_ARROW: load_image_and_keep_aspect_ratio(PowerupsSettings.DOUBLE_POINTS_ARROW_IMAGE_PATH, Settings.ARROW_WIDTH)
+            PowerupsSettings.DOUBLE_POINTS_ARROW: load_image_and_keep_aspect_ratio(PowerupsSettings.DOUBLE_POINTS_ARROW_IMAGE_PATH, Settings.ARROW_WIDTH),
+            PowerupsSettings.TELEPORT_POWERUP: load_and_scale_powerup_image(PowerupsSettings.TELEPORT_POWERUP_IMAGE_PATH),
+            PowerupsSettings.TELEPORT: load_and_scale_image(PowerupsSettings.TELEPORT_POWERUP_IMAGE_PATH, PowerupsSettings.TELEPORT_WIDTH, PowerupsSettings.TELEPORT_HEIGHT),
+            PowerupsSettings.ACTIVE_TELEPORT: load_and_scale_image(PowerupsSettings.ACTIVE_TELEPORT_POWERUP_IMAGE_PATH, PowerupsSettings.ACTIVE_TELEPORT_WIDTH, PowerupsSettings.ACTIVE_TELEPORT_HEIGHT),
+            PowerupsSettings.DUCK_ACTIVE_TELEPORT: load_and_scale_image(PowerupsSettings.ACTIVE_TELEPORT_POWERUP_IMAGE_PATH, PowerupsSettings.ACTIVE_TELEPORT_WIDTH, PowerupsSettings.ACTIVE_TELEPORT_DUCK_HEIGHT)
             }
 
 

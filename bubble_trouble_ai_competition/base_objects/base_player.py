@@ -6,6 +6,7 @@ if TYPE_CHECKING:
     # avoiding import cyclic error
     from bubble_trouble_ai_competition.powerups.punch_powerup import PunchPowerup, Powerup
 
+
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
@@ -13,7 +14,8 @@ from bubble_trouble_ai_competition.utils.constants import Directions, DisplayCon
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 from bubble_trouble_ai_competition.utils.load_display import Images, get_ai_images
-from bubble_trouble_ai_competition.game_core.game_state import game_ais
+from bubble_trouble_ai_competition.game_core.game_state import game_ais, game_activated_powerups
+
 
 class BasePlayer:
     """
@@ -55,6 +57,8 @@ class BasePlayer:
         self.can_freeze = False
         self.freeze_action = False
         self.freeze = False # ai flag if freeze.
+        self.can_teleport = False
+        self.is_teleporting = False
 
 
     @property
@@ -86,6 +90,7 @@ class BasePlayer:
             self.stand()
             if not self.freeze:
                 self.move()
+
         self.update_head_center()
 
 
@@ -142,6 +147,14 @@ class BasePlayer:
         """
 
         self.x += self.direction * Settings.FRAME_TIME * self.speed
+        self.keep_player_in_borders()
+
+    def teleport(self) -> None:
+        self.x = self.pick_x_to_teleport()
+        self.keep_player_in_borders()
+
+    def keep_player_in_borders(self):
+        """ Keep player at the game borders."""
 
         # Making sure the AI is not going out of bounds.
         if (self.x < DisplayConstants.LEFT_BORDER_X_VALUE):
@@ -149,7 +162,6 @@ class BasePlayer:
         if (self.x > DisplayConstants.RIGHT_BORDER_X_VALUE - self.width):
             self.x = DisplayConstants.RIGHT_BORDER_X_VALUE - self.width
 
-    
     def talk(self) -> None:
         """
         Player will talk.
@@ -174,8 +186,8 @@ class BasePlayer:
         Returns:
             bool: True if the player collides with the ball, False otherwise.
         """
-        # Check if the player has shield
-        if (self.shield):
+        # Check if the player has shield or is teleporting
+        if self.shield == True or self.is_teleporting:
             return False
 
         # Check if the player's head collides with the ball
@@ -200,6 +212,11 @@ class BasePlayer:
         Returns:
             bool: True if the player collides with the power up, False otherwise.
         """
+        # Check if player already have the same limited active powerup.
+        if self.does_player_have_limited_active_powerup(powerup) == True:
+            return False
+
+
         # Check if the player's head collides with the powerup
         if (circle_rect_collide(powerup.x, powerup.y, powerup.width, powerup.height, self.head_center[0], self.head_center[1], self.head_radius)):
             return True
@@ -306,6 +323,16 @@ class BasePlayer:
         
         return body_image, body_image_coordinates
     
+
+    def does_player_have_limited_active_powerup(self, powerup: 'Powerup'):
+        """Check if player already have limited active powerups."""
+        if str(type(powerup).__name__) in ['TeleportPowerup', 'FreezePowerup', 'PlayerSpeedBoostPowerup']:
+            for active_powerup in game_activated_powerups():
+                if type(powerup) == type(active_powerup) and self.name == active_powerup.player.name:
+                    # Player already have this limited powerup active.
+                    return True
+        return False
+
      
     def can_shoot(self) -> bool:
         """
@@ -366,7 +393,7 @@ class BasePlayer:
     def do_freeze(self) -> None:
         """Freeze another ai player with the freeze powerup"""
         if self.can_freeze:
-            self.freeze_action = True # make sure player freeze only one player
+            self.freeze_action = True # make sure player freeze only one player.
 
 
     def pick_player_to_freeze(self):
@@ -378,3 +405,13 @@ class BasePlayer:
             return ai.name
         else:
             return None
+    
+
+    def do_teleport(self) -> None:
+        """Teleport to another place in game with the teleport powerup"""
+        if self.can_teleport:
+            self.is_teleporting = True
+
+
+    def pick_x_to_teleport(self):
+        return random.choice(range(DisplayConstants.LEFT_BORDER_X_VALUE, DisplayConstants.RIGHT_BORDER_X_VALUE))

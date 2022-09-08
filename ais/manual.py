@@ -47,6 +47,9 @@ class manualAI(BasePlayer):
         if keys[pygame.K_RIGHT]:
             return Directions.RIGHT
         
+        if keys[pygame.K_1]:
+            self.do_teleport()
+
         return Directions.STAND
 
     

@@ -24,11 +24,12 @@ class GameState:
     __frames_remaining__ : int = Settings.TOTAL_GAME_FRAMES
 
 
-def update_game_state(ais: list['BasePlayer'], shoots:list['ArrowShot'], balls: list['Ball'], powerups: list['Powerup'], frames_remaining: int) -> None:
+def update_game_state(ais: list['BasePlayer'], shoots:list['ArrowShot'], balls: list['Ball'], powerups: list['Powerup'], activated_powerups: list['Powerup'], frames_remaining: int) -> None:
     GameState.__ais__ = pickle.loads(pickle.dumps(ais))
     GameState.__shoots__ = pickle.loads(pickle.dumps(shoots))
     GameState.__balls__ = pickle.loads(pickle.dumps(balls))
     GameState.__powerups__ = pickle.loads(pickle.dumps(powerups))
+    GameState.__activated_powerups__ = pickle.loads(pickle.dumps(activated_powerups))
     GameState.__frames_remaining__ = frames_remaining
 
 
@@ -40,6 +41,15 @@ def game_ais() -> list['BasePlayer']:
 def game_powerups() -> list['Powerup']:
     """returns list of the all powerups in game at the current game frame."""
     return pickle.loads(pickle.dumps(GameState.__powerups__))
+
+
+def game_activated_powerups() -> list['Powerup']:
+    """returns list of the all activated powerups in game at the current game frame."""
+    return pickle.loads(pickle.dumps(GameState.__activated_powerups__))
+
+
+def game_active_powerups() -> list['Powerup']:
+    return [powerup for powerup in game_powerups() if powerup.player]
 
 
 def game_shoots() -> list['ArrowShot']:
