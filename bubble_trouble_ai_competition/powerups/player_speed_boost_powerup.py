@@ -24,7 +24,7 @@ class PlayerSpeedBoostPowerup(Powerup):
 
     def draw(self, screen: pygame.Surface):
         if self.active:
-            # draw flash suit
+            # TODO: draw flash suit
             pass
 
         super().draw(screen)

@@ -25,11 +25,6 @@ class PunchPowerup(Powerup):
         self.collides_right_punch = False
         self.collides_left_punch = False 
 
-    def get_right_punch_action_coordinates(self):
-        return (self.player.get_player_right_hand_coordinates()[0] - Settings.PLAYER_HANDS_SPACING, self.player.get_player_right_hand_coordinates()[1])
-
-    def get_left_punch_action_coordinates(self):
-        return (self.player.get_player_left_hand_coordinates()[0] - self.player.width, self.player.get_player_left_hand_coordinates()[1])
 
     def draw(self, screen: pygame.Surface) -> None:
         """
@@ -73,6 +68,14 @@ class PunchPowerup(Powerup):
         super().draw(screen)
 
 
+    def get_right_punch_action_coordinates(self):
+        return (self.player.get_player_right_hand_coordinates()[0] - Settings.PLAYER_HANDS_SPACING, self.player.get_player_right_hand_coordinates()[1])
+
+
+    def get_left_punch_action_coordinates(self):
+        return (self.player.get_player_left_hand_coordinates()[0] - self.player.width, self.player.get_player_left_hand_coordinates()[1])
+
+
     def activate(self, player) -> None:
         """
         Activates the power up.
@@ -83,7 +86,8 @@ class PunchPowerup(Powerup):
         player.punch_powerup = True
         player.punch = True
         super().activate(player)
-    
+
+
     def deactivate(self) -> None:
         """
         Deactivates the power up.

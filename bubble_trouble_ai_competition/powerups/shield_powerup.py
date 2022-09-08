@@ -21,6 +21,7 @@ class ShieldPowerup(Powerup):
         super().__init__(x, y, speed_y, gravity)
         self.powerup_image_key = PowerupsSettings.SHIELD_POWERUP
         
+
     def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the power up.
@@ -42,6 +43,7 @@ class ShieldPowerup(Powerup):
         """
         player.shield = True
         super().activate(player)
+    
     
     def deactivate(self) -> None:
         """
