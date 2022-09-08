@@ -54,8 +54,3 @@ class CountdownBar:
             DisplayObjects.countdown_rect,
             (0, 0, update_countdown_rect_width, DisplayObjects.countdown_rect.h)
             )
-        
-     
-
-        
-        
