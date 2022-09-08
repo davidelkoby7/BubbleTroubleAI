@@ -26,7 +26,6 @@ class manualAI(BasePlayer):
     def pick_direction(self) -> Directions:
         keys = pygame.key.get_pressed()
 
-
         if keys[pygame.K_q]:
             self.do_freeze()
 

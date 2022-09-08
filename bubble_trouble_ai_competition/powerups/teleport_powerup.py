@@ -67,6 +67,3 @@ class TeleportPowerup(Powerup):
 
         super().deactivate()
     
-
-         
-        
