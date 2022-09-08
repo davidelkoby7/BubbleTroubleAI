@@ -18,8 +18,8 @@ class ShieldPowerup(Powerup):
             gravity (float): The gravity which will affect the power up.
             random (boolean): True if powerup picked by random, decided which powerup image to set (random or the original powerup image).
         """
-        self.powerup_image_key = PowerupsSettings.SHIELD_POWERUP
         super().__init__(x, y, speed_y, gravity)
+        self.powerup_image_key = PowerupsSettings.SHIELD_POWERUP
         
     def draw(self, screen: pygame.Surface) -> None:
         """
