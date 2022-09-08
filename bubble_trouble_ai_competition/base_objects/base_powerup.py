@@ -35,7 +35,7 @@ class Powerup:
         self.pickable_timer = 0
         self.has_pickable_timer = True
 
-        self.powerup_image_key = None
+        self.powerup_image_key = PowerupsSettings.DEFAULT_POWERUP
 
 
     def update(self) -> None:
