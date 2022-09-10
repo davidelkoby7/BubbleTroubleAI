@@ -1,4 +1,3 @@
-from argparse import Action
 import os
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
