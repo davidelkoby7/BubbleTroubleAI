@@ -43,7 +43,7 @@ class BasePlayer:
         self.events_observable = events_observable
         self.is_shooting = False
         self.score = 0
-        self.is_competing = True
+        self.is_competing = False
         self.is_ducking = False
         self.arrow_color = "grey"
 

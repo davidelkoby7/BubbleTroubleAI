@@ -12,8 +12,8 @@ class DisplayObjects:
     alerts: dict = {}
 
 def load_alerts_surfaces():
-    return {AlertConstants.ALERT_GAME_TIMEOUT: AlertConstants.ALERT_FONT.render(AlertConstants.GAME_TIMEOUT_TEXT, False, AlertConstants.ALERT_COLOR),
-            AlertConstants.ALERT_GAME_OVER:  AlertConstants.ALERT_FONT.render(AlertConstants.GAME_OVER_TEXT, False, AlertConstants.ALERT_COLOR)}
+    return {AlertConstants.ALERT_GAME_TIMEOUT: AlertConstants.ALERT_FONT.render(AlertConstants.GAME_TIMEOUT_TEXT, True, AlertConstants.ALERT_COLOR),
+            AlertConstants.ALERT_GAME_OVER:  AlertConstants.ALERT_FONT.render(AlertConstants.GAME_OVER_TEXT, True, AlertConstants.ALERT_COLOR)}
 
 
 def load_display_objects():

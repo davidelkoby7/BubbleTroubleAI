@@ -1,4 +1,5 @@
 import pygame
+import os
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_alert import Alert
@@ -7,7 +8,8 @@ from bubble_trouble_ai_competition.base_objects.base_powerup import Powerup
 from bubble_trouble_ai_competition.base_objects.countdown_bar import CountdownBar
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
-from bubble_trouble_ai_competition.ui_elements.button import Button
+from bubble_trouble_ai_competition.ui_elements.action_button import ActionButton
+from bubble_trouble_ai_competition.ui_elements.pick_button import PickButton
 from bubble_trouble_ai_competition.utils.constants import AlertConstants, CountdownBarConstants, DesignConstants, DisplayConstants, Events, MainMenuConstants, PowerupsSettings, ScoreboardConstants, Settings, settings_properties_to_scale, design_constants_properties_to_scale, powerup_constants_to_update, countdown_bar_constants_to_update, alert_constants_to_update, main_menu_constants_to_update
 from bubble_trouble_ai_competition.utils.load_display import Images, DisplayObjects
 
@@ -38,14 +40,42 @@ class Graphics:
 
         self.game_area_position = DisplayConstants.GAME_AREA_POSITION
 
+        # Initializing action buttons
+        self.menu_buttons: list[ActionButton] = []
+        action_buttons_to_create = [("Play!", self.start_playing), ("Exit", self.quit_menu)]
+        self.create_action_buttons(action_buttons_to_create)
 
-        # Initializing buttons
-        buttons_to_create = [("Play!", self.start_playing), ("Exit", self.quit_menu)]
-        self.menu_buttons: list[Button] = []
-        self.create_buttons(buttons_to_create)
+        # Initializing selection of level and players buttons.
+        ai_buttons_to_create = [(ai, self.pick_ai, self.unpick_ai) for ai in self.get_ai_names()]
+        levels_buttons_to_create = [(level_name, self.pick_level, self.unpick_level) for level_name in self.get_levels_names()]
+        self.levels_buttons: list[PickButton] = self.create_pick_buttons(levels_buttons_to_create, MainMenuConstants.LEVELS_INITIAL_HEIGHT, MainMenuConstants.LEVELS_LEFT_MARGIN)
+        self.ai_buttons: list[PickButton] = self.create_pick_buttons(ai_buttons_to_create, MainMenuConstants.AIS_BUTTONS_INITIAL_HEIGHT, MainMenuConstants.AIS_BUTTONS_LEFT_MARGIN)
+    
+    def keep_button_in_border(self, button, buttons_initial_height, buttons_left_margin):
+        if button.y > MainMenuConstants.MENU_FLOOR_Y_BORDER:
+            MainMenuConstants.SHIFT_RIGHT_AMOUNT += 1
+            button.y = buttons_initial_height
+            button.x = buttons_left_margin + MainMenuConstants.BUTTONS_PICK_WIDTH*MainMenuConstants.SHIFT_RIGHT_AMOUNT*1.2
 
 
-    def create_buttons(self, buttons_to_create: list[tuple]) -> None:
+    def create_pick_buttons(self, pick_buttons_to_create, buttons_initial_height, buttons_left_margin) -> list[PickButton]:
+        bottons: list[PickButton] = []
+        curr_y: int = buttons_initial_height
+        curr_x: int = buttons_left_margin
+        MainMenuConstants.SHIFT_RIGHT_AMOUNT = 0
+        for button_name, pick_button, unpick_button in pick_buttons_to_create:
+            button = PickButton(curr_x, curr_y, 
+                MainMenuConstants.BUTTONS_PICK_WIDTH, MainMenuConstants.BUTTONS_PICK_HEIGHT,
+                button_name, on_pick=pick_button, on_unpick=unpick_button)
+            bottons.append(button)
+            self.keep_button_in_border(button, buttons_initial_height, buttons_left_margin)
+            curr_y = button.y + MainMenuConstants.BUTTONS_PICK_HEIGHT
+            curr_x = button.x
+        
+        return bottons
+
+
+    def create_action_buttons(self, buttons_to_create: list[tuple]) -> None:
         """
         Create the buttons.
 
@@ -54,11 +84,11 @@ class Graphics:
         """
         curr_y: int = MainMenuConstants.BUTTONS_INITIAL_HEIGHT
         for button_name, button_action in buttons_to_create:
-            self.menu_buttons.append(Button(MainMenuConstants.BUTTONS_LEFT_MARGIN, curr_y, 
+            self.menu_buttons.append(ActionButton(MainMenuConstants.BUTTONS_LEFT_MARGIN, curr_y, 
                 MainMenuConstants.BUTTONS_WIDTH, MainMenuConstants.BUTTONS_HEIGHT,
-                button_name, on_click=button_action))
+                button_name,click_action=button_action))
             
-            curr_y += MainMenuConstants.BUTTONS_HEIGHT + MainMenuConstants.BUTTONS_HEIGHT_MARGIN
+            curr_y += MainMenuConstants.BUTTONS_WIDTH + MainMenuConstants.BUTTONS_HEIGHT_MARGIN
     
 
     def start_playing(self):
@@ -68,7 +98,23 @@ class Graphics:
     def quit_menu(self):
         self.events_observable.notify_observers(Events.QUIT_MENU)
 
+
+    def pick_ai(self, ai_name):
+        self.events_observable.notify_observers(Events.AI_PICKED, ai_name)
+
+
+    def unpick_ai(self, ai_name):
+        self.events_observable.notify_observers(Events.AI_UNPICKED, ai_name)
+    
+
+    def pick_level(self,  level_name):
+        self.events_observable.notify_observers(Events.LEVEL_PICKED, level_name)
         
+
+    def unpick_level(self,  level_name):
+        self.events_observable.notify_observers(Events.LEVEL_UNPICKED, level_name)
+
+
     def handle_display_constants(self):
         DisplayConstants.SCREEN_SIZE = DisplayObjects.screen_size
         DisplayConstants.SCREEN_WIDTH = DisplayObjects.screen_size[0]
@@ -98,7 +144,13 @@ class Graphics:
         
         # Changing constants after the changes we made.
         DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
-        MainMenuConstants.TITLE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, MainMenuConstants.TITLE_FONT_SIZE)
+        DesignConstants.BIG_BUTTON_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BIG_BUTTON_FONT_SIZE)
+        DesignConstants.MID_BOTTON_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.MID_BOTTON_FONT_SIZE)
+
+        MainMenuConstants.TITLE_FONT = pygame.font.SysFont(MainMenuConstants.TITLE_FONT_NAME, MainMenuConstants.TITLE_FONT_SIZE)
+        MainMenuConstants.AIS_TITLE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
+        MainMenuConstants.LEVELS_TITLE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
+
         AlertConstants.ALERT_FONT = pygame.font.SysFont(AlertConstants.ALERT_FONT_NAME, AlertConstants.ALERT_FONT_SIZE)
 
 
@@ -145,7 +197,7 @@ class Graphics:
         """
         Draw the menu.
         """
-
+        
         # Clear the screen.
         DisplayObjects.screen.fill((0, 0, 0))
 
@@ -153,33 +205,40 @@ class Graphics:
         DisplayObjects.screen.blit(Images.general_images["menu_background_image"], (0,0))
 
         # Draw title.
-        text_surface = MainMenuConstants.TITLE_FONT.render(Settings.TITLE, False, MainMenuConstants.TITLE_COLOR)
+        text_surface = MainMenuConstants.TITLE_FONT.render(Settings.TITLE, True, MainMenuConstants.TITLE_COLOR)
         DisplayObjects.screen.blit(text_surface, MainMenuConstants.TITLE_POSITION)
 
+        # Draw buttons titles.
+        ais_buttons_text_surface = MainMenuConstants.AIS_TITLE_FONT.render(MainMenuConstants.AIS_TITLE, True, MainMenuConstants.TITLE_COLOR)
+        levels_buttons_text_surface = MainMenuConstants.LEVELS_TITLE_FONT.render(MainMenuConstants.LEVELS_TITLE, True, MainMenuConstants.TITLE_COLOR)
+        DisplayObjects.screen.blit(ais_buttons_text_surface, MainMenuConstants.AIS_TO_PICK_TITLE_POSITION)
+        DisplayObjects.screen.blit(levels_buttons_text_surface, MainMenuConstants.LEVELS_TO_PICK_TITLE_POSITION)
+
         # Drawing buttons.
-        for button in self.menu_buttons:
+        for button in self.menu_buttons + self.ai_buttons + self.levels_buttons:
             button.draw(DisplayObjects.screen)
-
-        # Draw the ais that can be played.
-        curr_y: int = MainMenuConstants.AIS_INITIAL_HEIGHT
-        for i, ai in enumerate(ais):
-            color = (255, 0, 0)
-            if (ai.is_competing):
-                color = (0, 255, 0)
-            text_surface = DesignConstants.BASE_FONT.render(f'#{i + 1}: {ai.name}', False, color)
-            DisplayObjects.screen.blit(text_surface, (MainMenuConstants.AIS_LEFT_MARGIN, curr_y))
-            curr_y += MainMenuConstants.AIS_HEIGHT_MARGIN
-
-        # Draw the levels that can be played.
-        curr_y: int = MainMenuConstants.LEVELS_INITIAL_HEIGHT
-        for i, level in enumerate(levels):
-            color = (255, 0, 0)
-            if (level["active"]):
-                color = (0, 255, 0)
-            letter: str = chr(ord('A') + i)
-            text_surface = DesignConstants.BASE_FONT.render(f'{letter}: {level["name"]}', False, color)
-            DisplayObjects.screen.blit(text_surface, (MainMenuConstants.LEVELS_LEFT_MARGIN, curr_y))
-            curr_y += MainMenuConstants.LEVELS_HEIGHT_MARGIN
-
+     
         # Updating the screen.
         pygame.display.flip()
+
+
+    def get_ai_names(self) -> list[str]:
+        ais_names = []
+        for file_name in os.listdir(Settings.BASE_AI_DIR):
+            # Get the ais files.
+            if file_name.endswith(".py"):
+                ai_name = file_name.replace(".py", "") # The minus 3 => Removing the .py ending
+                ais_names.append(ai_name)
+
+        return ais_names
+    
+
+    def get_levels_names(self) -> list[str]:
+        levels_names = []
+        for level in os.listdir(Settings.LEVELS_DIR):
+            if (level.endswith(".json")):
+                level_name = level.replace(".json", "")
+                levels_names.append(level_name)
+
+        return levels_names
+    

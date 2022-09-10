@@ -31,7 +31,8 @@ class Settings:
     ASSETS_DIR = BASE_MODULE_DIR + "assets"
     LEVELS_DIR = BASE_MODULE_DIR + "levels/"
     BACKGROUND_IMAGE_PATH = ASSETS_DIR + "\\background.jpg"
-    MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "\\MenuBackground.png"
+    MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "\\menu_background.png"
+    button_IMAGE_PATH = ASSETS_DIR + "\\button.png"
     BACKGROUND_IMAGE_KEY = "background_image"
     MENU_BACKGROUND_IMAGE_KEY = "menu_background_image"
 
@@ -214,6 +215,12 @@ class Events:
     CHANGE_MENU_TO_GAME = "change_menu_to_game"
     CHANGE_GAME_TO_MENU = "change_game_to_menu"
     QUIT_MENU = "quit_menu"
+    AI_PICKED = "ai_picked"
+    AI_UNPICKED = "ai_unpicked"
+    LEVEL_PICKED = "level_picked"
+    LEVEL_UNPICKED = "level_unpicked"
+    ACTION_BUTTON_CLICKED = "action_button_clicked"
+    PICK_BUTTON_CLICKED = "pick_button_clicked"
 
 
 
@@ -240,12 +247,16 @@ class ScoreboardConstants:
 
 
 class DesignConstants:
-    BASE_FONT_NAME = "Arial-Bold"
+    BASE_FONT_NAME = "cooperblack"
     BASE_FONT_SIZE = 2
     BASE_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
+    BIG_BUTTON_FONT = None
+    MID_BOTTON_FONT = None
+    BIG_BUTTON_FONT_SIZE = 3
+    MID_BOTTON_FONT_SIZE = 1.3
 
 design_constants_properties_to_scale = [
-    'BASE_FONT_SIZE',
+    'BASE_FONT_SIZE', 'BIG_BUTTON_FONT_SIZE', 'MID_BOTTON_FONT_SIZE'
 ]
 
 class CountdownBarConstants:
@@ -284,23 +295,40 @@ alert_constants_to_update = [
 
 
 class MainMenuConstants:
+    MENU_FLOOR_Y_BORDER = 50 # In units screen bits.
+    MENU_LEFT_X_BORDER = 3 # In units screen bits
+    MENU_RIGHT_X_BORDER = 90 # In units screen bits
     TITLE_FONT_SIZE = 5
-    TITLE_COLOR = (30, 30, 30)
+    TITLE_COLOR = (255,255,255)
+    TITLE_FONT_NAME = "cooperblack"
     TITLE_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
-    TITLE_POSITION = (25, 2) # In units of screen bits.
-    BUTTONS_LEFT_MARGIN = 30 # In units of screen bits.
+    TITLE_POSITION = (13, 2) # In units of screen bits.
+    BUTTONS_FONT_COLOR = (255,255,255)
+    BUTTONS_UNPICK_COLOR = (193,193,193)
+    BUTTONS_LEFT_MARGIN = 20 # In units of screen bits.
     BUTTONS_INITIAL_HEIGHT = 20 # In units of screen bits.
     BUTTONS_HEIGHT_MARGIN = 2 # In units of screen bits.
     BUTTONS_WIDTH = 10 # In units of screen bits.
-    BUTTONS_HEIGHT = 4 # In units of screen bits.
-    AIS_LEFT_MARGIN = 50
-    AIS_INITIAL_HEIGHT = 20
-    AIS_HEIGHT_MARGIN = 2
-    LEVELS_LEFT_MARGIN = 70
-    LEVELS_INITIAL_HEIGHT = 20
-    LEVELS_HEIGHT_MARGIN = 2
+    BUTTONS_HEIGHT = 10 # In units of screen bits.
+    BUTTONS_PICK_WIDTH = 10 # In units of screen bits.
+    BUTTONS_PICK_HEIGHT = 4 # In units of screen bits.
+    AIS_BUTTONS_LEFT_MARGIN = 60 # In units of screen bits.
+    AIS_BUTTONS_INITIAL_HEIGHT = BUTTONS_INITIAL_HEIGHT + 3 # In units of screen bits.
+    AIS_TO_PICK_TITLE_POSITION = (AIS_BUTTONS_LEFT_MARGIN, BUTTONS_INITIAL_HEIGHT) # In units of screen bits.
+    AIS_TITLE = "pick players:"
+    AIS_TITLE_FONT = None
+    LEVELS_LEFT_MARGIN = 40 # In units of screen bits.
+    LEVELS_INITIAL_HEIGHT = BUTTONS_INITIAL_HEIGHT + 3 # In units of screen bits.
+    LEVELS_TO_PICK_TITLE_POSITION = (LEVELS_LEFT_MARGIN, BUTTONS_INITIAL_HEIGHT) # In units of screen bits.
+    LEVELS_TITLE = "select level:"
+    LEVELS_TITLE_FONT = None
+    SHIFT_RIGHT_AMOUNT = 0
+    DEFAULT_LEVEL_INDEX = 0
 
 main_menu_constants_to_update = [
+    'MENU_FLOOR_Y_BORDER',
+    'MENU_LEFT_X_BORDER',
+    'MENU_RIGHT_X_BORDER',
     'TITLE_POSITION',
     'TITLE_FONT_SIZE',
     'BUTTONS_LEFT_MARGIN',
@@ -308,10 +336,12 @@ main_menu_constants_to_update = [
     'BUTTONS_HEIGHT_MARGIN',
     'BUTTONS_WIDTH',
     'BUTTONS_HEIGHT',
-    'AIS_LEFT_MARGIN',
-    'AIS_INITIAL_HEIGHT',
-    'AIS_HEIGHT_MARGIN',
+    'AIS_TO_PICK_TITLE_POSITION',
+    'AIS_BUTTONS_LEFT_MARGIN',
+    'AIS_BUTTONS_INITIAL_HEIGHT',
+    'BUTTONS_PICK_HEIGHT',
+    'BUTTONS_PICK_WIDTH',
+    'LEVELS_TO_PICK_TITLE_POSITION',
     'LEVELS_LEFT_MARGIN',
     'LEVELS_INITIAL_HEIGHT',
-    'LEVELS_HEIGHT_MARGIN',
 ]
