@@ -40,17 +40,16 @@ class Graphics:
 
         self.game_area_position = DisplayConstants.GAME_AREA_POSITION
 
-        # Initializing buttons
+        # Initializing action buttons
         self.menu_buttons: list[ActionButton] = []
-        self.ai_buttons: list[PickButton] = []
-
         action_buttons_to_create = [("Play!", self.start_playing), ("Exit", self.quit_menu)]
         self.create_action_buttons(action_buttons_to_create)
 
+        # Initializing selection of level and players buttons.
         ai_buttons_to_create = [(ai, self.pick_ai, self.unpick_ai) for ai in self.get_ai_names()]
         levels_buttons_to_create = [(level_name, self.pick_level, self.unpick_level) for level_name in self.get_levels_names()]
-        self.levels_buttons = self.create_pick_buttons(levels_buttons_to_create, MainMenuConstants.LEVELS_INITIAL_HEIGHT, MainMenuConstants.LEVELS_LEFT_MARGIN)
-        self.ai_buttons = self.create_pick_buttons(ai_buttons_to_create, MainMenuConstants.AIS_BUTTONS_INITIAL_HEIGHT, MainMenuConstants.AIS_BUTTONS_LEFT_MARGIN)
+        self.levels_buttons: list[PickButton] = self.create_pick_buttons(levels_buttons_to_create, MainMenuConstants.LEVELS_INITIAL_HEIGHT, MainMenuConstants.LEVELS_LEFT_MARGIN)
+        self.ai_buttons: list[PickButton] = self.create_pick_buttons(ai_buttons_to_create, MainMenuConstants.AIS_BUTTONS_INITIAL_HEIGHT, MainMenuConstants.AIS_BUTTONS_LEFT_MARGIN)
     
     def keep_button_in_border(self, button, buttons_initial_height, buttons_left_margin):
         if button.y > MainMenuConstants.MENU_FLOOR_Y_BORDER:

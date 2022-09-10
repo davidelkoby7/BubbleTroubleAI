@@ -47,6 +47,7 @@ class GameManager:
         """
         load_display_objects()
         load_game_images()
+        
         if (self.load_level_data(level) == False):
             raise LevelNotFound(f"{level}")
         
