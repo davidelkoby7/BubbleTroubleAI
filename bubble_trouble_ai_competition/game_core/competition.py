@@ -1,4 +1,5 @@
 
+from cProfile import label
 import importlib
 import os
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
@@ -9,7 +10,7 @@ from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.game_core.menu_manager import MenuManager
 from bubble_trouble_ai_competition.ui_elements.action_button import ActionButton
 from bubble_trouble_ai_competition.ui_elements.pick_button import PickButton
-from bubble_trouble_ai_competition.utils.constants import Events, GameStates, Settings
+from bubble_trouble_ai_competition.utils.constants import Events, GameStates, MainMenuConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import CantLoadBotException
 
 
@@ -96,11 +97,13 @@ class Competition:
 
     def on_pick_button_clicked(self, button: PickButton):
         """Performs the pick and unpick actions of button."""
-        if not button.clicked:
 
+        if not button.clicked:
+            # button is picked
             button.on_pick(button.text)
         
-        if button.clicked and button.text:
+        if button.clicked:
+            # button is unpicked.
             button.on_unpick(button.text)
         
         button.clicked = not button.clicked
@@ -181,6 +184,7 @@ class Competition:
 
 
     def on_level_picked(self, level_name):
+        """Picked only the request level, one level at a time."""
         curr_level_name = self.menu_manager.get_curr_level_name()
         curr_level_button = self.get_level_button_by_name(curr_level_name)
         curr_level_button.clicked = False
@@ -190,10 +194,19 @@ class Competition:
 
 
     def on_level_unpicked(self, level_name):
-        self.menu_manager.curr_active_level_index = 0
-        default_level_button = self.get_level_button_by_name(self.menu_manager.levels[0]["name"])
-        self.on_level_picked(self.menu_manager.levels[0]["name"])
-        default_level_button.clicked = True
+        # Pick the default level.
+        self.menu_manager.curr_active_level_index = MainMenuConstants.DEFAULT_LEVEL_INDEX
+        default_level_name = self.menu_manager.levels[MainMenuConstants.DEFAULT_LEVEL_INDEX]["name"]
+        if default_level_name != level_name:
+            # Change selection for the default value.
+            default_level_button = self.get_level_button_by_name(default_level_name)
+            default_level_button.on_pick(default_level_name)
+            default_level_button.clicked = True
+        else:
+
+            # Save the selection at the default level
+            self.get_level_button_by_name(level_name).clicked = False
+
 
 
     def get_level_button_by_name(self, level_name) -> PickButton:

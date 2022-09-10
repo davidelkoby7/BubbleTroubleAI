@@ -7,7 +7,7 @@ from bubble_trouble_ai_competition.game_core.events_observable import EventsObse
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.ui_elements.action_button import ActionButton
 from bubble_trouble_ai_competition.ui_elements.pick_button import PickButton
-from bubble_trouble_ai_competition.utils.constants import Events, Settings
+from bubble_trouble_ai_competition.utils.constants import Events, MainMenuConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import NoLevelsImplemented
 
 class MenuManager:
@@ -60,8 +60,7 @@ class MenuManager:
             button.clicked = False
         
         # first level will be default picked.
-        self.graphics.levels_buttons[0].clicked = True
-       
+        self.graphics.levels_buttons[MainMenuConstants.DEFAULT_LEVEL_INDEX].clicked = True
 
 
     def run_menu(self) -> None:

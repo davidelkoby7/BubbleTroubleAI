@@ -313,16 +313,17 @@ class MainMenuConstants:
     BUTTONS_PICK_WIDTH = 10 # In units of screen bits.
     BUTTONS_PICK_HEIGHT = 4 # In units of screen bits.
     AIS_BUTTONS_LEFT_MARGIN = 60 # In units of screen bits.
-    AIS_BUTTONS_INITIAL_HEIGHT = BUTTONS_INITIAL_HEIGHT + 3
+    AIS_BUTTONS_INITIAL_HEIGHT = BUTTONS_INITIAL_HEIGHT + 3 # In units of screen bits.
     AIS_TO_PICK_TITLE_POSITION = (AIS_BUTTONS_LEFT_MARGIN, BUTTONS_INITIAL_HEIGHT) # In units of screen bits.
     AIS_TITLE = "pick players:"
     AIS_TITLE_FONT = None
-    LEVELS_LEFT_MARGIN = 40
-    LEVELS_INITIAL_HEIGHT = BUTTONS_INITIAL_HEIGHT + 3
+    LEVELS_LEFT_MARGIN = 40 # In units of screen bits.
+    LEVELS_INITIAL_HEIGHT = BUTTONS_INITIAL_HEIGHT + 3 # In units of screen bits.
     LEVELS_TO_PICK_TITLE_POSITION = (LEVELS_LEFT_MARGIN, BUTTONS_INITIAL_HEIGHT) # In units of screen bits.
     LEVELS_TITLE = "select level:"
     LEVELS_TITLE_FONT = None
     SHIFT_RIGHT_AMOUNT = 0
+    DEFAULT_LEVEL_INDEX = 0
 
 main_menu_constants_to_update = [
     'MENU_FLOOR_Y_BORDER',
