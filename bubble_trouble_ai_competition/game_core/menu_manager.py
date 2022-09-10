@@ -1,9 +1,12 @@
+from argparse import Action
 import os
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
 from bubble_trouble_ai_competition.game_core.graphics import Graphics
+from bubble_trouble_ai_competition.ui_elements.action_button import ActionButton
+from bubble_trouble_ai_competition.ui_elements.pick_button import PickButton
 from bubble_trouble_ai_competition.utils.constants import Events, Settings
 from bubble_trouble_ai_competition.utils.exceptions import NoLevelsImplemented
 
@@ -21,6 +24,9 @@ class MenuManager:
         self.graphics = graphics
         self.ais = ais
         self.events_observable = events_observable
+        self.levels: list[str] = []
+        self.curr_active_level_index: int = 0
+
         self.load_levels_from_dir()
     
     def load_levels_from_dir(self) -> None:
@@ -30,7 +36,6 @@ class MenuManager:
         Returns:
             list[str]: The levels files.
         """
-        self.levels: list[str] = []
 
         for level in os.listdir(Settings.LEVELS_DIR):
             if (level.endswith(".json")):
@@ -39,15 +44,34 @@ class MenuManager:
         if (len(self.levels) == 0):
             raise NoLevelsImplemented()
 
-        self.curr_active_level_index: int = 0
-        self.levels[0]["active"] = True
+        self.levels[self.curr_active_level_index]["active"] = True
+    
+
+    def get_curr_level_name(self):
+        return self.levels[self.curr_active_level_index]["name"]
+
+    
+    def reset_buttons(self):
+        """Reset all menu buttons to default."""
+        for button in self.graphics.menu_buttons:
+            button.can_action = False
+
+        for button in self.graphics.ai_buttons + self.graphics.levels_buttons:
+            button.clicked = False
+        
+        # first level will be default picked.
+        self.graphics.levels_buttons[0].clicked = True
+       
 
 
     def run_menu(self) -> None:
         """
         Runs the menu.
         """
+        self.reset_buttons()
         while self.menu_running:
+            
+
             # Handle events.
             for event in pygame.event.get():
                 # If the user wants to force-quit.  
@@ -57,11 +81,13 @@ class MenuManager:
                 
                 # If the user clicks the mouse - check for button clicks.
                 if (event.type == pygame.MOUSEBUTTONDOWN):
-                    pos = pygame.mouse.get_pos()
-                    for button in self.graphics.menu_buttons:
-                        if ((button.x <= pos[0] <= button.x + button.width) and
-                            (button.y <= pos[1] <= button.y + button.height)):
-                            button.on_click()
+                    (mouse_x, mouse_y) = pygame.mouse.get_pos()
+                    for button in self.graphics.menu_buttons+self.graphics.ai_buttons+self.graphics.levels_buttons:
+                        if (button.is_clicked(mouse_x, mouse_y)):
+                            if isinstance(button, PickButton):
+                                self.events_observable.notify_observers(Events.PICK_BUTTON_CLICKED, button)
+                            if isinstance(button, ActionButton):
+                                self.events_observable.notify_observers(Events.ACTION_BUTTON_CLICKED, button)
                             break
                     break
 
@@ -91,9 +117,9 @@ class MenuManager:
                         continue
 
                     key_pressed = int(key_pressed)
-                    if (key_pressed > len(self.ais)):
-                        continue
-                    self.ais[key_pressed - 1].is_competing = not self.ais[key_pressed - 1].is_competing
+                    
             
             # Drawing the menu.
+            for button in self.graphics.menu_buttons + self.graphics.ai_buttons + self.graphics.levels_buttons:
+                button.update()
             self.graphics.draw_menu(self.ais, self.levels)

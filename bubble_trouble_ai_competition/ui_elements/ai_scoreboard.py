@@ -26,7 +26,5 @@ class AIScoreboard:
                         ScoreboardConstants.SCOREBOARD_HEIGHT), border_radius=20)
         
         # Writing the relevant text.
-        text_surface = DesignConstants.BASE_FONT.render(f'{self.ai.name}: {self.ai.score}', False, (0, 255, 0))
+        text_surface = DesignConstants.BASE_FONT.render(f'{self.ai.name}: {self.ai.score}', True, (0, 255, 0))
         screen.blit(text_surface, (self.x + ScoreboardConstants.HORIZONTAL_TEXT_MARGINS, self.y + ScoreboardConstants.VERTICAL_TEXT_MARGINS))
-
-        
