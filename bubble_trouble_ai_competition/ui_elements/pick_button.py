@@ -11,7 +11,7 @@ class PickButton(Button):
     Class representing a clickable button.
     Handles both UI & click events.
     """
-    def __init__(self, x: int, y: int, width: int, height: int, text: str, on_pick, on_unpick, text_color: tuple = MainMenuConstants.BUTTONS_FONT_COLOR, on_click = None):
+    def __init__(self, x: int, y: int, width: int, height: int, text: str, on_pick, on_unpick, text_color: tuple = MainMenuConstants.BUTTONS_FONT_COLOR):
         """
         Initializes a button.
 
@@ -25,14 +25,9 @@ class PickButton(Button):
             background_color (tuple): The color of the button.
             on_click (function): The function to be called when the button is clicked.
         """
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.text = text
-        self.text_color = MainMenuConstants.BUTTONS_UNPICK_COLOR
+        super().__init__(x, y, width, height, text, text_color)
+       
         self.font_size = "MID_BOTTON_FONT"
-        self.on_click = on_click
         self.button_image_path = Settings.BUTTOM_IMAGE_PATH
         self.button_image_width = self.width
         self.button_image_height = self.height

@@ -26,12 +26,7 @@ class ActionButton(Button):
             background_color (tuple): The color of the button.
             on_click (function): The function to be called when the button is clicked.
         """
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.text = text
-        self.text_color = text_color
+        super().__init__(x, y, width, height, text, text_color)
         self.click_action = click_action
         self.font_size = "BIG_BUTTON_FONT"
         self.button_image_path = Settings.BUTTOM_IMAGE_PATH

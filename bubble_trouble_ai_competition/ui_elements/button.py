@@ -10,7 +10,7 @@ class Button:
     Class representing a clickable button.
     Handles both UI & click events.
     """
-    def __init__(self, x: int, y: int, width: int, height: int, text: str, text_color: tuple =  MainMenuConstants.BUTTONS_FONT_COLOR, on_click = None):
+    def __init__(self, x: int, y: int, width: int, height: int, text: str, text_color: tuple =  MainMenuConstants.BUTTONS_FONT_COLOR):
         """
         Initializes a button.
 
@@ -31,8 +31,6 @@ class Button:
         self.text = text
         self.text_color = text_color
         self.font_size = "BIG_BUTTON_FONT"
-
-        self.on_click = on_click
         self.button_image_path = Settings.BUTTOM_IMAGE_PATH
         self.button_image_width = self.width
         self.button_image_height = self.height
