@@ -1,5 +1,4 @@
 
-from cProfile import label
 import importlib
 import os
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
