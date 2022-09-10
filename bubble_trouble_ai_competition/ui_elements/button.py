@@ -31,7 +31,7 @@ class Button:
         self.text = text
         self.text_color = text_color
         self.font_size = "BIG_BUTTON_FONT"
-        self.button_image_path = Settings.BUTTOM_IMAGE_PATH
+        self.button_image_path = Settings.button_IMAGE_PATH
         self.button_image_width = self.width
         self.button_image_height = self.height
         self.clicked = False

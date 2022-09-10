@@ -32,7 +32,7 @@ class Settings:
     LEVELS_DIR = BASE_MODULE_DIR + "levels/"
     BACKGROUND_IMAGE_PATH = ASSETS_DIR + "\\background.jpg"
     MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "\\menu_background.png"
-    BUTTOM_IMAGE_PATH = ASSETS_DIR + "\\buttom.png"
+    button_IMAGE_PATH = ASSETS_DIR + "\\button.png"
     BACKGROUND_IMAGE_KEY = "background_image"
     MENU_BACKGROUND_IMAGE_KEY = "menu_background_image"
 
