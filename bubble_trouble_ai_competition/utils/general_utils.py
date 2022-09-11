@@ -1,6 +1,48 @@
 import math
-
 import pygame
+
+from typing import List, TYPE_CHECKING
+
+from bubble_trouble_ai_competition.game_core import game_state
+
+if (TYPE_CHECKING):
+    from bubble_trouble_ai_competition.base_objects.base_ball import Ball
+    from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
+
+
+def get_closest_player(player: 'BasePlayer') -> 'BasePlayer':
+    """
+    Returns the closest player to the player.
+
+    Args:
+        player (BasePlayer): The player.
+        players (List['BasePlayer']): The list of players.
+    
+    Returns:
+        BasePlayer: The closest player to the player.
+    """
+    l = [x for x in game_state.game_ais() if x.name != player.name]
+    if (l == []):
+        return None
+    return min(l, key=lambda player2: distance((player.x, player.y), (player2.x, player2.y)))
+
+
+def get_closest_ball(player: 'BasePlayer') -> 'Ball':
+    """
+    Returns the closest ball to the player.
+
+    Args:
+        player (BasePlayer): The player.
+        balls (List['Ball']): The list of balls.
+    
+    Returns:
+        Ball: The closest ball to the player.
+    """
+    return min(game_state.game_balls(), key=lambda ball: distance((player.x, player.y), (ball.x + ball.radius, ball.y + ball.radius)))
+
+
+def player_to_ball_distance(player: 'BasePlayer', ball: 'Ball') -> float:
+    return distance((player.x, player.y), (ball.x + ball.radius, ball.y + ball.radius))
 
 
 def distance(point1: tuple, point2: tuple) -> float:

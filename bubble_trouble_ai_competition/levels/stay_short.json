@@ -1,0 +1,23 @@
+{
+    "level_name": "Starting Level",
+    "duration": 30,
+
+    "balls": [ 
+        {"x": 10, "y": 14, "speed_x": 10, "speed_y": 0, "color": "red", "size": 2},
+        {"x": 20, "y": 14, "speed_x": 10, "speed_y": 0, "color": "blue", "size": 2},
+        {"x": 30, "y": 14, "speed_x": 10, "speed_y": 0, "color": "green", "size": 2},
+        {"x": 40, "y": 14, "speed_x": 10, "speed_y": 0, "color": "red", "size": 2},
+        {"x": 50, "y": 14, "speed_x": 10, "speed_y": 0, "color": "blue", "size": 2},
+        {"x": 60, "y": 14, "speed_x": 10, "speed_y": 0, "color": "green", "size": 2},
+        {"x": 70, "y": 14, "speed_x": 10, "speed_y": 0, "color": "red", "size": 2},
+        {"x": 80, "y": 14, "speed_x": 10, "speed_y": 0, "color": "green", "size": 2},
+        {"x": 90, "y": 14, "speed_x": 10, "speed_y": 0, "color": "blue", "size": 2}
+    ],
+
+    "powerups": [
+        {"name": "PunchPowerup", "spawn_probability": 0.002},
+        {"name": "ShieldPowerup", "spawn_probability": 0.002},
+        {"name": "PlayerDoublePointsPowerup", "spawn_probability": 0.002},
+        {"name": "PlayerSpeedBoostPowerup", "spawn_probability": 0.002}
+    ]
+}
