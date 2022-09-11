@@ -57,6 +57,9 @@ class GameManager:
         self.graphics = graphics
         self.ais_dir_path = ais_dir_path
         self.ais = [ai for ai in ais if ai.is_competing == True]
+        # Randomize the starting position of the AI.
+        for ai in self.ais:
+            ai.x = random.randint(DisplayConstants.LEFT_BORDER_X_VALUE, DisplayConstants.RIGHT_BORDER_X_VALUE - ai.width)
 
         self.game_over = False
         self.fps = fps
