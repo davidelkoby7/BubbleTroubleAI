@@ -1,3 +1,16 @@
+class ArrowColors:
+    GREY = "grey"
+    LIGHT_PINK = "LIGHT_PINK"
+    BLUE = "blue"
+    GREEN = "green"
+    PURPLE = "purple"
+    ORANGE = "orange"
+    PINK = "pink"
+    LIGHT_BLUE = "light_blue"
+
+ALL_ARROW_COLORS = [getattr(ArrowColors, x) for x in dir(ArrowColors) if "__" not in x]    
+
+
 class BallColors:
     RED = "red"
     BLUE = "blue"

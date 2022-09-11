@@ -2,7 +2,7 @@
 import pygame
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
-from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, Settings, PowerupsSettings
+from bubble_trouble_ai_competition.utils.constants import DisplayConstants, Events, Settings, PowerupsSettings, ArrowColors
 from bubble_trouble_ai_competition.utils.load_display import get_arrow_image, Images
 
 
@@ -25,7 +25,7 @@ class ArrowShot:
         self.height = 0
         self.speed_y = speed_y
         self.shooting_player = shooting_player
-        self.color = shooting_player.arrow_color
+        self.color: ArrowColors = shooting_player.arrow_color
         self.events_observable = events_observable
 
 

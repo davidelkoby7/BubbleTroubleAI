@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 
-from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings, PowerupsSettings
+from bubble_trouble_ai_competition.utils.constants import Directions, DisplayConstants, Events, Settings, PowerupsSettings, ArrowColors
 from bubble_trouble_ai_competition.utils.general_utils import circles_collide, circle_rect_collide, rect_collide
 from bubble_trouble_ai_competition.utils.types import SpeedTypes
 from bubble_trouble_ai_competition.utils.load_display import Images, get_ai_images
@@ -45,7 +45,7 @@ class BasePlayer:
         self.score = 0
         self.is_competing = False
         self.is_ducking = False
-        self.arrow_color = "grey"
+        self.arrow_color: ArrowColors = ArrowColors.GREY
 
         # Section for some of the player's active powerups.
         self.can_punch = False
