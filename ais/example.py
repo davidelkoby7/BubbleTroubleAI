@@ -35,7 +35,7 @@ class exampleAI(BasePlayer):
 
         ball_diff: int = closest_ball.x - self.x
         if (0 < ball_diff < 100 and self.shield == False and self.can_teleport == True):
-            self.teleport()
+            self.do_teleport()
         
         if (self.can_freeze):
             self.do_freeze()

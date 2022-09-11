@@ -337,11 +337,13 @@ class GameManager:
         # Checking if there is a tie.
         for scoreboard in self.scoreboards:
             if (scoreboard.ai.score == winner.score and winner != scoreboard.ai):
+                print ("It's a tie!")
                 self.alert = Alert((AlertConstants.TIE_TEXT), end_game=True, events_observable=self.event_observable)
                 break
         
         if self.alert == None:
             # There is no a tie, winner have the absolute highest score.
+            print (f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!")
             self.alert = Alert((f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!"), end_game=True, events_observable=self.event_observable)
 
         # Check if player is not the only player at the game.
