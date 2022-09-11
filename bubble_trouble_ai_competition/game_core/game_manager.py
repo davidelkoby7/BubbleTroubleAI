@@ -178,6 +178,7 @@ class GameManager:
             # Controling the framerate.
             pygame.time.wait(1000 // self.fps - time_taken)
         
+        self.print_winner()
         self.event_observable.notify_observers(Events.CHANGE_GAME_TO_MENU)
 
     
@@ -317,6 +318,21 @@ class GameManager:
             if powerup.player == ai:
                 powerup.deactivate()
                 self.activated_powerups.remove(powerup)
+        
+        # Check if there are no players left, and if so - decalre a winner.
+        if (len(self.ais) == 0):
+            self.alert = Alert(alert_type=AlertConstants.ALERT_GAME_TIMEOUT, end_game=True, events_observable=self.event_observable)
+
+
+    def print_winner(self):
+        # Checking which player has the highest score.
+        winner = self.scoreboards[0].ai
+
+        for scoreboard in self.scoreboards:
+            if (scoreboard.ai.score > winner.score):
+                winner = scoreboard.ai
+        
+        print (f"Winner is: {winner.name}!")
 
 
     def on_player_shot(self, ai: BasePlayer) -> None:
