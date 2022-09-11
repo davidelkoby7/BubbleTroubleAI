@@ -39,9 +39,11 @@ class PlayerDoublePointsPowerup(Powerup):
 
     def deactivate(self) -> None:
         """
-        Deactivates the power up.
+        Deactivates the power up if the player doesn't have other
+        active DoublePointsPowerup.
 
         """
-        self.player.double_points = False
+        if self.player.active_powerups.count(self.powerup_image_key) == 1:
+            self.player.double_points = False
         super().deactivate()
     

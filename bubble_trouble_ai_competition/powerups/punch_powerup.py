@@ -90,7 +90,9 @@ class PunchPowerup(Powerup):
     def deactivate(self) -> None:
         """
         Deactivates the power up.
-        Change the player's shield to False.
+        Change the player's can_punch option to False if the player doesn't have other
+        active PunchPowerup.
         """
-        self.player.can_punch = False
+        if self.player.active_powerups.count(self.powerup_image_key) == 1:
+            self.player.can_punch = False
         super().deactivate()

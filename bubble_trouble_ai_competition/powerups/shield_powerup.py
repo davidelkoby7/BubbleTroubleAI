@@ -52,7 +52,10 @@ class ShieldPowerup(Powerup):
     def deactivate(self) -> None:
         """
         Deactivates the power up.
-        Change the player's shield to False.
+        Change the player's shield to False if the player doesn't have other
+        active ShieldPowerup.
         """
-        self.player.shield = False
+        
+        if self.player.active_powerups.count(self.powerup_image_key) == 1:
+            self.player.shield = False
         super().deactivate()

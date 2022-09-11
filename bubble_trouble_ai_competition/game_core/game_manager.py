@@ -241,7 +241,7 @@ class GameManager:
 
                         # Pop ai shield
                         shield_powerup = self.get_player_powerup(ai, ShieldPowerup)
-                        ai.shield = False
+                        shield_powerup.deactivate()
                         self.activated_powerups.remove(shield_powerup)
 
                     # Creates punch collision events by direction.
@@ -321,6 +321,7 @@ class GameManager:
         
         # Check if there are no players left, and if so - decalre a winner.
         if (len(self.ais) == 0):
+            pygame.time.wait(500) # Pause a little for cool finish.
             self.alert = Alert(AlertConstants.GAME_OVER_TEXT, end_game=True, events_observable=self.event_observable)
 
 

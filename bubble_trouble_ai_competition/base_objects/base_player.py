@@ -187,8 +187,9 @@ class BasePlayer:
         Returns:
             bool: True if the player collides with the ball, False otherwise.
         """
+
         # Check if the player has shield or is teleporting
-        if self.shield == True or self.is_teleporting:
+        if self.shield == True or self.is_teleporting == True:
             return False
 
         # Check if the player's head collides with the ball
