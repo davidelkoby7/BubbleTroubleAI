@@ -43,7 +43,7 @@ class exampleAI(BasePlayer):
         closest_player: BasePlayer = get_closest_player(self)
         if (closest_player != None):
             ai_diff: int = closest_player.x - self.x
-            if (self.punch == True):
+            if (self.can_punch == True):
                 if (0 < ai_diff < 100):
                     self.do_right_punch()
                 if (0 > ai_diff > -100):

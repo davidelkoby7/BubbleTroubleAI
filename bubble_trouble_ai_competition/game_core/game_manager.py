@@ -27,7 +27,7 @@ from bubble_trouble_ai_competition.game_core.graphics import Graphics
 from bubble_trouble_ai_competition.ui_elements.ai_scoreboard import AIScoreboard
 from bubble_trouble_ai_competition.utils.constants import AlertConstants, DisplayConstants, Events, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.exceptions import LevelNotFound
-from bubble_trouble_ai_competition.utils.load_display import load_game_images, load_display_objects
+from bubble_trouble_ai_competition.utils.load_display import DisplayObjects, load_game_images, load_display_objects
 from bubble_trouble_ai_competition.game_core.game_state import GameState, update_game_state
 
 
@@ -146,12 +146,12 @@ class GameManager:
                     self.game_over = True  
                     break
             
-            if self.alert:
-                self.alert.update()
-            
             self.handle_powerup_creation()
 
-            all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar] 
+            all_items = self.balls + self.ais + self.shots + self.powerups + [self.countdown_bar]
+
+            if self.alert:
+                self.alert.update()
 
             # Run the main logic for each AI, ball, and shot
             for item in all_items:
@@ -177,8 +177,8 @@ class GameManager:
 
             # Controling the framerate.
             pygame.time.wait(1000 // self.fps - time_taken)
-        
-        self.print_winner()
+
+        self.alert_winner()    
         self.event_observable.notify_observers(Events.CHANGE_GAME_TO_MENU)
 
     
@@ -186,7 +186,7 @@ class GameManager:
         for powerup in self.powerups_data:
             rand_value:int = random.random()
             if (rand_value <= powerup["probability"]):
-                rand_x = random.randint(DisplayConstants.LEFT_BORDER_X_VALUE, DisplayConstants.RIGHT_BORDER_X_VALUE)
+                rand_x = random.randint(DisplayConstants.LEFT_BORDER_X_VALUE + Settings.POWERUP_WIDTH, DisplayConstants.RIGHT_BORDER_X_VALUE - Settings.POWERUP_WIDTH)
                 self.powerups.append(powerup["class"](rand_x, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED))
 
 
@@ -241,7 +241,7 @@ class GameManager:
 
                         # Pop ai shield
                         shield_powerup = self.get_player_powerup(ai, ShieldPowerup)
-                        ai.shield = False
+                        shield_powerup.deactivate()
                         self.activated_powerups.remove(shield_powerup)
 
                     # Creates punch collision events by direction.
@@ -321,18 +321,35 @@ class GameManager:
         
         # Check if there are no players left, and if so - decalre a winner.
         if (len(self.ais) == 0):
-            self.alert = Alert(alert_type=AlertConstants.ALERT_GAME_TIMEOUT, end_game=True, events_observable=self.event_observable)
+            pygame.time.wait(500) # Pause a little for cool finish.
+            self.alert = Alert(AlertConstants.GAME_OVER_TEXT, end_game=True, events_observable=self.event_observable)
 
 
-    def print_winner(self):
+    def alert_winner(self):
         # Checking which player has the highest score.
         winner = self.scoreboards[0].ai
-
+        
         for scoreboard in self.scoreboards:
             if (scoreboard.ai.score > winner.score):
                 winner = scoreboard.ai
+
+
+        # Checking if there is a tie.
+        for scoreboard in self.scoreboards:
+            if (scoreboard.ai.score == winner.score and winner != scoreboard.ai):
+                self.alert = Alert((AlertConstants.TIE_TEXT), end_game=True, events_observable=self.event_observable)
+                break
         
-        print (f"Winner is: {winner.name}!")
+        if self.alert == None:
+            # There is no a tie, winner have the absolute highest score.
+            self.alert = Alert((f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!"), end_game=True, events_observable=self.event_observable)
+
+        # Check if player is not the only player at the game.
+        if len(self.scoreboards) != 1:
+            # Draw the alert and wait.
+            self.alert.draw(DisplayObjects.screen)
+            pygame.display.flip()
+            pygame.time.wait(1000)
 
 
     def on_player_shot(self, ai: BasePlayer) -> None:
@@ -411,7 +428,7 @@ class GameManager:
         Called when game time is up.
         Creates and Alert object to notice and end game.
         """
-        self.alert = Alert(alert_type=AlertConstants.ALERT_GAME_TIMEOUT, end_game=True, events_observable=self.event_observable)
+        self.alert = Alert(AlertConstants.GAME_OVER_TEXT, end_game=True, events_observable=self.event_observable)
 
 
     def on_showed_alert(self, alert: Alert) -> None:

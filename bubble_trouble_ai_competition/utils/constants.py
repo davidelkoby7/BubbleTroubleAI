@@ -1,3 +1,16 @@
+class ArrowColors:
+    GREY = "grey"
+    LIGHT_PINK = "LIGHT_PINK"
+    BLUE = "blue"
+    GREEN = "green"
+    PURPLE = "purple"
+    ORANGE = "orange"
+    PINK = "pink"
+    LIGHT_BLUE = "light_blue"
+
+ALL_ARROW_COLORS = [getattr(ArrowColors, x) for x in dir(ArrowColors) if "__" not in x]    
+
+
 class BallColors:
     RED = "red"
     BLUE = "blue"
@@ -45,6 +58,7 @@ class Settings:
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)
 
+    MIN_PLAYERS = 1
     MAX_PLAYERS = 8
     PLAYER_HEAD = "head"
     PLAYER_LEFT_HEAD = "left_head"
@@ -275,19 +289,18 @@ countdown_bar_constants_to_update = [
 
 class AlertConstants:
 
-    ALERT_FONT_NAME = "freesansbold.ttf"
+    ALERT_FONT_NAME = "cooperblack"
     ALERT_FONT_SIZE = 5 # In units of screen bits
     ALERT_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
 
-    AlERT_POSITION = ((DisplayConstants.LEFT_BORDER_X_VALUE + DisplayConstants.RIGHT_BORDER_X_VALUE)/DisplayConstants.SCREEN_BIT*2,
-                    (DisplayConstants.CIELING_Y_VALUE + DisplayConstants.FLOOR_Y_VALUE)/DisplayConstants.SCREEN_BIT*2)
+    AlERT_POSITION = ((DisplayConstants.RIGHT_BORDER_X_VALUE - DisplayConstants.LEFT_BORDER_X_VALUE) * 2,
+                    DisplayConstants.FLOOR_Y_VALUE - (DisplayConstants.CIELING_Y_VALUE + DisplayConstants.FLOOR_Y_VALUE)/2)
 
     ALERT_COLOR = (255,48,48)
     GAME_OVER_TEXT = "Game Over"
-    ALERT_GAME_OVER = "game_over"
     GAME_TIMEOUT_TEXT = "Game Timeout"
-    ALERT_GAME_TIMEOUT = "game_timeout"
-
+    WINNER_PLAYER_TEXT = "Winner is:"
+    TIE_TEXT = "It's A Tie!"
 
 alert_constants_to_update = [
     'ALERT_FONT_SIZE'

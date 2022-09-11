@@ -49,11 +49,13 @@ class PlayerSpeedSlowerPowerup(Powerup):
     def deactivate(self) -> None:
         """
         Deactivates the power up.
-        Change the player's speed back to normal.
+        Change the player's speed back to normal if the player doesn't have other
+        active PlayerSpeedSlowerPowerup.
 
     Args:
             player (Player): The player to deactivate.
         """
-        self.player.speed = SpeedTypes.NORMAL
+        if self.player.active_powerups.count(self.powerup_image_key) == 1:
+            self.player.speed = SpeedTypes.NORMAL
         super().deactivate()
     
