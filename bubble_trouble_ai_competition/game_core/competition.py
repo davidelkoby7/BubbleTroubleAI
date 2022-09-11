@@ -80,7 +80,8 @@ class Competition:
 
         # Check if button is a play button.
         if button.click_action == self.graphics.start_playing:
-            if self.ais_competing_amount() >= 1:
+            num_of_competions = self.ais_competing_amount()
+            if num_of_competions > Settings.MIN_PLAYERS and num_of_competions < Settings.MAX_PLAYERS:
                 button.can_action = True
         
         # Check if button is a exit button

@@ -45,6 +45,7 @@ class Settings:
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)
 
+    MIN_PLAYERS = 1
     MAX_PLAYERS = 8
     PLAYER_HEAD = "head"
     PLAYER_LEFT_HEAD = "left_head"
