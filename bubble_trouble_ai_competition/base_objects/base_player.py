@@ -48,8 +48,7 @@ class BasePlayer:
         self.arrow_color = "grey"
 
         # Section for some of the player's active powerups.
-        self.punch_powerup = False
-        self.punch = False
+        self.can_punch = False
         self.punch_right = False
         self.punch_left = False
         self.shield = False
@@ -59,6 +58,8 @@ class BasePlayer:
         self.freeze = False # ai flag if freeze.
         self.can_teleport = False
         self.is_teleporting = False
+
+        self.active_powerups: list[str] = []
 
 
     @property
@@ -121,7 +122,7 @@ class BasePlayer:
         """
         Player will punch with his right punch.
         """
-        if self.punch_powerup:            
+        if self.can_punch:            
             self.punch_right = True
         
 
@@ -129,7 +130,7 @@ class BasePlayer:
         """
         Player will punch with his left punch.
         """
-        if self.punch_powerup:
+        if self.can_punch:
             self.punch_left = True
             
     def shoot(self):

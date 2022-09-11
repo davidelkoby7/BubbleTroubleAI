@@ -1,7 +1,7 @@
 import os
 import pygame
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image, load_image_and_keep_aspect_ratio
-from bubble_trouble_ai_competition.utils.constants import Settings, PowerupsSettings, DisplayConstants, CountdownBarConstants, AlertConstants
+from bubble_trouble_ai_competition.utils.constants import MainMenuConstants, Settings, PowerupsSettings, DisplayConstants, CountdownBarConstants, AlertConstants
 
 class DisplayObjects:
     """Loads all game generals objects. """

@@ -84,6 +84,7 @@ class Powerup:
         """
         self.active = True
         self.player = player
+        player.active_powerups.append(self.powerup_image_key)
     
 
     def deactivate(self) -> None:
@@ -91,6 +92,7 @@ class Powerup:
         Deactivates the powerup.
         """
         self.active = False
+        self.player.active_powerups.remove(self.powerup_image_key)
 
 
     def handle_floor_collision(self) -> None:

@@ -30,7 +30,7 @@ class Button:
         self.height = height
         self.text = text
         self.text_color = text_color
-        self.font_size = "BIG_BUTTON_FONT"
+        self.font_size = "BIG_FONT"
         self.button_image_path = Settings.button_IMAGE_PATH
         self.button_image_width = self.width
         self.button_image_height = self.height

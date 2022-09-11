@@ -47,7 +47,7 @@ class GameManager:
         """
         load_display_objects()
         load_game_images()
-        
+
         if (self.load_level_data(level) == False):
             raise LevelNotFound(f"{level}")
         
@@ -85,8 +85,8 @@ class GameManager:
         # Initializing scoreboards.
         self.scoreboards = []
         for i in range(len(self.ais)):
-            self.scoreboards.append(AIScoreboard(self.ais[i], ScoreboardConstants.SCOREBOARD_START_POSITION[0] + (ScoreboardConstants.SCOREBOARD_SPACING + ScoreboardConstants.SCOREBOARD_WIDTH) * i,
-                                                ScoreboardConstants.SCOREBOARD_START_POSITION[1]))
+            self.scoreboards.append(AIScoreboard(self.ais[i], ScoreboardConstants.SHIFT + DisplayConstants.SCOREBOARD_SCREEN_WIDTH * i,
+                                                ScoreboardConstants.SCOREBOARD_Y))
 
         # Initializing countdown bar
         self.countdown_bar = CountdownBar(self.game_timeout, self.event_observable)
@@ -468,4 +468,5 @@ class GameManager:
         teleport_powerup.player.teleport()
         if teleport_powerup.was_teleported:
             teleport_powerup.deactivate()
+            self.activated_powerups.remove(teleport_powerup)
             
