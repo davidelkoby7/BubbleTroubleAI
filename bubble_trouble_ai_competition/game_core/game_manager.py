@@ -186,7 +186,7 @@ class GameManager:
         for powerup in self.powerups_data:
             rand_value:int = random.random()
             if (rand_value <= powerup["probability"]):
-                rand_x = random.randint(DisplayConstants.LEFT_BORDER_X_VALUE, DisplayConstants.RIGHT_BORDER_X_VALUE)
+                rand_x = random.randint(DisplayConstants.LEFT_BORDER_X_VALUE + Settings.POWERUP_WIDTH, DisplayConstants.RIGHT_BORDER_X_VALUE - Settings.POWERUP_WIDTH)
                 self.powerups.append(powerup["class"](rand_x, DisplayConstants.CIELING_Y_VALUE, Settings.BALL_SPEED))
 
 
