@@ -45,6 +45,7 @@ class Settings:
     TITLE = "Bubble Trouble AI Competition"
     BG_COLOR = (0, 0, 0)
 
+    MAX_PLAYERS = 8
     PLAYER_HEAD = "head"
     PLAYER_LEFT_HEAD = "left_head"
     PLAYER_RIGHT_HEAD = "right_head"
@@ -96,6 +97,8 @@ class DisplayConstants:
     LEFT_BORDER_X_VALUE = GAME_AREA_POSITION[0]
     RIGHT_BORDER_X_VALUE = GAME_AREA_POSITION[0] + GAME_AREA_SIZE[0]
     SCOREBOARD_SCREEN_HEIGHT = None
+    SCOREBOARD_SCREEN_WIDTH = None
+
 
 
 
@@ -229,20 +232,16 @@ ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
 
 # Currently - everything here (besides bg color) is in units of screen bits. Maybe change this later, but it seems to be better like this now.
 class ScoreboardConstants:
-    SCOREBOARD_WIDTH = 14
     SCOREBOARD_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "score_board.png"
-    SCOREBOARD_SHIFT_RIGHT = 2 # In units of screen bits.
+    SCOREBOARD_SHIFT_RIGHT = 1 # In units of screen bits.
     PLAYER_IMAGE_SIZE = (2, 2) # In units of screen bits.
     PLAYER_IMAGE_WIDTH = PLAYER_IMAGE_SIZE[0]
     PLAYER_IMAGE_HEIGHT = PLAYER_IMAGE_SIZE[1]
 
     HORIZONTAL_TEXT_MARGINS = 1.5 # In units of screen bits.
     VERTICAL_TEXT_MARGINS = 2 # In units of screen bits.
-    SCOREBOARD_HEIGHT_SHIFT = 2 # In units of screen bits.
-    SCOREBOARD_START_POSITION = (2, DisplayConstants.FLOOR_Y_VALUE + SCOREBOARD_HEIGHT_SHIFT) # In units of screen bits.
-    SCOREBOARD_SPACING = 1 # In units of screen bits.
-    SCOREBOARD_AI_NAME_WIDTH_SHIFT = SCOREBOARD_WIDTH/2
-    POWERUPS_IMAGES_SHIFT_X = 1
+    SCOREBOARD_HEIGHT_SHIFT = 1 # In units of screen bits.
+    SCOREBOARD_Y = DisplayConstants.FLOOR_Y_VALUE + SCOREBOARD_HEIGHT_SHIFT # In units of screen bits.
     SHIFT_DOWN_AMOUNT = 0
     SHIFT = 1
 

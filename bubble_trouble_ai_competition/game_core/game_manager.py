@@ -82,8 +82,8 @@ class GameManager:
         # Initializing scoreboards.
         self.scoreboards = []
         for i in range(len(self.ais)):
-            self.scoreboards.append(AIScoreboard(self.ais[i], ScoreboardConstants.SCOREBOARD_START_POSITION[0] + (ScoreboardConstants.SCOREBOARD_SPACING + ScoreboardConstants.SCOREBOARD_WIDTH) * i,
-                                                ScoreboardConstants.SCOREBOARD_START_POSITION[1]))
+            self.scoreboards.append(AIScoreboard(self.ais[i], ScoreboardConstants.SHIFT + DisplayConstants.SCOREBOARD_SCREEN_WIDTH * i,
+                                                ScoreboardConstants.SCOREBOARD_Y))
 
         # Initializing countdown bar
         self.countdown_bar = CountdownBar(self.game_timeout, self.event_observable)

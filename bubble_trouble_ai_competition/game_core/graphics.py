@@ -1,5 +1,6 @@
 import pygame
 import os
+import math
 from bubble_trouble_ai_competition.base_objects.arrow_shot import ArrowShot
 from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.base_objects.base_alert import Alert
@@ -128,10 +129,10 @@ class Graphics:
 
         self.scale_constants_list(display_constants_to_update, DisplayConstants)
         self.scale_constants_list(scoreboard_constants_to_update, ScoreboardConstants)
-
-        DisplayConstants.SCOREBOARD_SCREEN_HEIGHT = DisplayConstants.SCREEN_HEIGHT - DisplayConstants.FLOOR_Y_VALUE - ScoreboardConstants.SHIFT
-
         self.scale_constants_list(settings_properties_to_scale, Settings)
+
+        DisplayConstants.SCOREBOARD_SCREEN_HEIGHT = DisplayConstants.SCREEN_HEIGHT - DisplayConstants.FLOOR_Y_VALUE - ScoreboardConstants.SCOREBOARD_HEIGHT_SHIFT
+        DisplayConstants.SCOREBOARD_SCREEN_WIDTH = math.floor((DisplayConstants.SCREEN_WIDTH - ScoreboardConstants.SHIFT*2) / Settings.MAX_PLAYERS)
         self.scale_constants_list(design_constants_properties_to_scale, DesignConstants)
         self.scale_constants_list(powerup_constants_to_update, PowerupsSettings)
         self.scale_constants_list(countdown_bar_constants_to_update, CountdownBarConstants)
