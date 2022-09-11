@@ -1,4 +1,3 @@
-from email.mime import image
 import pygame
 from bubble_trouble_ai_competition.utils.constants import DesignConstants, DisplayConstants, PowerupsSettings, ScoreboardConstants, Settings
 from bubble_trouble_ai_competition.utils.general_utils import load_and_scale_image
