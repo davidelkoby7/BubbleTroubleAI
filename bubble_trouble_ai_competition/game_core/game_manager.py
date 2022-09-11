@@ -47,7 +47,7 @@ class GameManager:
         """
         load_display_objects()
         load_game_images()
-        
+
         if (self.load_level_data(level) == False):
             raise LevelNotFound(f"{level}")
         
@@ -449,4 +449,5 @@ class GameManager:
         teleport_powerup.player.teleport()
         if teleport_powerup.was_teleported:
             teleport_powerup.deactivate()
+            self.activated_powerups.remove(teleport_powerup)
             
