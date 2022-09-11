@@ -83,8 +83,7 @@ class PunchPowerup(Powerup):
         Args:
             player (Player): The player to activate.
         """
-        player.punch_powerup = True
-        player.punch = True
+        player.can_punch = True
         super().activate(player)
 
 
@@ -93,5 +92,5 @@ class PunchPowerup(Powerup):
         Deactivates the power up.
         Change the player's shield to False.
         """
-        self.player.punch = False
+        self.player.can_punch = False
         super().deactivate()
