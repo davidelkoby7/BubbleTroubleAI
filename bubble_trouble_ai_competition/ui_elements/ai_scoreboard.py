@@ -22,9 +22,8 @@ class AIScoreboard:
         Draw the player's score board.
         """
         # Drawing the background of the scoreboard.
-        pygame.draw.rect(screen, ScoreboardConstants.BACKGROUND_COLOR, pygame.Rect(self.x, self.y, ScoreboardConstants.SCOREBOARD_WIDTH,
-                        ScoreboardConstants.SCOREBOARD_HEIGHT), border_radius=20)
-        
-        # Writing the relevant text.
-        text_surface = DesignConstants.BASE_FONT.render(f'{self.ai.name}: {self.ai.score}', True, (0, 255, 0))
-        screen.blit(text_surface, (self.x + ScoreboardConstants.HORIZONTAL_TEXT_MARGINS, self.y + ScoreboardConstants.VERTICAL_TEXT_MARGINS))
+        i = load_and_scale_image(ScoreboardConstants.SCOREBOARD_IMAGE_PATH, ScoreboardConstants.SCOREBOARD_WIDTH, ScoreboardConstants.SCOREBOARD_HEIGHT)
+      
+        text_surface = DesignConstants.MID_BOTTON_FONT.render(f'{self.ai.name}: {self.ai.score}', True, (255, 255, 255))
+        screen.blit(i, (self.x, self.y))
+        screen.blit(text_surface, (self.x + ScoreboardConstants.HORIZONTAL_TEXT_MARGINS, self.y + ScoreboardConstants.VERTICAL_TEXT_MARGINS + 1))

@@ -123,7 +123,7 @@ class Graphics:
 
         # Scale everything relative to the screen bits.
         display_constants_to_update = [x for x in dir(DisplayConstants) if ("__" not in x and "SCREEN_" not in x)]
-        scoreboard_constants_to_update = [x for x in dir(ScoreboardConstants) if ("__" not in x and "BACKGROUND_COLOR" not in x)]
+        scoreboard_constants_to_update = [x for x in dir(ScoreboardConstants) if ("__" not in x and "BACKGROUND_COLOR" not in x and "IMAGE_PATH" not in x)]
 
         self.scale_constants_list(display_constants_to_update, DisplayConstants)
         self.scale_constants_list(scoreboard_constants_to_update, ScoreboardConstants)

@@ -229,22 +229,21 @@ ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
 
 # Currently - everything here (besides bg color) is in units of screen bits. Maybe change this later, but it seems to be better like this now.
 class ScoreboardConstants:
-    SCOREBOARD_SIZE = (10, 4) # In units of screen bits.
+    SCOREBOARD_SIZE = (13, 13) # In units of screen bits.
     SCOREBOARD_WIDTH = SCOREBOARD_SIZE[0]
     SCOREBOARD_HEIGHT = SCOREBOARD_SIZE[1]
-
+    SCOREBOARD_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "score_board.png"
     PLAYER_IMAGE_SIZE = (2, 2) # In units of screen bits.
     PLAYER_IMAGE_WIDTH = PLAYER_IMAGE_SIZE[0]
     PLAYER_IMAGE_HEIGHT = PLAYER_IMAGE_SIZE[1]
 
-    HORIZONTAL_TEXT_MARGINS = 1 # In units of screen bits.
-    VERTICAL_TEXT_MARGINS = 0.5 # In units of screen bits.
+    HORIZONTAL_TEXT_MARGINS = 1.5 # In units of screen bits.
+    VERTICAL_TEXT_MARGINS = 0.75 # In units of screen bits.
 
     BACKGROUND_COLOR = (70, 70, 70)
     SCOREBOARD_HEIGHT_SHIFT = 2 # In units of screen bits.
     SCOREBOARD_START_POSITION = (2, DisplayConstants.FLOOR_Y_VALUE + SCOREBOARD_HEIGHT_SHIFT) # In units of screen bits.
     SCOREBOARD_SPACING = 1 # In units of screen bits.
-
 
 class DesignConstants:
     BASE_FONT_NAME = "cooperblack"
