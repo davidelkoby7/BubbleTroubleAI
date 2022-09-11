@@ -9,25 +9,22 @@ class Alert:
     """
     This class represents an Alert message the appears to screen.
     """
-    def __init__(self, alert_type: str, end_game: bool, events_observable: EventsObservable, frames_freeze = Settings.FRAMES_FREEZE) -> None:
+    def __init__(self, text: str, end_game: bool, events_observable: EventsObservable, frames_freeze = Settings.FRAMES_FREEZE) -> None:
         """
         Initializes the Alert message.
         
         Args:
-            alert_type (str): the alert message that will appear to screen as alert, must be alert_<alert_type>_key from AlertConstants.
+            text (str): the alert text message that will appear to screen as alert.
             events_observable (EventsObservable): The events observable.
             showed (bool): indicates if the alert already showed to the screen one
             frames_freeze (int): the number of frames to freeze when alert is shown.
         """
-        self.alert_type: str = alert_type
+        self.text: str = text
         self.end_game: bool = end_game
         self.events_observable: EventsObservable = events_observable
         self.frames_freeze: int = frames_freeze
         self.showed: bool = False
 
-        # initialize coordiantis according to text height and width
-        self.x = AlertConstants.AlERT_POSITION[0] + DisplayObjects.alerts[self.alert_type].get_width()
-        self.y = AlertConstants.AlERT_POSITION[1] + DisplayObjects.alerts[self.alert_type].get_height()
 
     def update(self) -> None:
         """
@@ -44,6 +41,12 @@ class Alert:
         """
 
         # Writing the alert message
-        screen.blit(DisplayObjects.alerts[self.alert_type], (self.x, self.y))
+        alert = AlertConstants.ALERT_FONT.render(self.text, True, AlertConstants.ALERT_COLOR)
+        
+        # initialize coordiantis according to text height and width
+        alert_rect = alert.get_rect()
+        alert_rect.center = (AlertConstants.AlERT_POSITION[0] + alert_rect.w/2, AlertConstants.AlERT_POSITION[1] + alert_rect.y)
+
+        screen.blit(alert, alert_rect)
         self.showed = True
         

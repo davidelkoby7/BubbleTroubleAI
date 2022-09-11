@@ -9,11 +9,6 @@ class DisplayObjects:
     screen_size = screen.get_size()
     rect_countdown_image = None       
     countdown_rect = None
-    alerts: dict = {}
-
-def load_alerts_surfaces():
-    return {AlertConstants.ALERT_GAME_TIMEOUT: AlertConstants.ALERT_FONT.render(AlertConstants.GAME_TIMEOUT_TEXT, True, AlertConstants.ALERT_COLOR),
-            AlertConstants.ALERT_GAME_OVER:  AlertConstants.ALERT_FONT.render(AlertConstants.GAME_OVER_TEXT, True, AlertConstants.ALERT_COLOR)}
 
 
 def load_display_objects():
@@ -22,7 +17,6 @@ def load_display_objects():
                         CountdownBarConstants.BAR_HEIGHT))
     DisplayObjects.rect_countdown_image.fill(CountdownBarConstants.LOADING_COLOR)
     DisplayObjects.countdown_rect = DisplayObjects.rect_countdown_image.get_rect(topleft=(CountdownBarConstants.BAR_POSITION))
-    DisplayObjects.alerts = load_alerts_surfaces()
 
 class Images:
     players_images: dict = {}

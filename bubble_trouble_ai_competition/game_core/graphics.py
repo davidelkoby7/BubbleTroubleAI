@@ -186,14 +186,15 @@ class Graphics:
         # Draw background.
         DisplayObjects.screen.blit(Images.general_images["background_image"], DisplayConstants.GAME_AREA_POSITION)
        
-        all_items = scoreboards + shots + ais + balls + powerups + [countdown_bar]
+        all_items = scoreboards + shots + ais + balls + powerups + [countdown_bar] 
+
+        # Draw the alert
+        if alert:
+            alert.draw(DisplayObjects.screen)
 
         # Draw the ais.
         for item in all_items:
             item.draw(DisplayObjects.screen)
-
-        if alert:
-            alert.draw(DisplayObjects.screen)
             
         # Updating the screen.
         pygame.display.flip()
