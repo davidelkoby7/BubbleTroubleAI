@@ -28,7 +28,7 @@ class ActionButton(Button):
         """
         super().__init__(x, y, width, height, text, text_color)
         self.click_action = click_action
-        self.font_size = "BIG_BUTTON_FONT"
+        self.font_size = "BIG_FONT"
         self.button_image_path = Settings.button_IMAGE_PATH
         self.button_image_width = self.width
         self.button_image_height = self.height

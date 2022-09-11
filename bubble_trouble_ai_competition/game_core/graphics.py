@@ -120,6 +120,7 @@ class Graphics:
         DisplayConstants.SCREEN_WIDTH = DisplayObjects.screen_size[0]
         DisplayConstants.SCREEN_HEIGHT = DisplayObjects.screen_size[1]
         DisplayConstants.SCREEN_BIT = int(DisplayConstants.SCREEN_WIDTH * DisplayConstants.SCREEN_BIT)
+        
 
         # Scale everything relative to the screen bits.
         display_constants_to_update = [x for x in dir(DisplayConstants) if ("__" not in x and "SCREEN_" not in x)]
@@ -127,6 +128,9 @@ class Graphics:
 
         self.scale_constants_list(display_constants_to_update, DisplayConstants)
         self.scale_constants_list(scoreboard_constants_to_update, ScoreboardConstants)
+
+        DisplayConstants.SCOREBOARD_SCREEN_HEIGHT = DisplayConstants.SCREEN_HEIGHT - DisplayConstants.FLOOR_Y_VALUE - ScoreboardConstants.SHIFT
+
         self.scale_constants_list(settings_properties_to_scale, Settings)
         self.scale_constants_list(design_constants_properties_to_scale, DesignConstants)
         self.scale_constants_list(powerup_constants_to_update, PowerupsSettings)
@@ -144,8 +148,8 @@ class Graphics:
         
         # Changing constants after the changes we made.
         DesignConstants.BASE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)
-        DesignConstants.BIG_BUTTON_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BIG_BUTTON_FONT_SIZE)
-        DesignConstants.MID_BOTTON_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.MID_BOTTON_FONT_SIZE)
+        DesignConstants.BIG_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BIG_FONT_SIZE)
+        DesignConstants.MID_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.MID_FONT_SIZE)
 
         MainMenuConstants.TITLE_FONT = pygame.font.SysFont(MainMenuConstants.TITLE_FONT_NAME, MainMenuConstants.TITLE_FONT_SIZE)
         MainMenuConstants.AIS_TITLE_FONT = pygame.font.SysFont(DesignConstants.BASE_FONT_NAME, DesignConstants.BASE_FONT_SIZE)

@@ -87,9 +87,7 @@ class DisplayConstants:
     SCREEN_SIZE = None
     SCREEN_WIDTH = None
     SCREEN_HEIGHT = None
-
     SCREEN_BIT = 1 / 100 # In units of screen width.
-
     # All are in units of screen bits.
     GAME_AREA_SIZE = (90, 40)
     GAME_AREA_POSITION = (2, 2)
@@ -97,6 +95,8 @@ class DisplayConstants:
     CIELING_Y_VALUE = GAME_AREA_POSITION[1]
     LEFT_BORDER_X_VALUE = GAME_AREA_POSITION[0]
     RIGHT_BORDER_X_VALUE = GAME_AREA_POSITION[0] + GAME_AREA_SIZE[0]
+    SCOREBOARD_SCREEN_HEIGHT = None
+
 
 
 class PowerupsSettings:
@@ -229,33 +229,35 @@ ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
 
 # Currently - everything here (besides bg color) is in units of screen bits. Maybe change this later, but it seems to be better like this now.
 class ScoreboardConstants:
-    SCOREBOARD_SIZE = (13, 13) # In units of screen bits.
-    SCOREBOARD_WIDTH = SCOREBOARD_SIZE[0]
-    SCOREBOARD_HEIGHT = SCOREBOARD_SIZE[1]
+    SCOREBOARD_WIDTH = 14
     SCOREBOARD_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "score_board.png"
+    SCOREBOARD_SHIFT_RIGHT = 2 # In units of screen bits.
     PLAYER_IMAGE_SIZE = (2, 2) # In units of screen bits.
     PLAYER_IMAGE_WIDTH = PLAYER_IMAGE_SIZE[0]
     PLAYER_IMAGE_HEIGHT = PLAYER_IMAGE_SIZE[1]
 
     HORIZONTAL_TEXT_MARGINS = 1.5 # In units of screen bits.
-    VERTICAL_TEXT_MARGINS = 0.75 # In units of screen bits.
-
-    BACKGROUND_COLOR = (70, 70, 70)
+    VERTICAL_TEXT_MARGINS = 2 # In units of screen bits.
     SCOREBOARD_HEIGHT_SHIFT = 2 # In units of screen bits.
     SCOREBOARD_START_POSITION = (2, DisplayConstants.FLOOR_Y_VALUE + SCOREBOARD_HEIGHT_SHIFT) # In units of screen bits.
     SCOREBOARD_SPACING = 1 # In units of screen bits.
+    SCOREBOARD_AI_NAME_WIDTH_SHIFT = SCOREBOARD_WIDTH/2
+    POWERUPS_IMAGES_SHIFT_X = 1
+    SHIFT_DOWN_AMOUNT = 0
+    SHIFT = 1
 
 class DesignConstants:
     BASE_FONT_NAME = "cooperblack"
     BASE_FONT_SIZE = 2
     BASE_FONT = None # Will be initialized in the graphics part. Must happen after initializing pygame.
-    BIG_BUTTON_FONT = None
-    MID_BOTTON_FONT = None
-    BIG_BUTTON_FONT_SIZE = 3
-    MID_BOTTON_FONT_SIZE = 1.3
+    BIG_FONT = None
+    MID_FONT = None
+    BIG_FONT_SIZE = 3
+    MID_FONT_SIZE = 1.3
+    BASIC_FONT_COLOR = (255, 255, 255)
 
 design_constants_properties_to_scale = [
-    'BASE_FONT_SIZE', 'BIG_BUTTON_FONT_SIZE', 'MID_BOTTON_FONT_SIZE'
+    'BASE_FONT_SIZE', 'BIG_FONT_SIZE', 'MID_FONT_SIZE'
 ]
 
 class CountdownBarConstants:
