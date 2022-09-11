@@ -84,6 +84,7 @@ class Powerup:
         """
         self.active = True
         self.player = player
+        player.active_powerups.append(self.powerup_image_key)
     
 
     def deactivate(self) -> None:

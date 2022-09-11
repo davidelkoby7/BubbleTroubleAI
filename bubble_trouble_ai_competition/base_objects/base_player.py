@@ -59,6 +59,8 @@ class BasePlayer:
         self.can_teleport = False
         self.is_teleporting = False
 
+        self.active_powerups: list[str] = []
+
 
     @property
     def height(self):
