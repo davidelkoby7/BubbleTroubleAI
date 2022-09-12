@@ -21,6 +21,7 @@ class GameState:
     __shoots__: list['ArrowShot'] = []
     __balls__: list['Ball'] = []
     __powerups__:list['Powerup'] = []
+    __activated_powerups__: list['Powerup'] = []
     __frames_remaining__ : int = Settings.TOTAL_GAME_FRAMES
 
 
