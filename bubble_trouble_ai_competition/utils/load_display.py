@@ -49,14 +49,14 @@ def load_general_images():
 
 
 def load_ball_image(color, size):
-    ball_image_path = Settings.ASSETS_DIR + "\\" + color + "_ball.png"
+    ball_image_path = Settings.ASSETS_DIR + "/" + color + "_ball.png"
     ball_radius = size * Settings.BALL_SIZE_TO_RADIUS_RATIO
     Images.balls_images[color + "_ball"].update({size: load_and_scale_image(ball_image_path, ball_radius * 2, ball_radius * 2)})
 
 
 def load_arrow_image(color) -> dict[str, pygame.Surface]:
     """ Load the arrow image by color."""
-    Images.arrows_images.update({color + "_arrow": load_image_and_keep_aspect_ratio(Settings.ASSETS_DIR + "\\" + color + "_arrow.png", Settings.ARROW_WIDTH)})
+    Images.arrows_images.update({color + "_arrow": load_image_and_keep_aspect_ratio(Settings.ASSETS_DIR + "/" + color + "_arrow.png", Settings.ARROW_WIDTH)})
 
 
 def load_all_powerups_images() -> dict[str, pygame.Surface]:
@@ -101,11 +101,11 @@ def load_all_players_images() -> None:
 
         ai_name = file_name[:-3] # The minus 3 => Removing the .py ending
         ai_folder_name = ai_name + "_images"
-        player_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_HEAD_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
-        player_right_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_HEAD_RIGHT_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
-        player_left_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_HEAD_LEFT_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
-        player_duck_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_DUCK_HEIGHT)
-        player_stand_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "\\" + ai_folder_name + "\\" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT)
+        player_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "/" + ai_folder_name + "/" + Settings.PLAYER_HEAD_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
+        player_right_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "/" + ai_folder_name + "/" + Settings.PLAYER_HEAD_RIGHT_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
+        player_left_head_image = load_and_scale_image(Settings.BASE_AI_DIR + "/" + ai_folder_name + "/" + Settings.PLAYER_HEAD_LEFT_IMAGE_NAME, Settings.HEAD_RADIUS * 2, Settings.HEAD_RADIUS * 2)
+        player_duck_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "/" + ai_folder_name + "/" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_DUCK_HEIGHT)
+        player_stand_body_image = load_and_scale_image(Settings.BASE_AI_DIR + "/" + ai_folder_name + "/" + Settings.PLAYER_BODY_IMAGE_NAME, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT)
         players_images[ai_name] = {
                                     Settings.PLAYER_HEAD: player_head_image,
                                     Settings.PLAYER_RIGHT_HEAD: player_right_head_image,

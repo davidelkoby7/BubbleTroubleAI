@@ -855,17 +855,17 @@
   // string literal.
   var escapes = {
     "'": "'",
-    '\\': '\\',
+    '/': '/',
     '\r': 'r',
     '\n': 'n',
     '\u2028': 'u2028',
     '\u2029': 'u2029'
   };
 
-  var escapeRegExp = /\\|'|\r|\n|\u2028|\u2029/g;
+  var escapeRegExp = //|'|\r|\n|\u2028|\u2029/g;
 
   function escapeChar(match) {
-    return '\\' + escapes[match];
+    return '/' + escapes[match];
   }
 
   // In order to prevent third-party code injection through

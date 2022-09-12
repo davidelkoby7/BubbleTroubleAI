@@ -46,7 +46,7 @@ class AIScoreboard:
         screen.blit(ai_name_surface, ai_name_rect)
 
         # Drawing the ai's arrow.
-        arrow_image = load_and_scale_image(Settings.ASSETS_DIR + "\\" + self.ai.arrow_color + "_scoreboard_arrow.png", Settings.ARROW_WIDTH, ai_name_rect.h)
+        arrow_image = load_and_scale_image(Settings.ASSETS_DIR + "/" + self.ai.arrow_color + "_scoreboard_arrow.png", Settings.ARROW_WIDTH, ai_name_rect.h)
         screen.blit(arrow_image, (ai_name_rect.x + ai_name_rect.w , ai_name_rect.y, ai_name_rect.w, ai_name_rect.h))
         
         # Drawing the ai's score.
