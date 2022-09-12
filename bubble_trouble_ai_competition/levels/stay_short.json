@@ -17,7 +17,7 @@
     "powerups": [
         {"name": "PunchPowerup", "spawn_probability": 0.002},
         {"name": "ShieldPowerup", "spawn_probability": 0.002},
-        {"name": "PlayerDoublePointsPowerup", "spawn_probability": 0.002},
+        {"name": "PlayerDoublePointsPowerup", "spawn_probability": 0.0001},
         {"name": "PlayerSpeedBoostPowerup", "spawn_probability": 0.002}
     ]
 }

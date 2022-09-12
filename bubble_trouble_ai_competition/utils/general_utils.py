@@ -38,6 +38,9 @@ def get_closest_ball(player: 'BasePlayer') -> 'Ball':
     Returns:
         Ball: The closest ball to the player.
     """
+    balls = game_state.game_balls()
+    if (len(balls) == 0):
+        return None
     return min(game_state.game_balls(), key=lambda ball: distance((player.x, player.y), (ball.x + ball.radius, ball.y + ball.radius)))
 
 

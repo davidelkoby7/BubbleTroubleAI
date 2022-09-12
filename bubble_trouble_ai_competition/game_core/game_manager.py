@@ -395,6 +395,9 @@ class GameManager:
             ball (Ball): The ball that was popped.
             shooting_player (BasePlayer): The player that shot the ball.
         """
+        if (ball not in self.balls):
+            return
+
         # Remove the ball from the game.
         self.balls.remove(ball)
 
