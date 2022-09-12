@@ -5,7 +5,7 @@ Bubble trouble game AI Competition framework.
 Run `python -m pip install -r .\requirements.txt`.
 
 ## Creators
-Made by davidalk & tehila.
+Made by Davidalk, Tehila & Hadar.
 
 ## Scoring system
 The score of a player is determined like this:
