@@ -3,7 +3,7 @@ from bubble_trouble_ai_competition.base_objects.base_ball import Ball
 from bubble_trouble_ai_competition.game_core.events_observable import EventsObservable
 from bubble_trouble_ai_competition.game_core import game_state
 
-from bubble_trouble_ai_competition.utils.constants import Directions, Events
+from bubble_trouble_ai_competition.utils.constants import Directions, Events, ArrowColors
 from bubble_trouble_ai_competition.base_objects.base_player import BasePlayer
 from bubble_trouble_ai_competition.utils.general_utils import get_closest_ball, get_closest_player, player_to_ball_distance
 
@@ -14,8 +14,9 @@ class exampleAI(BasePlayer):
         Constructs the example AI.
         """
         # The first parameter MUST be the name of the AI, as written in the filename.
-        super().__init__("example", Directions.RIGHT, events_observable, ais_dir_path=ais_dir_path)
 
+        super().__init__("example", Directions.RIGHT, events_observable, ais_dir_path=ais_dir_path)
+        self.arrow_color = ArrowColors.BLUE
 
     def pick_direction(self) -> Directions:
         """
