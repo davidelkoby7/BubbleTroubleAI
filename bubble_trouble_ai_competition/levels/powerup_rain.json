@@ -9,12 +9,12 @@
     ],
 
     "powerups": [
-        {"name": "PunchPowerup", "spawn_probability": 0.005},
-        {"name": "ShieldPowerup", "spawn_probability": 0.005},
-        {"name": "PlayerDoublePointsPowerup", "spawn_probability": 0.005},
-        {"name": "PlayerSpeedBoostPowerup", "spawn_probability": 0.005},
-        {"name": "FreezePowerup", "spawn_probability": 0.005},
-        {"name": "PlayerSpeedSlowerPowerup", "spawn_probability": 0.005},
-        {"name": "TeleportPowerup", "spawn_probability": 0.005}
+        {"name": "PunchPowerup", "spawn_probability": 0.01},
+        {"name": "ShieldPowerup", "spawn_probability": 0.01},
+        {"name": "PlayerDoublePointsPowerup", "spawn_probability": 0.00},
+        {"name": "PlayerSpeedBoostPowerup", "spawn_probability": 0.0020},
+        {"name": "FreezePowerup", "spawn_probability": 0.0001},
+        {"name": "PlayerSpeedSlowerPowerup", "spawn_probability": 0.0001},
+        {"name": "TeleportPowerup", "spawn_probability": 0.012}
     ]
 }

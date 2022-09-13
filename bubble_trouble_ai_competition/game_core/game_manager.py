@@ -57,13 +57,14 @@ class GameManager:
         self.graphics = graphics
         self.ais_dir_path = ais_dir_path
         self.ais = [ai for ai in ais if ai.is_competing == True]
+        self.players_amount = len(self.ais)
         # Randomize the starting position of the AI.
         for ai in self.ais:
             ai.x = random.randint(DisplayConstants.LEFT_BORDER_X_VALUE, DisplayConstants.RIGHT_BORDER_X_VALUE - ai.width)
 
         self.game_over = False
         self.fps = fps
-
+        self.winner = None
         self.shots: list[ArrowShot] = []
         self.alert: Alert = None
 
@@ -171,7 +172,7 @@ class GameManager:
 
             # Draw the screen
             self.graphics.draw(self.ais, self.balls, self.shots, self.powerups+self.activated_powerups, self.scoreboards, self.alert, self.countdown_bar)
-  
+
             # Calculating the time it took to run this iteration
             time_taken = pygame.time.get_ticks() - start_time
 
@@ -291,6 +292,12 @@ class GameManager:
             if powerup.pickable == False:
                 self.powerups.remove(powerup)
         
+        
+        # Check if the ai left alone and got the highest score #TODO: think about other place
+        if ((len(self.ais) == 1 and self.ai_have_highest_score(self.ais[0])) and self.players_amount > 1):
+            self.winner = self.ais[0].name
+            self.game_over = True
+
 
     def ai_lost(self, ai: BasePlayer) -> None:
         """
@@ -324,15 +331,26 @@ class GameManager:
             pygame.time.wait(500) # Pause a little for cool finish.
             self.alert = Alert(AlertConstants.GAME_OVER_TEXT, end_game=True, events_observable=self.event_observable)
 
+    def ai_have_highest_score(self, ai):
 
+        winner = ai
+        for scoreboard in self.scoreboards:
+            if (scoreboard.ai.score > winner.score or (scoreboard.ai.score == winner.score and winner != scoreboard.ai)):
+                winner = scoreboard.ai
+        
+        return ai == winner
+        
     def alert_winner(self):
         # Checking which player has the highest score.
+    
         winner = self.scoreboards[0].ai
         
         for scoreboard in self.scoreboards:
             if (scoreboard.ai.score > winner.score):
                 winner = scoreboard.ai
 
+        if not self.winner:
+            self.winner = winner
 
         # Checking if there is a tie.
         for scoreboard in self.scoreboards:
@@ -341,13 +359,17 @@ class GameManager:
                 self.alert = Alert((AlertConstants.TIE_TEXT), end_game=True, events_observable=self.event_observable)
                 break
         
-        if self.alert == None:
+        if self.alert == None and self.winner and len(self.scoreboards) != 1:
+
             # There is no a tie, winner have the absolute highest score.
-            print (f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!")
+            print(f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!\n")
             self.alert = Alert((f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!"), end_game=True, events_observable=self.event_observable)
+        
+        for scoreboard in self.scoreboards:
+            print(f"{scoreboard.ai.name} finished with {scoreboard.ai.score} points!\n")
 
         # Check if player is not the only player at the game.
-        if len(self.scoreboards) != 1:
+        if self.alert != None:
             # Draw the alert and wait.
             self.alert.draw(DisplayObjects.screen)
             pygame.display.flip()
