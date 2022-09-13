@@ -337,9 +337,7 @@ class GameManager:
         for scoreboard in self.scoreboards:
             if (scoreboard.ai.score > winner.score):
                 winner = scoreboard.ai
-            elif (scoreboard.ai.score == winner.score and winner != scoreboard.ai):
-                winner = ai
-        
+
         return ai == winner
         
     def alert_winner(self):
