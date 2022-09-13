@@ -339,7 +339,7 @@ class GameManager:
                 winner = scoreboard.ai
             
             elif (scoreboard.ai.score == winner.score and winner != scoreboard.ai):
-                pass
+                winner = ai
         
         return ai == winner
         
