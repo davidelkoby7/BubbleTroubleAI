@@ -112,7 +112,16 @@ class survivorAI(BasePlayer):
                         return Directions.LEFT
         # shoot
         self.shoot()
-
+        closest_power_location = 1000000
+        powerups = game_state.game_powerups()
+        for power in powerups:
+            if closest_power_location > abs(self.x - power.x):
+                closest_power_location = power.x
+        if powerups:
+            if self.x > closest_power_location:
+                return Directions.LEFT
+            else:
+                Directions.RIGHT
         if self.x + 50 >= DisplayConstants.RIGHT_BORDER_X_VALUE / 1.5:
             return Directions.LEFT
         elif self.x - 400 <= DisplayConstants.LEFT_BORDER_X_VALUE:

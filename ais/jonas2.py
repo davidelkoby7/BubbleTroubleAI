@@ -59,18 +59,14 @@ class jonas2AI(BasePlayer):
             if(distance_to_ball<250):
                 self.shoot()
         if(distance_to_ball<150):
-            print("closee")
             ball_diff: int = closest_ball.x - self.x
             if(ball_diff>0): return Directions.LEFT
             if(ball_diff<0): return Directions.RIGHT
         
         if((self.x-yaad_x) > 100): 
-            print("go to yaad left")
             return Directions.LEFT
         if((self.x-yaad_x) < -100):
-            print("go to yaad right") 
             return Directions.RIGHT
-        print("stay to ", self.x)
         print(self.x-650)
         return Directions.DUCK
         print(self.x)

@@ -24,16 +24,21 @@ class TukanziAI(BasePlayer):
         self.max_score = 0
 
     def pick_x_to_teleport(self) -> int:
+
         closest_player: BasePlayer = get_closest_player(self)
         if (closest_player != None and self.can_punch):
-                return closest_player.x + DisplayConstants.LEFT_BORDER_X_VALUE
+            return closest_player.x + DisplayConstants.LEFT_BORDER_X_VALUE
 
         powerup_list = game_state.game_powerups()
         for powerup in powerup_list:
             if powerup.powerup_image_key == PowerupsSettings.SHIELD_POWERUP:
                 return powerup.x
+            elif powerup.powerup_image_key == PowerupsSettings.TELEPORT_POWERUP:
+                return powerup.x
+            elif powerup.powerup_image_key == PowerupsSettings.DOUBLE_POINTS_POWERUP:
+                return powerup.x
 
-        return 1 + DisplayConstants.LEFT_BORDER_X_VALUE
+        return closest_player.x + DisplayConstants.LEFT_BORDER_X_VALUE
 
     def pick_direction(self) -> Directions:
         """
@@ -46,22 +51,51 @@ class TukanziAI(BasePlayer):
         Another powerup is the punch powerup, which can be used with self.do_left_punch() and self.do_right_punch().
         Shooting and powerups can be used *in addition* to your movement - which is the return value.
         """
-        # To get info about other things in the game - use the game_state file.
         closest_ball: Ball = get_closest_ball(self)
-        if closest_ball != None:
-            powerup_list = game_state.game_powerups()
-            for powerup in powerup_list:
-                if powerup.powerup_image_key == PowerupsSettings.DOUBLE_POINTS_POWERUP \
-                        or powerup.powerup_image_key == PowerupsSettings.SHIELD_POWERUP \
-                        or powerup.powerup_image_key == PowerupsSettings.TELEPORT:
-                    if 0 < powerup.x - self.x < 350:
-                        self.shoot()
-                        return Directions.RIGHT
-                    elif 0 > powerup.x - self.x > -350:
-                        self.shoot()
-                        return Directions.LEFT
+        ball_diff: int = closest_ball.x - self.x
+        ball_diff_y = self.y - closest_ball.y
 
-            ball_diff: int = closest_ball.x - self.x
+        if closest_ball != None:
+            if self.can_teleport == True:
+                if (0 < ball_diff < 100 or self.shield == False):
+                    self.do_teleport()
+                    self.shoot()
+
+
+            if 0 < ball_diff <= 240 and ball_diff_y <= 350 and self.shield == False:
+                self.shoot()
+                return Directions.LEFT
+            if 0 > ball_diff >= -240 and ball_diff_y <= 350 and self.shield == False:
+                self.shoot()
+                return Directions.RIGHT
+            powerup_list = game_state.game_powerups()
+
+            for powerup in powerup_list:
+                desired_powerup = None
+                min = None
+                if self.shield:
+                    if powerup.powerup_image_key != PowerupsSettings.MUD:
+                        if not min or abs(powerup.x - self.x) < abs(min):
+                            min = (powerup.x - self.x)
+                            if 0 < min:
+                                self.shoot()
+                                desired_powerup = Directions.RIGHT
+                            elif 0 > min:
+                                self.shoot()
+                                desired_powerup = Directions.LEFT
+
+                elif powerup.powerup_image_key == PowerupsSettings.DOUBLE_POINTS_POWERUP \
+                        or powerup.powerup_image_key == PowerupsSettings.SHIELD_POWERUP \
+                        or powerup.powerup_image_key == PowerupsSettings.TELEPORT_POWERUP:
+
+                    if 0 < powerup.x - self.x < 1000:
+                        self.shoot()
+                        desired_powerup = Directions.RIGHT
+                    elif 0 > powerup.x - self.x > -1000:
+                        self.shoot()
+                        desired_powerup = Directions.LEFT
+                if desired_powerup:
+                    return desired_powerup
 
             # Freeze enemy:
             closest_player: BasePlayer = get_closest_player(self)
@@ -69,18 +103,8 @@ class TukanziAI(BasePlayer):
                 if (self.can_freeze and (
                         player_to_ball_distance(closest_player, get_closest_ball(closest_player)) < 350)):
                     self.do_freeze()
-            if self.shield:
-                if powerup.powerup_image_key != PowerupsSettings.MUD:
-                    if 0 < powerup.x - self.x < 350:
-                        self.shoot()
-                        return Directions.RIGHT
-                    elif 0 > powerup.x - self.x > -350:
-                        self.shoot()
-                        return Directions.LEFT
 
-            if (0 < ball_diff < 100 and self.shield == False and self.can_teleport == True):
-                self.do_teleport()
-                self.shoot()
+
 
             if (closest_player != None):
                 if (self.can_punch == True):
@@ -111,8 +135,6 @@ class TukanziAI(BasePlayer):
             #         self.dance = True
             #         self.shoot()
             #         return Directions.STAND
-
-
 
         self.shoot()
         return Directions.DUCK
