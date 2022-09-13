@@ -362,7 +362,7 @@ class GameManager:
         if self.alert == None and self.winner and len(self.scoreboards) != 1:
 
             # There is no a tie, winner have the absolute highest score.
-            print(f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!\n")
+            print(f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!")
             self.alert = Alert((f"{AlertConstants.WINNER_PLAYER_TEXT} {winner.name}!"), end_game=True, events_observable=self.event_observable)
         
         for scoreboard in self.scoreboards:
