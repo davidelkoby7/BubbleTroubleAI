@@ -335,8 +335,11 @@ class GameManager:
 
         winner = ai
         for scoreboard in self.scoreboards:
-            if (scoreboard.ai.score > winner.score or (scoreboard.ai.score == winner.score and winner != scoreboard.ai)):
+            if (scoreboard.ai.score > winner.score):
                 winner = scoreboard.ai
+            
+            elif (scoreboard.ai.score == winner.score and winner != scoreboard.ai):
+                pass
         
         return ai == winner
         
