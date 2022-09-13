@@ -348,16 +348,17 @@ class GameManager:
         for scoreboard in self.scoreboards:
             if (scoreboard.ai.score > winner.score):
                 winner = scoreboard.ai
-
+                # Checking if there is a tie.
+        if not self.winner:
+            for scoreboard in self.scoreboards:
+                if (scoreboard.ai.score == winner.score and winner != scoreboard.ai):
+                    print ("It's a tie!")
+                    self.alert = Alert((AlertConstants.TIE_TEXT), end_game=True, events_observable=self.event_observable)
+                    break
         if not self.winner:
             self.winner = winner
 
-        # Checking if there is a tie.
-        for scoreboard in self.scoreboards:
-            if (scoreboard.ai.score == winner.score and winner != scoreboard.ai):
-                print ("It's a tie!")
-                self.alert = Alert((AlertConstants.TIE_TEXT), end_game=True, events_observable=self.event_observable)
-                break
+
         
         if self.alert == None and self.winner and len(self.scoreboards) != 1:
 
