@@ -1,0 +1,22 @@
+{
+    "level_name": "Starting Level",
+    "duration": 30,
+
+    "balls": [ 
+        {"x": 10, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 20, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 30, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 40, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 50, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 60, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3}
+
+    ],
+
+    "powerups": [
+        {"name": "FreezePowerup", "spawn_probability": 0.003},
+        {"name": "PunchPowerup", "spawn_probability": 0.005},
+        {"name": "ShieldPowerup", "spawn_probability": 0.002},
+        {"name": "PlayerSpeedBoostPowerup", "spawn_probability": 0.001},
+        {"name": "TeleportPowerup", "spawn_probability": 0.004}
+    ]
+}
