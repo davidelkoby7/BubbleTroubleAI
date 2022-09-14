@@ -40,7 +40,7 @@ class Settings:
     All settings for the game (FPS / Title \ ratios etc).
     """
     BASE_MODULE_DIR = __file__ [:-18] # The minus 18 - to remove the part of the path until the base of our module. TODO: FIX THIS SHIT
-    BASE_AI_DIR = "/".join(BASE_MODULE_DIR.split("/")[:-2]) + "/ais"
+    BASE_AI_DIR = "/".join(BASE_MODULE_DIR.split("\\")[:-2]) + "/ais"
     ASSETS_DIR = BASE_MODULE_DIR + "assets"
     LEVELS_DIR = BASE_MODULE_DIR + "levels/"
     BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/background.jpg"
