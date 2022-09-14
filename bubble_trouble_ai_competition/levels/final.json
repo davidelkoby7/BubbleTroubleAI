@@ -3,8 +3,8 @@
     "duration": 30,
 
     "balls": [ 
-        {"x": 50, "y": 20, "speed_x": 10, "speed_y": 0, "color": "blue", "size": 8},
-        {"x": 75, "y": 20, "speed_x": 10, "speed_y": 0, "color": "blue", "size": 8}
+        {"x": 50, "y": 20, "speed_x": 10, "speed_y": 0, "color": "king_david", "size": 8},
+        {"x": 75, "y": 20, "speed_x": 10, "speed_y": 0, "color": "king_david", "size": 8}
 
 
     ],

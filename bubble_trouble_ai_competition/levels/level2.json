@@ -3,12 +3,12 @@
     "duration": 30,
 
     "balls": [ 
-        {"x": 10, "y": 20, "speed_x": 10, "speed_y": -20, "color": "blue", "size": 3},
-        {"x": 20, "y": 20, "speed_x": 10, "speed_y": -20, "color": "red", "size": 3},
-        {"x": 30, "y": 20, "speed_x": 10, "speed_y": -20, "color": "blue", "size": 3},
-        {"x": 40, "y": 20, "speed_x": 10, "speed_y": -20, "color": "red", "size": 3},
-        {"x": 50, "y": 20, "speed_x": 10, "speed_y": -20, "color": "blue", "size": 3},
-        {"x": 60, "y": 20, "speed_x": 10, "speed_y": -20, "color": "red", "size": 3}
+        {"x": 10, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 20, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 30, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 40, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 50, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3},
+        {"x": 60, "y": 20, "speed_x": 10, "speed_y": -20, "color": "king_david", "size": 3}
 
     ],
 

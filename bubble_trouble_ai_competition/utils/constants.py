@@ -40,12 +40,12 @@ class Settings:
     All settings for the game (FPS / Title \ ratios etc).
     """
     BASE_MODULE_DIR = __file__ [:-18] # The minus 18 - to remove the part of the path until the base of our module. TODO: FIX THIS SHIT
-    BASE_AI_DIR = "\\".join(BASE_MODULE_DIR.split("/")[:-1]) + "ais"
+    BASE_AI_DIR = "/".join(BASE_MODULE_DIR.split("/")[:-2]) + "/ais"
     ASSETS_DIR = BASE_MODULE_DIR + "assets"
     LEVELS_DIR = BASE_MODULE_DIR + "levels/"
-    BACKGROUND_IMAGE_PATH = ASSETS_DIR + "\\background.jpg"
-    MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "\\menu_background.png"
-    button_IMAGE_PATH = ASSETS_DIR + "\\button.png"
+    BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/background.jpg"
+    MENU_BACKGROUND_IMAGE_PATH = ASSETS_DIR + "/menu_background.png"
+    button_IMAGE_PATH = ASSETS_DIR + "/button.png"
     BACKGROUND_IMAGE_KEY = "background_image"
     MENU_BACKGROUND_IMAGE_KEY = "menu_background_image"
 
@@ -119,12 +119,12 @@ class DisplayConstants:
 class PowerupsSettings:
 
     DEFAULT_POWERUP = "powerup"
-    DEFAULT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "powerup.png"
+    DEFAULT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "powerup.png"
 
     SPEED_BOOSTER_POWERUP = "speed_booster_powerup"
     STAND_FLASH_SUIT = "flash_suit"
-    SPEED_BOOSTER_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "player_speed_boost_powerup.png"
-    FLASH_SUIT_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "flash_suit.png"
+    SPEED_BOOSTER_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "player_speed_boost_powerup.png"
+    FLASH_SUIT_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "flash_suit.png"
     FLASH_SUIT_SHIFT_X = 0.5 # In units of screen bits.
     FLASH_SUIT_SHIFT_Y = 0.2 # In units of screen bits.
     FLASH_SUIT_WIDTH = Settings.PLAYER_WIDTH * 1.5 # In units of screen bits.
@@ -135,8 +135,8 @@ class PowerupsSettings:
     SHIELD_POWERUP = "shield_powerup"
     SHIELD = "shield"
     DUCK_SHIELD = "duck_shield"
-    SHIELD_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "shield_powerup.png"
-    SHIELD_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "shield.png"
+    SHIELD_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "shield_powerup.png"
+    SHIELD_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "shield.png"
     SHIELD_SIZE_INCREASE = 1.5 # In units of screen bits.
     SHIELD_WIDTH = Settings.PLAYER_WIDTH + SHIELD_SIZE_INCREASE
     SHIELD_HEIGHT = Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS * 2 + SHIELD_SIZE_INCREASE
@@ -147,18 +147,18 @@ class PowerupsSettings:
     ACTIVE_LEFT_PUNCH = "active_left_punch"
     LEFT_ACTION_PUNCH = "left_action_punch"
     LEFT_COLLISION_PUNCH = "left_collision_punch"
-    PUNCH_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "punch_collision_powerup.png"
+    PUNCH_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "punch_collision_powerup.png"
     PUNCH_SPACING = 0.2 # In units of screen bits.
     PUNCH_WIDTH = Settings.PLAYER_WIDTH * 0.6
     PUNCH_HEIGHT = Settings.PLAYER_HEIGHT * 0.8
-    PUNCH_ACTION_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "punch.png"
+    PUNCH_ACTION_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "punch.png"
     PUNCH_ACTION_WIDTH = PUNCH_WIDTH * 3
     PUNCH_ACTION_HEIGHT =  PUNCH_HEIGHT
 
     SPEED_SLOWER_POWERUP = "speed_slower_powerup"
     MUD = "mud"
-    SPEED_SLOWER_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "player_speed_slower_powerup.png"
-    MUD_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "mud.png"
+    SPEED_SLOWER_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "player_speed_slower_powerup.png"
+    MUD_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "mud.png"
     MUD_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS*2
     MUD_HEIGHT = Settings.PLAYER_HEIGHT * 0.6
     MUD_SPACING = 0.1 # In units of screen bits.
@@ -167,15 +167,15 @@ class PowerupsSettings:
     ICE_CROWN = "ice_crown"
     ICE_CUBE = "ice_cube"
     ICE_FREEZE = "ice_freeze"
-    ICE_CROWN_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "freeze_powerup.png"
+    ICE_CROWN_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "freeze_powerup.png"
     ICE_CROWN_WIDTH = Settings.HEAD_RADIUS * 3
     ICE_CROWN_HEIGHT  = Settings.PLAYER_HEIGHT * 0.6
     ICE_CROWN_SPACING = 0.3 # In units of screen bits.
-    ICE_FREEZE_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "ice_freeze_player.png"
+    ICE_FREEZE_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "ice_freeze_player.png"
     ICE_FREEZE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS * 2 # In units of screen bits.
     ICE_FREEZE_HEIGHT = Settings.PLAYER_HEIGHT * 0.8 # In units of screen bits.
     ICE_FREEZE_Y = DisplayConstants.FLOOR_Y_VALUE - ICE_FREEZE_HEIGHT # In units of screen bits.
-    ICE_CUBE_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "ice_cube.png"
+    ICE_CUBE_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "ice_cube.png"
     ICE_CUBE_WIDTH = Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS * 2 # In units of screen bits.
     ICE_CUBE_HEIGHT = (Settings.PLAYER_HEIGHT + Settings.HEAD_RADIUS*2) * 1.3 # In units of screen bits.
     ICE_CUBE_SPACING = 0.7 # In units of screen bits.
@@ -185,8 +185,8 @@ class PowerupsSettings:
     TELEPORT = "teleport"
     ACTIVE_TELEPORT = "active_teleport"
     DUCK_ACTIVE_TELEPORT = "duck_active_teleport"
-    TELEPORT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "teleport_powerup.png"
-    ACTIVE_TELEPORT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "active_teleport.png"
+    TELEPORT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "teleport_powerup.png"
+    ACTIVE_TELEPORT_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "active_teleport.png"
     ACTIVE_TELEPORT_WIDTH = (Settings.PLAYER_WIDTH + Settings.HEAD_RADIUS * 2) * 1.2 # In units of screen bits.
     ACTIVE_TELEPORT_HEIGHT = Settings.PLAYER_HEIGHT
     ACTIVE_TELEPORT_DUCK_HEIGHT = Settings.PLAYER_DUCK_HEIGHT
@@ -197,12 +197,12 @@ class PowerupsSettings:
     TELEPORT_Y = DisplayConstants.FLOOR_Y_VALUE - TELEPORT_HEIGHT + TELEPORT_Y_INCREASE # In units of screen bits.
 
     RANDOM_POWERUP = "random_power"
-    RANDOM_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "random_powerup.png"
+    RANDOM_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "random_powerup.png"
 
     DOUBLE_POINTS_POWERUP = "double_points_powerup"
     DOUBLE_POINTS_ARROW = "double_points_arrow"
-    DOUBLE_POINTS_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "double_points_powerup.png"
-    DOUBLE_POINTS_ARROW_IMAGE_PATH = Settings.ASSETS_DIR + "\\" +"double_points_arrow.png"
+    DOUBLE_POINTS_POWERUP_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "double_points_powerup.png"
+    DOUBLE_POINTS_ARROW_IMAGE_PATH = Settings.ASSETS_DIR + "/" +"double_points_arrow.png"
 
 powerup_constants_to_update = ['FLASH_SUIT_WIDTH', 'FLASH_SUIT_SHIFT_X', 'FLASH_SUIT_HEIGHT', 'FLASH_SUIT_SHIFT_Y', 'ICE_CUBE_Y',
                                 'ICE_CUBE_SPACING', 'ICE_CUBE_HEIGHT', 'ICE_CUBE_WIDTH','ICE_FREEZE_HEIGHT', 'ICE_FREEZE_WIDTH',
@@ -246,7 +246,7 @@ ALL_EVENTS_LIST = [getattr(Events, x) for x in dir(Events) if "__" not in x]
 
 # Currently - everything here (besides bg color) is in units of screen bits. Maybe change this later, but it seems to be better like this now.
 class ScoreboardConstants:
-    SCOREBOARD_IMAGE_PATH = Settings.ASSETS_DIR + "\\" + "score_board.png"
+    SCOREBOARD_IMAGE_PATH = Settings.ASSETS_DIR + "/" + "score_board.png"
     SCOREBOARD_SHIFT_RIGHT = 1 # In units of screen bits.
     PLAYER_IMAGE_SIZE = (2, 2) # In units of screen bits.
     PLAYER_IMAGE_WIDTH = PLAYER_IMAGE_SIZE[0]
