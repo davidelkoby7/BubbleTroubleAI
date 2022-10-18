@@ -76,7 +76,7 @@ class Settings:
     PLAYER_HANDS_SPACING = 0.2 # The diffrence between x of player's body to hand's x at player's image, in units of screen bits.
     HEAD_RADIUS = PLAYER_DIMENSIONS[0] / 2 # In units of screen bits.
     PLAYER_SPEED = 20 # In units of screen bits per second.
-    HIT_RADIUS = 3 # In units of screen bits.
+    HIT_RADIUS = 3 # player's punch radius In units of screen bits.
 
     BALL_SPEED = 10 # In units of screen bits per second.
     DEFAULT_GRAVITY = 25 # In units of screen bits per second^2.
